@@ -31,7 +31,8 @@
         branches:
         - $BRANCH_SPECIFIER
         url: git@github.com:CruGlobal/rails-infrastructure-canary.git
-    triggers: []
+    triggers:
+        - github
     wrappers:
     - build-name:
         name: '${GIT_BRANCH} #${BUILD_NUMBER}'

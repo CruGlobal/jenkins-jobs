@@ -68,11 +68,9 @@ Historic builds can be manually deployed to either staging or production, by run
   <jdk>(Default)</jdk>
   -->
   <triggers>
-    <!--
     <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.12.0">
       <spec></spec>
     </com.cloudbees.jenkins.GitHubPushTrigger>
-    -->
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
