@@ -1,0 +1,34 @@
+- job:
+    block-downstream: false
+    block-upstream: false
+    builders:
+    - shell: 'PROJECT_NAME=${JOB_NAME} DEPLOY_ECS=false ~/bin/rails_deploy.sh
+
+        '
+    concurrent: false
+    description: "Builds a simplistic rails app, which only serves to prove out the\
+      \ ci & deployment infrastructure.\r\n\r\nBuilds on the 'staging' branch automatically\
+      \ trigger a deployment of that image to the staging environment. \r\nFrom 7am\
+      \ to 1pm on weekdays, builds on the 'master' branch automatically trigger a\
+      \ deployment of that image to the production environment.\r\n\r\nHistoric builds\
+      \ can be manually deployed to either staging or production, by running the 'Deploy\
+      \ to Production' or the 'Deploy to Staging' build promotions. (This won't work\
+      \ for builds that were not pushed to dockerhub -- currently, only staging/master\
+      \ images get pushed to dockerhub)."
+    disabled: false
+    name: rails-infrastructure-canary
+    parameters: []
+    project-type: freestyle
+    properties:
+    - github:
+        url: https://github.com/CruGlobal/fails-infrastructure-canary/
+    publishers: []
+    scm:
+    - git:
+        branches:
+        - $BRANCH_SPECIFIER
+        url: git@github.com:CruGlobal/rails-infrastructure-canary.git
+    triggers: []
+    wrappers:
+    - build-name:
+        name: '${GIT_BRANCH} #${BUILD_NUMBER}'
