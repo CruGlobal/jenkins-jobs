@@ -44,6 +44,7 @@
         branches:
         - $BRANCH_SPECIFIER
         url: git@github.com:CruGlobal/rails-infrastructure-canary.git
+        wipe-workspace: false
     triggers:
         - github
     wrappers:
