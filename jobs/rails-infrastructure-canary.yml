@@ -20,7 +20,25 @@
     properties:
     - github:
         url: https://github.com/CruGlobal/fails-infrastructure-canary/
-    publishers: []
+    publishers:
+      - conditional-publisher:
+          - condition-kind: always
+# TODO: jjb doesn't seem to support strings-match here (but it does in builders)
+#          - condition-kind: strings-match
+#            condition-string1: "$GIT_BRANCH"
+#            condition-string2: "origin/staging"
+            action:
+              - trigger-parameterized-builds:
+                  - project: deploy-ecs
+                    predefined-parameters: |
+                      IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+                      PROJECT_NAME=${JOB_NAME}
+                      GIT_COMMIT=${GIT_COMMIT}
+                      GIT_BRANCH=${GIT_BRANCH}
+                      ENVIRONMENT=staging
+                      CLUSTER=lab
+                    condition: SUCCESS
+
     scm:
     - git:
         branches:
