@@ -20,6 +20,8 @@
     properties:
     - github:
         url: https://github.com/CruGlobal/fails-infrastructure-canary/
+    - disk-usage
+
     publishers:
       - conditional-publisher:
           - condition-kind: always

@@ -40,9 +40,7 @@ Historic builds can be manually deployed to either staging or production, by run
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
-    <!--
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.25"/>
-    -->
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.0">
     <configVersion>2</configVersion>
