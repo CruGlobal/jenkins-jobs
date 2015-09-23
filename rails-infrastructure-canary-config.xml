@@ -51,9 +51,6 @@ Historic builds can be manually deployed to either staging or production, by run
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-    <browser class="hudson.plugins.git.browser.RedmineWeb">
-      <url></url>
-    </browser>
     <submoduleCfg class="list"/>
     <extensions/>
   </scm>
