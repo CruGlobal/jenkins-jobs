@@ -62,6 +62,38 @@
                       ENVIRONMENT=production
                       CLUSTER=lab
                     condition: SUCCESS
+      - conditional-publisher:
+          - condition-kind: and
+            condition-operands:
+              - condition-kind: strings-match
+                condition-string1: "${GIT_BRANCH}"
+                condition-string2: "origin/master"
+              - condition-kind: not
+                condition-operand:
+                  condition-kind: and
+                  condition-operands:
+                    - condition-kind: day-of-week
+                      day-selector: weekday
+                    - condition-kind: time
+                      earliest-hour: "7"
+                      earliest-min: "0"
+                      latest-hour: "13"
+                      latest-min: "0"
+            action:
+              - email-ext:
+                  failure: false
+                  success: true
+                  send-to:
+                    -  recipients
+                    -  requester
+                    -  developers
+                  body: |
+                    Note: ${JOB_NAME} #${BUILD_NUMBER} was built, but was not automatically deployed to production since it is now after-hours.
+                    To manually deploy, run the 'Deploy to Production' promotion here:
+                    ${BUILD_URL}promotion/
+
+                    $DEFAULT_CONTENT
+
 
     scm:
     - git:
