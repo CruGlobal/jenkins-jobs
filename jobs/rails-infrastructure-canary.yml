@@ -16,7 +16,18 @@
       (This won't work for builds that were not pushed to dockerhub --
       currently, only staging/master images get pushed to dockerhub).
     name: rails-infrastructure-canary
-    parameters: []
+    parameters:
+      - git:
+          name: BRANCH_SPECIFIER
+          description: |
+            If specified, jenkins will use this git branch to build.
+            If not, jenkins will pick a branch that seems most likely to be the one you want built.
+            This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
+            or, if there are none of those, the most recently-built branch.
+          type: branch
+          sort: none
+          default: origin/*
+
     properties:
     - github:
         url: https://github.com/CruGlobal/fails-infrastructure-canary/

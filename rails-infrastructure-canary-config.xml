@@ -12,7 +12,6 @@ Historic builds can be manually deployed to either staging or production, by run
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.12.0">
       <projectUrl>https://github.com/CruGlobal/fails-infrastructure-canary/</projectUrl>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
-    <!--
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition plugin="git-parameter@0.4.0">
@@ -27,7 +26,6 @@ Historic builds can be manually deployed to either staging or production, by run
         </net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
-    -->
     <!--
     <hudson.plugins.promoted__builds.JobPropertyImpl plugin="promoted-builds@2.21">
       <activeProcessNames>
