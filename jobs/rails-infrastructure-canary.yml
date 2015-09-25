@@ -35,9 +35,18 @@
             names:
               - Deploy to Staging
               - Deploy to Production
+    scm:
+      - git:
+          branches:
+          - $BRANCH_SPECIFIER
+          url: git@github.com:CruGlobal/rails-infrastructure-canary.git
+          wipe-workspace: false
+          skip-tag: true
+    triggers:
+      - github
 
     builders:
-    - shell: 'PROJECT_NAME=${JOB_NAME} DEPLOY_ECS=false ~/bin/rails_deploy.sh'
+      - shell: 'PROJECT_NAME=${JOB_NAME} DEPLOY_ECS=false ~/bin/rails_deploy.sh'
 
     publishers:
       - conditional-publisher:
@@ -110,16 +119,6 @@
                     $DEFAULT_CONTENT
                   presend-script: $DEFAULT_PRESEND_SCRIPT
 
-
-    scm:
-    - git:
-        branches:
-        - $BRANCH_SPECIFIER
-        url: git@github.com:CruGlobal/rails-infrastructure-canary.git
-        wipe-workspace: false
-        skip-tag: true
-    triggers:
-        - github
     wrappers:
-    - build-name:
-        name: '${GIT_BRANCH} #${BUILD_NUMBER}'
+      - build-name:
+          name: '${GIT_BRANCH} #${BUILD_NUMBER}'
