@@ -29,7 +29,7 @@
 
     properties:
       - github:
-          url: https://github.com/CruGlobal/fails-infrastructure-canary/
+          url: https://github.com/CruGlobal/rails-infrastructure-canary/
       - disk-usage
       - promoted-build:
             names:
