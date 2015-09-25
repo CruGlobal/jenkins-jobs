@@ -1,0 +1,9 @@
+[job_builder]
+ignore_cache=True
+
+[jenkins]
+user=cru-jenkins2
+password=<<insert API token for cru-jenkins2 here>>
+url=http://jenkins.uscm.org
+query_plugins_info=False
+
