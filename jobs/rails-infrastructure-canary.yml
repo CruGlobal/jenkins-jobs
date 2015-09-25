@@ -108,6 +108,7 @@
                     ${BUILD_URL}promotion/
 
                     $DEFAULT_CONTENT
+                  presend-script: $DEFAULT_PRESEND_SCRIPT
 
 
     scm:
