@@ -29,13 +29,13 @@
           default: origin/*
 
     properties:
-    - github:
-        url: https://github.com/CruGlobal/fails-infrastructure-canary/
-    - disk-usage
-    - promoted-build:
-          names:
-            - Deploy to Staging
-            - Deploy to Production
+      - github:
+          url: https://github.com/CruGlobal/fails-infrastructure-canary/
+      - disk-usage
+      - promoted-build:
+            names:
+              - Deploy to Staging
+              - Deploy to Production
 
     publishers:
       - conditional-publisher:
