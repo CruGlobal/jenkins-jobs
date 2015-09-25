@@ -26,14 +26,12 @@ Historic builds can be manually deployed to either staging or production, by run
         </net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
-    <!--
     <hudson.plugins.promoted__builds.JobPropertyImpl plugin="promoted-builds@2.21">
       <activeProcessNames>
         <string>Deploy to Staging</string>
         <string>Deploy to Production</string>
       </activeProcessNames>
     </hudson.plugins.promoted__builds.JobPropertyImpl>
-    -->
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
