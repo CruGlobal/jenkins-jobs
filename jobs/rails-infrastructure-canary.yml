@@ -119,6 +119,7 @@
         - $BRANCH_SPECIFIER
         url: git@github.com:CruGlobal/rails-infrastructure-canary.git
         wipe-workspace: false
+        skip-tag: true
     triggers:
         - github
     wrappers:
