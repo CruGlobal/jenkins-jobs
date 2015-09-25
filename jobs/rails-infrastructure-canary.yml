@@ -66,12 +66,15 @@
                     condition: SUCCESS
           - condition-kind: and
             condition-operands:
-              - condition-kind: strings-match
+              - &is-master
+                condition-kind: strings-match
                 condition-string1: "$GIT_BRANCH"
                 condition-string2: "origin/master"
-              - condition-kind: day-of-week
+              - &is-weekday
+                condition-kind: day-of-week
                 day-selector: weekday
-              - condition-kind: time
+              - &is-within-work-hours
+                condition-kind: time
                 earliest-hour: "7"
                 earliest-min: "0"
                 latest-hour: "13"
@@ -89,20 +92,13 @@
                     condition: SUCCESS
           - condition-kind: and
             condition-operands:
-              - condition-kind: strings-match
-                condition-string1: "${GIT_BRANCH}"
-                condition-string2: "origin/master"
+              - <<: *is-master
               - condition-kind: not
                 condition-operand:
                   condition-kind: and
                   condition-operands:
-                    - condition-kind: day-of-week
-                      day-selector: weekday
-                    - condition-kind: time
-                      earliest-hour: "7"
-                      earliest-min: "0"
-                      latest-hour: "13"
-                      latest-min: "0"
+                    - <<: *is-weekday
+                    - <<: *is-within-work-hours
             action:
               - email-ext:
                   failure: false
