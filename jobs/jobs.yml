@@ -1,8 +1,28 @@
-- job:
+- defaults:
+    name: global
+    cluster: ''
+
+
+- project:
     name: rails-infrastructure-canary
+    description-intro: Builds a simplistic rails app, which only serves to prove out the ci & deployment infrastructure.
+    cluster: lab
+    rails-template: rails-infrastructure-canary
+    jobs:
+      - '{rails-template}'
+
+- project:
+    name: mpdx-test
+    rails-template: mpdx-test
+    description-intro: Builds, tests, & deploys the MPDX docker image.
+    jobs:
+      - '{rails-template}'
+
+
+- job-template:
+    name: '{rails-template}'
     description: |
-      Builds a simplistic rails app,
-      which only serves to prove out the ci & deployment infrastructure.
+      {description-intro}
 
       Builds on the 'staging' branch automatically trigger a deployment
       of that image to the staging environment.
@@ -29,7 +49,7 @@
 
     properties:
       - github:
-          url: https://github.com/CruGlobal/rails-infrastructure-canary/
+          url: https://github.com/CruGlobal/{name}/
       - disk-usage
       - promoted-build:
             names:
@@ -39,7 +59,7 @@
       - git:
           branches:
           - $BRANCH_SPECIFIER
-          url: git@github.com:CruGlobal/rails-infrastructure-canary.git
+          url: git@github.com:CruGlobal/{name}.git
           wipe-workspace: false
           skip-tag: true
           prune: true
@@ -47,23 +67,23 @@
       - github
 
     builders:
-      - shell: 'PROJECT_NAME=${JOB_NAME} DEPLOY_ECS=false ~/bin/rails_deploy.sh'
+      - shell: 'PROJECT_NAME=$JOB_NAME DEPLOY_ECS=false ~/bin/rails_deploy.sh'
 
     publishers:
       - conditional-publisher:
           - condition-kind: strings-match
-            condition-string1: "${GIT_BRANCH}"
+            condition-string1: "$GIT_BRANCH"
             condition-string2: "origin/staging"
             action:
               - trigger-parameterized-builds:
                   - project: deploy-ecs
                     predefined-parameters: |
-                      IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
-                      PROJECT_NAME=${JOB_NAME}
-                      GIT_COMMIT=${GIT_COMMIT}
-                      GIT_BRANCH=${GIT_BRANCH}
+                      IMAGE_TAG=$GIT_COMMIT-$BUILD_NUMBER
+                      PROJECT_NAME=$JOB_NAME
+                      GIT_COMMIT=$GIT_COMMIT
+                      GIT_BRANCH=$GIT_BRANCH
                       ENVIRONMENT=staging
-                      CLUSTER=lab
+                      CLUSTER={cluster}
                     condition: SUCCESS
           - condition-kind: and
             condition-operands:
@@ -84,12 +104,12 @@
               - trigger-parameterized-builds:
                   - project: deploy-ecs
                     predefined-parameters: |
-                      IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
-                      PROJECT_NAME=${JOB_NAME}
-                      GIT_COMMIT=${GIT_COMMIT}
-                      GIT_BRANCH=${GIT_BRANCH}
+                      IMAGE_TAG=$GIT_COMMIT-$BUILD_NUMBER
+                      PROJECT_NAME=$JOB_NAME
+                      GIT_COMMIT=$GIT_COMMIT
+                      GIT_BRANCH=$GIT_BRANCH
                       ENVIRONMENT=production
-                      CLUSTER=lab
+                      CLUSTER={cluster}
                     condition: SUCCESS
           - condition-kind: and
             condition-operands:
@@ -109,13 +129,13 @@
                     -  requester
                     -  developers
                   body: |
-                    Note: ${JOB_NAME} #${BUILD_NUMBER} was built, but was not automatically deployed to production since it is now after-hours.
+                    Note: $JOB_NAME #$BUILD_NUMBER was built, but was not automatically deployed to production since it is now after-hours.
                     To manually deploy, run the 'Deploy to Production' promotion here:
-                    ${BUILD_URL}promotion/
+                    ${{BUILD_URL}}promotion/
 
                     $DEFAULT_CONTENT
                   presend-script: $DEFAULT_PRESEND_SCRIPT
 
     wrappers:
       - build-name:
-          name: '${GIT_BRANCH} #${BUILD_NUMBER}'
+          name: '$GIT_BRANCH #$BUILD_NUMBER'
