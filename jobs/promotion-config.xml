@@ -26,6 +26,7 @@ PROJECT_NAME=${PROMOTED_JOB_NAME}
 GIT_COMMIT=${PROMOTED_GIT_COMMIT}
 GIT_BRANCH=${PROMOTED_GIT_BRANCH}
 ENVIRONMENT={{environment}}
+CLUSTER={{cluster}}
 </properties>
             </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
           </configs>
