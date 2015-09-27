@@ -42,6 +42,7 @@
           url: git@github.com:CruGlobal/rails-infrastructure-canary.git
           wipe-workspace: false
           skip-tag: true
+          prune: true
     triggers:
       - github
 
