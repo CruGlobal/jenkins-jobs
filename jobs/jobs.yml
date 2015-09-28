@@ -52,7 +52,6 @@
     properties:
       - github:
           url: https://github.com/CruGlobal/{name}/
-      - disk-usage
       - promoted-build:
             names:
               - Deploy to Staging
