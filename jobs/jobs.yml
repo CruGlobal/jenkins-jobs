@@ -13,8 +13,8 @@
       - '{rails-template}'
 
 - project:
-    name: mpdx-test
-    rails-template: mpdx-test
+    name: mpdx
+    rails-template: mpdx
     description-intro: Builds, tests, & deploys the MPDX docker image.
     email-recipients: josh.starcher@cru.org, dave.raffensperger@cru.org, spencer.oberstadt@cru.org
     jobs:
