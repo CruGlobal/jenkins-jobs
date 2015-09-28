@@ -5,9 +5,9 @@
 
 - project:
     name: rails-infrastructure-canary
+    rails-template: rails-infrastructure-canary
     description-intro: Builds a simplistic rails app, which only serves to prove out the ci & deployment infrastructure.
     cluster: lab
-    rails-template: rails-infrastructure-canary
     jobs:
       - '{rails-template}'
 
