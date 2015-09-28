@@ -2,8 +2,8 @@
 ignore_cache=True
 
 [jenkins]
-user=cru-jenkins2
-password=<<insert API token for cru-jenkins2 here>>
+user=<<insert your User ID here>>
+password=<<insert your API Token here>>
 url=http://jenkins.uscm.org
 query_plugins_info=False
 
