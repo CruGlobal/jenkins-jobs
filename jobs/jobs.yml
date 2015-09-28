@@ -1,5 +1,6 @@
 - defaults:
     name: global
+    email-recipients: $DEFAULT_RECIPIENTS
     cluster: ''
 
 
@@ -15,6 +16,7 @@
     name: mpdx-test
     rails-template: mpdx-test
     description-intro: Builds, tests, & deploys the MPDX docker image.
+    email-recipients: josh.starcher@cru.org, dave.raffensperger@cru.org, spencer.oberstadt@cru.org
     jobs:
       - '{rails-template}'
 
@@ -122,6 +124,7 @@
                     - <<: *is-within-work-hours
             action:
               - email-ext:
+                  recipients: '{email-recipients}'
                   failure: false
                   success: true
                   send-to:
