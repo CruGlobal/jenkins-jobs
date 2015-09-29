@@ -6,23 +6,37 @@
 
 - project:
     name: rails-infrastructure-canary
-    rails-template: rails-infrastructure-canary
     description-intro: Builds a simplistic rails app, which only serves to prove out the ci & deployment infrastructure.
     cluster: lab
     jobs:
-      - '{rails-template}'
+      - 'rails-template'
 
 - project:
     name: mpdx
-    rails-template: mpdx
     description-intro: Builds, tests, & deploys the MPDX docker image.
     email-recipients: josh.starcher@cru.org, dave.raffensperger@cru.org, spencer.oberstadt@cru.org
     jobs:
-      - '{rails-template}'
+      - 'rails-template'
+
+
+
+
+- job-group:
+    name: 'rails-template'
+    jobs:
+        - '{name}':
+            build-script: rails_deploy.sh
+
+- job-group:
+    name: 'react-template'
+    jobs:
+        - '{name}':
+            build-script: react_deploy.sh
+
 
 
 - job-template:
-    name: '{rails-template}'
+    name: '{name}'
     description: |
       {description-intro}
 
@@ -68,7 +82,7 @@
       - github
 
     builders:
-      - shell: 'PROJECT_NAME=$JOB_NAME DEPLOY_ECS=false ~/bin/rails_deploy.sh'
+      - shell: 'PROJECT_NAME=$JOB_NAME DEPLOY_ECS=false ~/bin/{build-script}'
 
     publishers:
       - conditional-publisher:
