@@ -5,24 +5,125 @@
 
 
 - project:
-    name: rails-infrastructure-canary
-    rails-template: rails-infrastructure-canary
-    description-intro: Builds a simplistic rails app, which only serves to prove out the ci & deployment infrastructure.
-    cluster: lab
+    name: cap
+    description-intro: Builds, tests, & deploys the combined application (apply.cru.org) docker image.
+    email-recipients: andrewroth@gmail.com
     jobs:
-      - '{rails-template}'
+      - 'rails-template'
+
+- project:
+    name: global_registry
+    description-intro: Builds, tests, & deploys the Global Registry docker image.
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: infobase
+    description-intro: Builds, tests, & deploys the Infobase docker image.
+    email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: missionhub
+    description-intro: Builds, tests, & deploys the MissionHub docker image.
+    email-recipients: josh.starcher@cru.org, kennethjohnbalgos@gmail.com, marvindpunongbayan@gmail.com
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: mpd_tool
+    description-intro: Builds, tests, & deploys the mpd tool docker image.
+    email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
+    jobs:
+      - 'rails-template'
 
 - project:
     name: mpdx
-    rails-template: mpdx
     description-intro: Builds, tests, & deploys the MPDX docker image.
     email-recipients: josh.starcher@cru.org, dave.raffensperger@cru.org, spencer.oberstadt@cru.org
     jobs:
-      - '{rails-template}'
+      - 'rails-template'
+
+- project:
+    name: ministry_mapper
+    description-intro: Builds, tests, & deploys the ministry mapper docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: oauth_server
+    description-intro: Builds, tests, & deploys the oauth_server docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: pr
+    description-intro: Builds, tests, & deploys the Panorama docker image.
+    email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: rails-infrastructure-canary
+    description-intro: Builds a simplistic rails app, which only serves to prove out the ci & deployment infrastructure.
+    cluster: lab
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: rideshare
+    description-intro: Builds, tests, & deploys the rideshare docker image.
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: summer_missions
+    description-intro: Builds, tests, & deploys the Summer Missions docker image.
+    email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org, mark.knutsen@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: voke_api
+    description-intro: Builds, tests, & deploys the Voke API docker image.
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: watchthinkchat
+    description-intro: Builds, tests, & deploys the WatchThinkChat docker image.
+    jobs:
+      - 'rails-template'
+
+
+
+- project:
+    name: voke_admin
+    description-intro: Builds, tests, & deploys the Voke admin docker image.
+    jobs:
+      - 'react-template'
+
+
+
+- job-group:
+    name: 'rails-template'
+    jobs:
+        - '{name}':
+            build-script: rails_deploy.sh
+
+- job-group:
+    name: 'react-template'
+    jobs:
+        - '{name}':
+            build-script: react_deploy.sh
+
 
 
 - job-template:
-    name: '{rails-template}'
+    name: '{name}'
     description: |
       {description-intro}
 
@@ -68,7 +169,7 @@
       - github
 
     builders:
-      - shell: 'PROJECT_NAME=$JOB_NAME DEPLOY_ECS=false ~/bin/rails_deploy.sh'
+      - shell: 'PROJECT_NAME=$JOB_NAME DEPLOY_ECS=false ~/bin/{build-script}'
 
     publishers:
       - conditional-publisher:
