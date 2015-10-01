@@ -33,7 +33,7 @@
 
 - project:
     name: mpd_tool
-    description-intro: Builds, tests, & deploys the MPDX docker image.
+    description-intro: Builds, tests, & deploys the mpd tool docker image.
     email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
     jobs:
       - 'rails-template'
@@ -94,7 +94,7 @@
 
 - project:
     name: watchthinkchat
-    description-intro: Builds, tests, & deploys the Summer Missions docker image.
+    description-intro: Builds, tests, & deploys the WatchThinkChat docker image.
     jobs:
       - 'rails-template'
 
