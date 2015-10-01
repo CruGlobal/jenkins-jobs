@@ -25,6 +25,12 @@
       - 'rails-template'
 
 - project:
+    name: maintenance
+    description-intro: Builds, tests, & deploys the maintenance management docker image.
+    jobs:
+      - 'rails-template'
+
+- project:
     name: missionhub
     description-intro: Builds, tests, & deploys the MissionHub docker image.
     email-recipients: josh.starcher@cru.org, kennethjohnbalgos@gmail.com, marvindpunongbayan@gmail.com
