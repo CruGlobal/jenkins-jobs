@@ -74,7 +74,7 @@
       - 'rails-template'
 
 - project:
-    name: rails-cas-authenticated-api
+    name: rails-cas-auth-api
     description-intro: Builds, tests, & deploys the Rails CAS Authenticated API docker image.
     email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org
     jobs:
