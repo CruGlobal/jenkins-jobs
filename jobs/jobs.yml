@@ -74,6 +74,13 @@
       - 'rails-template'
 
 - project:
+    name: rails-cas-authenticated-api
+    description-intro: Builds, tests, & deploys the Rails CAS Authenticated API docker image.
+    email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
     name: rails-infrastructure-canary
     description-intro: Builds a simplistic rails app, which only serves to prove out the ci & deployment infrastructure.
     cluster: lab
