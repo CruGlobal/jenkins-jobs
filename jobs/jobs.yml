@@ -12,6 +12,13 @@
       - 'rails-template'
 
 - project:
+    name: cruprojects
+    description-intro: Builds, tests, & deploys the cruprojects.com docker image.
+    email-recipients: spencer.oberstadt@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
     name: global_registry
     description-intro: Builds, tests, & deploys the Global Registry docker image.
     jobs:
@@ -49,6 +56,13 @@
     name: mpdx
     description-intro: Builds, tests, & deploys the MPDX docker image.
     email-recipients: josh.starcher@cru.org, dave.raffensperger@cru.org, spencer.oberstadt@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: ministry_locator
+    description-intro: Builds, tests, & deploys the ministry locator docker image.
+    email-recipients: josh.starcher@cru.org, spencer.oberstadt@cru.org
     jobs:
       - 'rails-template'
 
