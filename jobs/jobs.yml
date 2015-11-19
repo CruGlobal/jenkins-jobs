@@ -126,6 +126,12 @@
     jobs:
       - 'rails-template'
 
+- project:
+    name: escomm
+    description-intro: Builds, tests, & deploys the Personalized EveryStudent Series docker image
+    email-recipients: asaph.yuan@cru.org, david.raffensperger@cru.org
+    jobs:
+      - 'rails-template'
 
 
 - project:
