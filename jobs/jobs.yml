@@ -3,6 +3,12 @@
     email-recipients: $DEFAULT_RECIPIENTS
     cluster: ''
 
+- project:
+    name: autonag
+    description-intro: Builds, tests, & deploys the autonag docker image.
+    email-recipients: spencer.oberstadt@cru.org
+    jobs:
+      - 'rails-template'
 
 - project:
     name: cap
