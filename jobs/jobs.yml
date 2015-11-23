@@ -52,6 +52,13 @@
       - 'rails-template'
 
 - project:
+    name: mpd-dashboard-api
+    description-intro: Builds, tests, & deploys the mpd-dashboard-api docker image.
+    email-recipients: josh.starcher@cru.org, brian.zoetewey@ccci.org, adam.meyer@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
     name: mpd_tool
     description-intro: Builds, tests, & deploys the mpd tool docker image.
     email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
