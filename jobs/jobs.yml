@@ -59,6 +59,13 @@
       - 'rails-template'
 
 - project:
+    name: mpd-dashboard-app
+    description-intro: Builds, tests, & deploys the mpd-dashboard-app docker image.
+    email-recipients: brian.zoetewey@ccci.org
+    jobs:
+      - 'php-template'
+
+- project:
     name: mpd_tool
     description-intro: Builds, tests, & deploys the mpd tool docker image.
     email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
@@ -154,6 +161,12 @@
       - 'react-template'
 
 
+
+- job-group:
+    name: 'php-template'
+    jobs:
+        - '{name}':
+            build-script: php_deploy.sh
 
 - job-group:
     name: 'rails-template'
