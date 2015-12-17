@@ -31,6 +31,13 @@
       - 'rails-template'
 
 - project:
+    name: gma-app-php
+    description-intro: Builds, tests, & deploys the gma-app-php docker image.
+    email-recipients: brian.zoetewey@ccci.org
+    jobs:
+      - 'php-template'
+
+- project:
     name: infobase
     description-intro: Builds, tests, & deploys the Infobase docker image.
     email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
