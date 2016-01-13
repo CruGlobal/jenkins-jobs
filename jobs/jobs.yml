@@ -200,6 +200,9 @@
       From 7am to 1pm on weekdays, builds on the 'master' branch automatically trigger a
       deployment of that image to the production environment.
 
+      Only the master and staging branches are automatically built.
+      Other branches may be manually built via `Build with Parameters`
+
       Historic builds can be manually deployed to either staging or production,
       by running the 'Deploy to Production' or the 'Deploy to Staging' build promotions.
       (This won't work for builds that were not pushed to dockerhub --
@@ -210,12 +213,13 @@
           name: BRANCH_SPECIFIER
           description: |
             If specified, jenkins will use this git branch to build.
-            If not, jenkins will pick a branch that seems most likely to be the one you want built.
+            If not, jenkins will pick a branch (between 'master' and 'staging')
+            that seems most likely to be the one you want built.
             This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
             or, if there are none of those, the most recently-built branch.
           type: branch
           sort: none
-          default: origin/*
+          default: :origin/(master|staging)
 
     properties:
       - github:
