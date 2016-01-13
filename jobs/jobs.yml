@@ -201,7 +201,7 @@
       deployment of that image to the production environment.
 
       Only the master and staging branches are automatically built.
-      Other branches may be manually built via `Build with Parameters`
+      Other branches may be manually built via `Build with Parameters`.
 
       Historic builds can be manually deployed to either staging or production,
       by running the 'Deploy to Production' or the 'Deploy to Staging' build promotions.
