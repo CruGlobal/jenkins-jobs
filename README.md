@@ -28,7 +28,11 @@ Updating jobs
  *  Test that your changes parse via `jenkins-jobs test jobs/jobs.yml`
  *  Update the job you want to update via `update_jobs.sh {jobname}`
  *  Or, if you want to update all jobs, just run `update_jobs.sh`
-   
+
+If you'd like to test jenkins builds based on github hooks,
+you can use the rails-infrastructure-canary project (and its `test_github_jenkins_autobuild.sh`).
+This way you can avoid polluting a real project with dummy commits.
+
 Having Trouble?
 ---------------
 
