@@ -181,6 +181,12 @@
     jobs:
       - 'react-template'
 
+- project:
+    name: redirector
+    description-intro: Builds, tests, & deploys the redirector docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'openresty-template'
 
 
 - job-group:
@@ -188,6 +194,12 @@
     jobs:
         - '{name}':
             build-script: php_deploy.sh
+
+- job-group:
+    name: 'openresty-template'
+    jobs:
+        - '{name}':
+            build-script: openresty_deploy.sh
 
 - job-group:
     name: 'rails-template'
