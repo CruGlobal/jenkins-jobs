@@ -59,6 +59,13 @@
       - 'rails-template'
 
 - project:
+    name: measurements-api
+    description-intro: Builds, tests, & deploys the Measurements API docker image.
+    email-recipients: brian.zoetewey@ccci.org, spencer.oberstadt@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
     name: ministry_view_api
     description-intro: Builds, tests, & deploys the MinistryView API docker image.
     email-recipients: brian.zoetewey@ccci.org
