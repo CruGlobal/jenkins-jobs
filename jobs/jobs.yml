@@ -300,7 +300,6 @@
                       GIT_BRANCH=$GIT_BRANCH
                       ENVIRONMENT=staging
                       CLUSTER={cluster}
-                      LD_LIBRARY_PATH=/opt/oracle/instantclient_11_2
                     condition: SUCCESS
           - condition-kind: and
             condition-operands:
@@ -327,7 +326,6 @@
                       GIT_BRANCH=$GIT_BRANCH
                       ENVIRONMENT=production
                       CLUSTER={cluster}
-                      LD_LIBRARY_PATH=/opt/oracle/instantclient_11_2
                     condition: SUCCESS
           - condition-kind: and
             condition-operands:
