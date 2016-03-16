@@ -176,6 +176,13 @@
       - 'rails-template'
 
 - project:
+    name: data_transfers
+    description-intro: Builds, tests, & deploys the data_transfers docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
     name: watchthinkchat
     description-intro: Builds, tests, & deploys the WatchThinkChat docker image.
     jobs:
