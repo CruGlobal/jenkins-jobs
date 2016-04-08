@@ -25,6 +25,13 @@
       - 'rails-template'
 
 - project:
+    name: global-profile-api
+    description-intro: Builds, tests, & deploys the global-profile-api docker image.
+    email-recipients: brian.zoetewey@ccci.org
+    jobs:
+      - 'rails-template'
+
+- project:
     name: global-profile-php
     description-intro: Builds, tests, & deploys the global-profile-php docker image.
     email-recipients: brian.zoetewey@ccci.org
