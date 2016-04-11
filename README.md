@@ -15,6 +15,7 @@ Getting set up
  *  install [virtualenv][virtualenv] (see also [this guide][virtualenv-guide])
  *  create a new env (eg `virtualenv venv`) and activate it (`source venv/bin/activate`)
  *  run `pip install -e .`
+ *  run `pip install requests`
  *  you should be able to run `jenkins-jobs --version` now
  *  in the same terminal (to keep `venv` active), change your working directory to the `jenkins-jobs` project
  *  generate the xml config for one of our jobs; eg `jenkins-jobs test jobs/jobs.yml mpdx | less`
@@ -35,11 +36,6 @@ This way you can avoid polluting a real project with dummy commits.
 
 Having Trouble?
 ---------------
-
-__ImportError: No module named requests:__ This is caused by missing the requests module. This should be fixed by 
-running `pip install requests`
-
-
 
 [mediawiki]: https://www.mediawiki.org/wiki/Continuous_integration/Jenkins_job_builder#six.moves
 [fork]: https://github.com/CruGlobal/jenkins-job-builder
