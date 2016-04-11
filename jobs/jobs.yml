@@ -32,6 +32,13 @@
       - 'rails-template'
 
 - project:
+    name: global360
+    description-intro: Builds, tests, & deploys the global360 docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
     name: global-profile-php
     description-intro: Builds, tests, & deploys the global-profile-php docker image.
     email-recipients: brian.zoetewey@ccci.org
@@ -192,6 +199,13 @@
 - project:
     name: data_transfers
     description-intro: Builds, tests, & deploys the data_transfers docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: cortex_gateway
+    description-intro: Builds, tests, & deploys the cortex_gateway docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
       - 'rails-template'
