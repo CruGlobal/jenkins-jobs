@@ -94,6 +94,12 @@
       - 'rails-template'
 
 - project:
+    name: missionhub-api
+    description-intro: Builds, tests, & deploys the MissionHub API docker image.
+    jobs:
+      - 'rails-template'
+
+- project:
     name: pact_hr
     description-intro: Builds, tests, & deploys the Pact HR docker image.
     email-recipients: josh.starcher@cru.org
