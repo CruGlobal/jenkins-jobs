@@ -62,10 +62,10 @@ def create_or_update_job(config, config_content, job, promotion_process):
     user = config.get('jenkins', 'user')
     password = config.get('jenkins', 'password')
     url = "%s/job/%s/promotion/process/%s/config.xml" % (base_url, job, promotion_process)
-    r = post_promotion_process_config(config_content, password, url, user)
+    r = post_promotion_process_config(config_content, password, base_url, url, user)
     if r.status_code == 404:
         url = "%s/job/%s/promotion/createProcess?name=%s" % (base_url, job, promotion_process)
-        r = post_promotion_process_config(config_content, password, url, user)
+        r = post_promotion_process_config(config_content, password, base_url, url, user)
         if not r.ok:
             raise Exception("unsuccessful request:" + r.reason)
         print("Created job: %s; process: %s; Response Code: %s" % (job, promotion_process, r))
@@ -85,9 +85,24 @@ def load_config_content(cluster, environment, icon):
     return content
 
 
-def post_promotion_process_config(content, password, url, user):
+def post_promotion_process_config(content, password, base_url, url, user):
     headers = {'content-type': 'application/xml'}
+    headers.update(get_crumb_header(password, base_url, user))
     return requests.post(url, data=content, headers=headers, auth=(user, password))
+
+
+def get_crumb_header(password, base_url, user):
+    delimiter = ":"
+    url = base_url + "/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\"" + delimiter + "\",//crumb)"
+    r = requests.get(url, auth=(user, password))
+    if not r.ok:
+        if r.status_code == 404:
+            print("crumb unavailable; jenkins probably does not have csrf protection enabled")
+            return {}
+        else:
+            raise Exception("unsuccessful request for crumb:" + r.reason)
+    pieces = r.text.split(delimiter)
+    return {pieces[0]: pieces[1]}
 
 
 run()
