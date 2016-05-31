@@ -411,3 +411,5 @@
     wrappers:
       - build-name:
           name: '$GIT_BRANCH #$BUILD_NUMBER'
+      - rbenv:
+          ruby-version: 2.3.1
