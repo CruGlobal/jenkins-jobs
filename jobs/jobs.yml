@@ -251,6 +251,13 @@
       - 'openresty-template'
 
 
+- project:
+    name: voke-dashboards
+    description-intro: Builds, tests, & deploys the Voke Dashboards API docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'rails-template'
+
 - job-group:
     name: 'php-template'
     jobs:
