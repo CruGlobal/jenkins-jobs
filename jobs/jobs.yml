@@ -3,6 +3,62 @@
     email-recipients: $DEFAULT_RECIPIENTS
     cluster: ''
 
+- job:
+    name: base-image-nginx
+    description: |
+      Description for base-image-nginx goes here.
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/ecs_config
+      - inject:
+          keep-system-variables: true
+          keep-build-variables: true
+    scm:
+      - git:
+          branches:
+          - origin/master
+          url: git@github.com:CruGlobal/ecs_config.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+          included-regions:
+            - ecs/base-image-nginx/.*
+    triggers:
+      - github
+
+    builders:
+      - shell: |
+          #!/bin/bash
+
+          cd ecs/base-image-nginx
+          echo 'Building base image'
+          docker build -t cruglobal/base-image-nginx:latest .
+
+          echo 'Pushing base image'
+          docker push cruglobal/base-image-nginx:latest
+
+    # actions that the Jenkins job should perform after the build is complete
+    publishers:
+      - email-ext:
+          recipients: 'mike.albert@cru.org'
+          failure: true
+          success: true
+          attach-build-log: true
+          send-to:
+            -  recipients
+            -  requester
+          body: |
+            Email body for base-image-nginx goes here
+
+            $DEFAULT_CONTENT
+          presend-script: $DEFAULT_PRESEND_SCRIPT
+
+    wrappers:
+      - rbenv:
+          ruby-version: 2.3.1
+
+
 - project:
     name: autonag
     description-intro: Builds, tests, & deploys the autonag docker image.
