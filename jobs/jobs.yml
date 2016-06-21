@@ -3,17 +3,73 @@
     email-recipients: $DEFAULT_RECIPIENTS
     cluster: ''
 
-- job:
+- project:
     name: base-image-nginx
-    description: |
-      Description for base-image-nginx goes here.
+    image_description: |
+      Base docker image for nginx
+    build_command: |
+      #!/bin/bash
 
+      cd ecs/{name}
+      echo 'Building base image'
+      docker build -t cruglobal/{name}:latest .
+
+      echo 'Pushing base image'
+      docker push cruglobal/{name}:latest
+    jobs:
+      - 'docker-{name}'
+
+- project:
+    name: base-image-openresty
+    image_description: |
+      Base docker image for openresty
+    build_command: |
+      #!/bin/bash
+
+      cd ecs/{name}
+      echo 'Building base image'
+      docker build -t cruglobal/{name}:latest .
+
+      echo 'Pushing base image'
+      docker push cruglobal/{name}:latest
+    jobs:
+      - 'docker-{name}'
+
+- project:
+    name: base-image-php
+    image_description: |
+      Base docker image for php
+    build_command: |
+      #!/bin/bash
+
+      cd ecs/{name}
+      echo 'Building base image'
+      docker build -t cruglobal/{name}:latest .
+
+      echo 'Pushing base image'
+      docker push cruglobal/{name}:latest
+    jobs:
+      - 'docker-{name}'
+
+- project:
+    name: base-image-ruby-version-arg
+    image_description: |
+      Base docker image for Ruby on Rails apps. Supports ruby versions 2.2.2, 2.3.0 and 2.3.1
+    build_command: |
+      ecs/base-image-ruby-version-arg/build_ruby_versions
+    jobs:
+      - 'docker-{name}'
+
+# template for docker image build jobs
+- job-template:
+    name: 'docker-{name}'
+    description: '{image_description}'
     properties:
       - github:
           url: https://github.com/CruGlobal/ecs_config
       - inject:
-          keep-system-variables: true
-          keep-build-variables: true
+            properties-content: |
+              DEFAULT_RECIPIENTS=mike.albert@cru.org
     scm:
       - git:
           branches:
@@ -23,25 +79,16 @@
           skip-tag: true
           prune: true
           included-regions:
-            - ecs/base-image-nginx/.*
+            - ecs/{name}/.*
     triggers:
       - github
-
     builders:
-      - shell: |
-          #!/bin/bash
-
-          cd ecs/base-image-nginx
-          echo 'Building base image'
-          docker build -t cruglobal/base-image-nginx:latest .
-
-          echo 'Pushing base image'
-          docker push cruglobal/base-image-nginx:latest
+      - shell: '{build_command}'
 
     # actions that the Jenkins job should perform after the build is complete
     publishers:
       - email-ext:
-          recipients: 'mike.albert@cru.org'
+          recipients: $DEFAULT_RECIPIENTS
           failure: true
           success: true
           attach-build-log: true
@@ -49,15 +96,10 @@
             -  recipients
             -  requester
           body: |
-            Email body for base-image-nginx goes here
+            Email body for {name} goes here
 
             $DEFAULT_CONTENT
           presend-script: $DEFAULT_PRESEND_SCRIPT
-
-    wrappers:
-      - rbenv:
-          ruby-version: 2.3.1
-
 
 - project:
     name: autonag
