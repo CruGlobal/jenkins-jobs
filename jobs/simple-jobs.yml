@@ -95,3 +95,57 @@
 
             $DEFAULT_CONTENT
           presend-script: $DEFAULT_PRESEND_SCRIPT
+
+- job:
+    name: deploy-ecs
+    description: |
+      A generic job to deploy ECS tasks and services.
+      The parameters given define which docker image to pull from docker hub, and which ECS task and service to update.
+    concurrent: true
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/ecs_config
+
+    parameters:
+      - string:
+          name: PROJECT_NAME
+          description: The name of the project which should match the name of the docker hub repository
+
+      - string:
+          name: IMAGE_TAG
+          description: The tag of the image to deploy
+
+      - string:
+          name: ENVIRONMENT
+          description: Which environment to deploy to. If not provided, it will be determined from the git branch name.
+
+      - string:
+          name: GIT_BRANCH
+          description: Which git branch is being deployed. This is currently only used to determine ENVIRONMENT
+
+      - string:
+          name: CLUSTER
+          description: Which ECS cluster the app should be deployed to. By default, the stage cluster is used for all non-production environments, and prod is used for all production environments.
+
+      - string:
+          name: IMAGE_NAME
+          description: 'OPTIONAL: Allows for overriding docker image name derived by default from PROJECT_NAME'
+
+    scm:
+      - git:
+          branches:
+          - refs/remotes/origin/master
+          url: git@github.com:CruGlobal/ecs_config.git
+          wipe-workspace: false
+          skip-tag: true
+
+    builders:
+      - shell: |
+          blackbox_postdeploy
+          DEPLOY_ONLY=true ./bin/deploy.sh
+          blackbox_shred_all_files
+
+    wrappers:
+      - build-name:
+          name: '${ENV,var="PROJECT_NAME"}-${ENV,var="ENVIRONMENT"} #${BUILD_NUMBER}'
