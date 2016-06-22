@@ -1,5 +1,6 @@
 """
-    Adds both Production and Staging deployment promotion definitions.
+    Adds both Production and Staging deployment promotion definitions to
+    jobs defined in jobs/app-jobs.yml
 """
 import requests
 import ConfigParser
@@ -17,7 +18,7 @@ def run():
 
 
 def parse_job_data():
-    with open('jobs/jobs.yml', 'r') as stream:
+    with open('jobs/app-jobs.yml', 'r') as stream:
         data = yaml.safe_load(stream)
         jobs = dict()
         for item in data:

@@ -1,0 +1,97 @@
+- project:
+    name: base-image-nginx
+    image_description: |
+      Base docker image for nginx
+    build_command: |
+      #!/bin/bash
+
+      cd ecs/{name}
+      echo 'Building base image'
+      docker build -t cruglobal/{name}:latest .
+
+      echo 'Pushing base image'
+      docker push cruglobal/{name}:latest
+    jobs:
+      - 'docker-{name}'
+
+- project:
+    name: base-image-openresty
+    image_description: |
+      Base docker image for openresty
+    build_command: |
+      #!/bin/bash
+
+      cd ecs/{name}
+      echo 'Building base image'
+      docker build -t cruglobal/{name}:latest .
+
+      echo 'Pushing base image'
+      docker push cruglobal/{name}:latest
+    jobs:
+      - 'docker-{name}'
+
+- project:
+    name: base-image-php
+    image_description: |
+      Base docker image for php
+    build_command: |
+      #!/bin/bash
+
+      cd ecs/{name}
+      echo 'Building base image'
+      docker build -t cruglobal/{name}:latest .
+
+      echo 'Pushing base image'
+      docker push cruglobal/{name}:latest
+    jobs:
+      - 'docker-{name}'
+
+- project:
+    name: base-image-ruby-version-arg
+    image_description: |
+      Base docker image for Ruby on Rails apps. Supports ruby versions 2.2.2, 2.3.0 and 2.3.1
+    build_command: |
+      ecs/base-image-ruby-version-arg/build_ruby_versions
+    jobs:
+      - 'docker-{name}'
+
+# template for docker image build jobs
+- job-template:
+    name: 'docker-{name}'
+    description: '{image_description}'
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/ecs_config
+      - inject:
+            properties-content: |
+              DEFAULT_RECIPIENTS=mike.albert@cru.org
+    scm:
+      - git:
+          branches:
+          - origin/master
+          url: git@github.com:CruGlobal/ecs_config.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+          included-regions:
+            - ecs/{name}/.*
+    triggers:
+      - github
+    builders:
+      - shell: '{build_command}'
+
+    # actions that the Jenkins job should perform after the build is complete
+    publishers:
+      - email-ext:
+          recipients: $DEFAULT_RECIPIENTS
+          failure: true
+          success: true
+          attach-build-log: true
+          send-to:
+            -  recipients
+            -  requester
+          body: |
+            Email body for {name} goes here
+
+            $DEFAULT_CONTENT
+          presend-script: $DEFAULT_PRESEND_SCRIPT
