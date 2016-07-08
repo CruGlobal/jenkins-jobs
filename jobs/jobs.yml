@@ -261,30 +261,31 @@
 - job-group:
     name: 'php-template'
     jobs:
-        - '{name}':
+        - 'web-template':
             build-script: php_deploy.sh
 
 - job-group:
     name: 'openresty-template'
     jobs:
-        - '{name}':
+        - 'web-template':
             build-script: openresty_deploy.sh
 
 - job-group:
     name: 'rails-template'
     jobs:
-        - '{name}':
+        - 'web-template':
             build-script: rails_deploy.sh
 
 - job-group:
     name: 'react-template'
     jobs:
-        - '{name}':
+        - 'web-template':
             build-script: react_deploy.sh
 
 
 
 - job-template:
+    id: 'web-template'
     name: '{name}'
     description: |
       {description-intro}
