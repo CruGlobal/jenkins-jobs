@@ -284,6 +284,71 @@
 
 
 
+
+- job-template:
+    id: 'mobile-template'
+    name: '{name}-{build-type}'
+    node: mac
+    logrotate:
+      numToKeep: '{number-of-builds-to-keep}'
+    description: |
+      {description-intro}
+
+      {description-build-type-info}
+    parameters: '{obj:mobile-parameters}'
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/{name}/
+      - inject:
+          properties-content: |
+            #ANDROID
+            ANDROID_SDK_PATH=/Volumes/External\ HD/android-sdk-macosx
+
+            #PATH
+            PATH=$PATH:/Users/Shared/Jenkins/.rbenv/shims:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Volumes/External\ HD/android-sdk-macosx/tools:/Volumes/External\ HD/android-sdk-macosx/platform-tools
+
+            #LANGUAGE SETTINGS (Fixes Ruby issue with Fastlane)
+            LANG=en_US.UTF-8
+            LANGUAGE=en_US.UTF-8
+            LC_ALL=en_US.UTF-8
+
+            GIT_ORIGIN_BRANCH={git-branch}
+    scm:
+      - git:
+          branches:
+          - $GIT_ORIGIN_BRANCH
+          url: git@github.com:CruGlobal/{name}.git
+          credentials-id: '66c3b5a3-0f7c-4e22-97b2-a78fb5a73658'
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+    triggers:
+      - github-pull-request:
+          admin-list: '{obj:authorized-developers}'
+          white-list: '{obj:authorized-developers}'
+          github-hooks: true
+          status-context: 'Jenkins'
+          status-add-test-results: 'true'
+          triggered-status: 'Build has been triggered'
+          started-status: 'Build has begun'
+          success-status: 'Build success'
+          failure-status: 'Build failed'
+          error-status: 'Error during build'
+    wrappers:
+      - build-name:
+          name: '$GIT_ORIGIN_BRANCH #$BUILD_NUMBER'
+      - ssh-agent-credentials:
+          users:
+            - '66c3b5a3-0f7c-4e22-97b2-a78fb5a73658'
+      - ansicolor:
+        colormap: xterm
+    builders:
+      - shell: 'git fetch; git checkout $GIT_ORIGIN_BRANCH'
+      - shell: 'fastlane {fastlane-lane} --env {fastlane-env}'
+    publishers: '{obj:mobile-publishers}'
+
+
+
 - job-template:
     id: 'web-template'
     name: '{name}'
