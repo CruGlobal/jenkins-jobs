@@ -314,6 +314,62 @@ publisher:
           allow-empty-results: true
 
 
+- job-group:
+    name: 'mobile-group-template'
+    defaults:
+      crashlytics-group-default: ''
+    jobs:
+        - 'mobile-template':
+            description-build-type-info: 'Runs when pull requests are created. It will run your tests and put the result on the PR.'
+            build-type: 'tests'
+            number-of-builds-to-keep: 1
+            mobile-parameters:
+              - git:
+                  name: GIT_BRANCH
+                  description: |
+                    If specified, jenkins will use this git branch to build.
+                    If not, jenkins will pick a branch (between 'master' and 'staging')
+                    that seems most likely to be the one you want built.
+                    This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
+                    or, if there are none of those, the most recently-built branch.
+                  type: branch
+                  sort: none
+                  default: :origin/(master|staging)
+            git-branch: 'refs/remotes/origin/${GIT_BRANCH}'
+            fastlane-lane: 'run_tests'
+            fastlane-env: 'tests'
+            mobile-publishers:
+              - 'publish-mobile-html-results'
+              - 'publish-mobile-junit-results'
+        - 'mobile-template':
+            description-build-type-info: 'Runs when pull requests are submitted to {git-branch} branch. If building and testing is successful the app will be deployed to crashlytics for beta testing.'
+            build-type: 'beta'
+            number-of-builds-to-keep: 5
+            mobile-parameters:
+              - string:
+                name: CRASHLYTICS_GROUP
+                default: {crashlytics-group-default}
+                description: Alias of Crashlytics group to receive beta build
+            git-branch: 'origin/develop'
+            fastlane-lane: 'beta'
+            fastlane-env: 'beta'
+            mobile-publishers:
+              - 'publish-mobile-html-results'
+              - 'publish-mobile-junit-results'
+        - 'mobile-template':
+            description-build-type-info: 'Runs when pull requests are submitted to {git-branch} branch. If building and testing is successful the app will be deployed to crashlytics for beta testing.'
+            build-type: 'production'
+            number-of-builds-to-keep: -1
+            mobile-parameters:
+            git-branch: 'origin/master'
+            fastlane-lane: 'production'
+            fastlane-env: 'production'
+            mobile-publishers:
+              - 'publish-mobile-screenshots'
+              - 'publish-mobile-html-results'
+              - 'publish-mobile-junit-results'
+
+
 
 - job-template:
     id: 'mobile-template'
