@@ -270,6 +270,18 @@
     jobs:
       - 'mobile-group-template'
 
+- project:
+    name: jesus-film-ios
+    description-intro: Builds, tests, & deploys the Jesus Film iOS App.
+    authorized-developers:
+      - michaelharro
+      - charliepixegon
+      - mresimont
+    crashlytics-group-default: jesus-film-ios-alpha
+    jobs:
+      - 'mobile-group-template'
+
+
 - job-group:
     name: 'php-template'
     jobs:
