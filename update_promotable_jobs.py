@@ -18,7 +18,7 @@ def run():
 
 def parse_job_data():
     jobs = dict()
-    for file in ['jobs/app-jobs.yml','jobs/java-app-jobs.yml']:
+    for file in ['jobs/app-jobs.yml','jobs/java-docker-jobs.yml']:
         with open(file, 'r') as stream:
             data = yaml.safe_load(stream)
             for item in data:

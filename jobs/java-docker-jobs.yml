@@ -7,10 +7,12 @@
     name: ert-api
     description-intro: Builds, tests, & deploys the ERT API docker image.
     email-recipients: mike.albert@cru.org
+    base-image: 056154071827.dkr.ecr.us-east-1.amazonaws.com/base-image-wildfly:syslog-tcp-socket-fix
     jdk: JDK7
     jobs:
       - '{name}'
 
+# maven template for java apps on ECS
 - job-template:
     name: '{name}'
     project-type: maven
@@ -134,7 +136,7 @@
                     $DEFAULT_CONTENT
                   presend-script: $DEFAULT_PRESEND_SCRIPT
     prebuilders:
-      - shell: docker pull 056154071827.dkr.ecr.us-east-1.amazonaws.com/base-image-wildfly:syslog-tcp-socket-fix
+      - shell: docker pull {base-image}
 
     maven:
       root-pom: pom.xml
@@ -143,7 +145,8 @@
 
     postbuilders:
       - shell: |
-          docker push cruglobal/ert-api:${{GIT_COMMIT}}-${{BUILD_NUMBER}}; docker rmi cruglobal/ert-api:${{GIT_COMMIT}}-${{BUILD_NUMBER}};
+          docker push cruglobal/{name}:${{GIT_COMMIT}}-${{BUILD_NUMBER}};
+          docker rmi cruglobal/{name}:${{GIT_COMMIT}}-${{BUILD_NUMBER}};
 
     wrappers:
       - build-name:
