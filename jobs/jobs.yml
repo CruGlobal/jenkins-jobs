@@ -258,6 +258,18 @@
     jobs:
       - 'rails-template'
 
+
+- project:
+    name: jesus-film-android
+    description-intro: Builds, tests, & deploys the Jesus Film Android App.
+    authorized-developers:
+      - michaelharro
+      - frett
+      - bleppard
+    crashlytics-group-default: jesus-film-android-alpha
+    jobs:
+      - 'mobile-group-template'
+
 - job-group:
     name: 'php-template'
     jobs:
