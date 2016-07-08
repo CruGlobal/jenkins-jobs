@@ -282,6 +282,36 @@
         - 'web-template':
             build-script: react_deploy.sh
 
+publisher:
+    name: 'publish-mobile-screenshots'
+    publishers:
+      - html-publisher:
+          name: "Screen Shots"
+          dir: "fastlane/output/screenshots"
+          files: "screenshots.html"
+          keep-all: false
+          allow-missing: true
+          link-to-last-build: false
+
+publisher:
+    name: 'publish-mobile-html-results'
+    publishers:
+      - html-publisher:
+          name: "Test Results"
+          dir: "fastlane/output/unit_test_reports"
+          files: "report.html"
+          keep-all: false
+          allow-missing: true
+          link-to-last-build: false
+
+publisher:
+    name: 'publish-mobile-junit-results'
+    publishers:
+      - junit:
+          results: fastlane/report.xml
+          keep-long-stdio: true
+          health-scale-factor: 1.0
+          allow-empty-results: true
 
 
 
