@@ -1,0 +1,69 @@
+- job:
+    name: give-ep-docker-images
+    description: |
+      Description for give-ep-docker-images goes here
+    jdk: JDK8
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/give-ep-devops/
+
+    scm:
+      - git:
+          branches:
+            - "*/add-docker-building"
+          url: git@github.com:CruGlobal/give-ep-devops.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    builders:
+          - maven-target:
+              maven-version: maven v3.3.9
+              goals: -B -U -e clean install -DskipAllTests  -Dapplication.package.version=0-aws-messaging-SNAPSHOT
+              java_opts:
+                - "-Xmx200m -XX:MaxPermSize=256m"
+              settings: /var/lib/jenkins/ep-settings.xml
+
+          - shell: |
+              cd docker-setup/DockerImageBuilder/
+              ./DockerImageBuilder.sh \
+              -p $WORKSPACE/pusher-package/target/ext-deployment-package-0-*.zip \
+              -f config/docker-build-development.conf \
+              -e development \
+              -t $GIT_COMMIT-$BUILD_NUMBER
+
+- job:
+    name: give-ep-update-db-uat
+    project-type: maven
+    description: |
+      Description for give-ep-update-db-uat goes here
+    jdk: JDK8
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/give-ep-devops/
+
+    scm:
+      - git:
+          branches:
+            - "*/add-docker-building"
+          url: git@github.com:CruGlobal/give-ep-devops.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    maven:
+      root-pom: pusher-package/pom.xml
+      goals: -B -U -e clean install -DskipAllTests -Dapplication.package.version=0-aws-messaging-SNAPSHOT
+      settings: /var/lib/jenkins/ep-settings.xml
+      post-step-run-condition: SUCCESS
+
+    postbuilders:
+      - shell: |
+          cd pusher-package/the-pusher/;
+
+          ./PushDeploy.sh \
+          -f ../environments/uat/pusher.conf \
+          -f ../environments/uat/database.properties \
+          -p ../target/ext-deployment-package-0-*.zip -d update-db;

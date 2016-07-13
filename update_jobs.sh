@@ -5,4 +5,5 @@ jenkins-jobs --conf jenkins_jobs.ini update jobs/simple-jobs.yml $@
 jenkins-jobs --conf jenkins_jobs.ini update jobs/app-jobs.yml $@
 jenkins-jobs --conf jenkins_jobs.ini update jobs/java-docker-jobs.yml $@
 jenkins-jobs --conf jenkins_jobs.ini update jobs/java-jobs.yml $@
+jenkins-jobs --conf jenkins_jobs.ini update jobs/ep-jobs.yml $@
 python update_promotable_jobs.py $@
