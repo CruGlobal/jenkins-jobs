@@ -43,7 +43,10 @@
           url: git@github.com:CruGlobal/godtools-api.git
           branches:
             - origin/master
-
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+          
     builders:
           - maven-builder:
               name: maven v3.3.9
