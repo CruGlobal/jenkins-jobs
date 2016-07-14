@@ -149,3 +149,62 @@
     wrappers:
       - build-name:
           name: '${ENV,var="PROJECT_NAME"}-${ENV,var="ENVIRONMENT"} #${BUILD_NUMBER}'
+
+- job:
+    name: syslog-splunk
+    description: |
+      A job that builds changes to master and deploys the image to docker hub.
+      Builds automatically trigger a deployment of that image to the staging environment.
+      The "Deploy to Production" promotion process deploys that image to the production environment.
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/syslog-splunk/
+
+    parameters:
+      - git:
+          name: BRANCH_SPECIFIER
+          description: |
+            If specified, jenkins will use this git branch to build.
+            If not, jenkins will pick a branch (between 'master' and 'staging')
+            that seems most likely to be the one you want built.
+            This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
+            or, if there are none of those, the most recently-built branch.
+          type: branch
+          sort: ascending
+          default: "*/master"
+
+    scm:
+      - git:
+          branches:
+          - $BRANCH_SPECIFIER
+          url: git@github.com:CruGlobal/syslog-splunk.git
+          wipe-workspace: false
+          skip-tag: true
+
+    triggers:
+      - github
+
+    builders:
+      - shell: ./build.rb --push
+
+    publishers:
+      - conditional-publisher:
+          - condition-kind: strings-match
+            condition-string1: "$GIT_BRANCH"
+            condition-string2: "origin/master"
+            action:
+              - trigger-parameterized-builds:
+                  - project: deploy-ecs
+                    predefined-parameters: |
+                      IMAGE_TAG=$GIT_COMMIT-$BUILD_NUMBER
+                      PROJECT_NAME=$JOB_NAME
+                      GIT_COMMIT=$GIT_COMMIT
+                      GIT_BRANCH=$GIT_BRANCH
+                      ENVIRONMENT=staging
+                      CLUSTER={cluster}
+                    condition: SUCCESS
+
+    wrappers:
+      - build-name:
+          name: '$GIT_BRANCH #$BUILD_NUMBER'
