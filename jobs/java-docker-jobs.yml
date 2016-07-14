@@ -12,6 +12,15 @@
     jobs:
       - '{name}'
 
+- project:
+    name: thekey
+    description-intro: Builds, tests, & deploys theKey docker image.
+    email-recipients: mike.albert@cru.org
+    base-image: 056154071827.dkr.ecr.us-east-1.amazonaws.com/base-image-wildfly:syslog-tcp-socket-fix
+    jdk: JDK8
+    jobs:
+      - '{name}'
+
 # maven template for java apps on ECS
 - job-template:
     name: '{name}'
