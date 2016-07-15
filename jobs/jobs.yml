@@ -467,7 +467,18 @@ publisher:
       - ansicolor:
         colormap: xterm
     builders:
-      - shell: 'git fetch; git checkout $GIT_ORIGIN_BRANCH'
+      - shell: |
+        diffContent=$(git diff HEAD^ HEAD)
+        diffSearchString="fastlane\|FASTLANE_USER\|FASTLANE_PASSWORD\|FASTLANE_DONT_STORE_PASSWORD\|FASTLANE_TEAM_ID\|CODE_SIGNING_IDENTITY\|CERT_PASSWORD\|KEYCHAIN_NAME|\KEYCHAIN_PASSWORD\|DELIVER_PASSWORD\|DELIVER_USER"
+        RED_COLOR='\033[0;31m'
+        NO_COLOR='\033[0m'
+        $diffContent | grep -q $diffSearchString
+        if [ $? -eq 0 ]; then
+          echo -e "${RED_COLOR}Unfortunately you do not have permission to change build scripts. Contact your system admin if you think you should be able to run this build.${NO_COLOR}"
+          exit 1
+        else
+          exit 0
+        fi
       - shell: 'fastlane {fastlane-lane} --env {fastlane-env}'
     publishers: '{obj:mobile-publishers}'
 
