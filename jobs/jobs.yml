@@ -359,9 +359,11 @@ publisher:
                     This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
                     or, if there are none of those, the most recently-built branch.
                   type: branch
-                  sort: none
+                  branch-filter: '.*/merge'
+                  sort: 'descending'
                   default: :origin/(master|staging)
             git-branch: 'refs/remotes/origin/${GIT_BRANCH}'
+            git-fetch-filter-refspec: '+refs/pull/*:refs/remotes/origin/pr/*'
             fastlane-lane: 'run_tests'
             fastlane-env: 'tests'
             mobile-publishers:
@@ -379,6 +381,7 @@ publisher:
                 default: {crashlytics-group-default}
                 description: Alias of Crashlytics group to receive beta build
             git-branch: 'origin/develop'
+            git-fetch-filter-refspec: '+refs/heads/develop:refs/remotes/origin/develop'
             fastlane-lane: 'beta'
             fastlane-env: 'beta'
             mobile-publishers:
@@ -392,6 +395,7 @@ publisher:
             number-of-builds-to-keep: -1
             mobile-parameters:
             git-branch: 'origin/master'
+            git-fetch-filter-refspec: '+refs/heads/master:refs/remotes/origin/master'
             fastlane-lane: 'production'
             fastlane-env: 'production'
             mobile-publishers:
@@ -437,6 +441,7 @@ publisher:
           - $GIT_ORIGIN_BRANCH
           url: git@github.com:CruGlobal/{name}.git
           credentials-id: '66c3b5a3-0f7c-4e22-97b2-a78fb5a73658'
+          refspec: {git-fetch-filter-refspec}
           wipe-workspace: false
           skip-tag: true
           prune: true
@@ -444,6 +449,7 @@ publisher:
       - github-pull-request:
           admin-list: '{obj:authorized-developers}'
           white-list: '{obj:authorized-developers}'
+          white-list-target-branches: {git-branch}
           github-hooks: true
           status-context: 'Jenkins'
           status-add-test-results: 'true'
