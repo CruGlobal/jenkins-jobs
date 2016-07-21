@@ -481,7 +481,9 @@ publisher:
         else
           exit 0
         fi
-      - shell: 'fastlane {fastlane-lane} --env {fastlane-env}'
+      - shell: |
+        bundle install
+        bundle exec fastlane {fastlane-lane} --env {fastlane-env}
     publishers: '{obj:mobile-publishers}'
 
 
