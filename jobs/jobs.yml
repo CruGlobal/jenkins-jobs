@@ -315,7 +315,7 @@
           name: "Screen Shots"
           dir: "fastlane/output/screenshots"
           files: "screenshots.html"
-          keep-all: false
+          keep-all: true
           allow-missing: true
           link-to-last-build: false
 
@@ -323,14 +323,25 @@
     name: 'publish-mobile-html-unit-test-results'
     publishers:
       - html-publisher:
-          name: "Test Results"
+          name: "Unit Test Results"
           dir: "fastlane/output/unit_test_reports"
           files: "report.html"
-          keep-all: false
+          keep-all: true
           allow-missing: true
           link-to-last-build: false
 
-publisher:
+- publisher:
+    name: 'publish-mobile-html-code-coverage-results'
+    publishers:
+      - html-publisher:
+          name: "Code Coverage Results"
+          dir: "fastlane/output/code_coverage_reports"
+          files: "index.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+
+- publisher:
     name: 'publish-mobile-junit-results'
     publishers:
       - junit:
@@ -367,7 +378,8 @@ publisher:
             fastlane-lane: 'run_tests'
             fastlane-env: 'tests'
             mobile-publishers:
-              - 'publish-mobile-html-results'
+              - 'publish-mobile-html-unit-test-results'
+              - 'publish-mobile-html-code-coverage-results'
               - 'publish-mobile-junit-results'
               - email:
                 recipients: '{email-recipients}'
@@ -385,7 +397,8 @@ publisher:
             fastlane-lane: 'beta'
             fastlane-env: 'beta'
             mobile-publishers:
-              - 'publish-mobile-html-results'
+              - 'publish-mobile-html-unit-test-results'
+              - 'publish-mobile-html-code-coverage-results'
               - 'publish-mobile-junit-results'
               - email:
                 recipients: '{email-recipients}'
@@ -400,7 +413,8 @@ publisher:
             fastlane-env: 'production'
             mobile-publishers:
               - 'publish-mobile-screenshots'
-              - 'publish-mobile-html-results'
+              - 'publish-mobile-html-unit-test-results'
+              - 'publish-mobile-html-code-coverage-results'
               - 'publish-mobile-junit-results'
               - email:
                 recipients: '{email-recipients}'
