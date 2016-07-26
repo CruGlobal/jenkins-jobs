@@ -362,7 +362,7 @@
             number-of-builds-to-keep: 1
             mobile-parameters:
               - git:
-                  name: GIT_BRANCH
+                  name: sha1
                   description: |
                     If specified, jenkins will use this git branch to build.
                     If not, jenkins will pick a branch (between 'master' and 'staging')
@@ -373,7 +373,8 @@
                   branch-filter: '.*/merge'
                   sort: 'descending'
                   default: :origin/(master|staging)
-            git-branch: 'refs/remotes/origin/${GIT_BRANCH}'
+            git-branch: '${GIT_BRANCH}'
+            git-branch-to-build: '${sha1}'
             git-fetch-filter-refspec: '+refs/pull/*:refs/remotes/origin/pr/*'
             fastlane-lane: 'run_tests'
             fastlane-env: 'tests'
@@ -392,7 +393,8 @@
                 name: CRASHLYTICS_GROUP
                 default: {crashlytics-group-default}
                 description: Alias of Crashlytics group to receive beta build
-            git-branch: 'origin/develop'
+            git-branch: 'develop'
+            git-branch-to-build: '${GIT_ORIGIN_BRANCH}'
             git-fetch-filter-refspec: '+refs/heads/develop:refs/remotes/origin/develop'
             fastlane-lane: 'beta'
             fastlane-env: 'beta'
@@ -407,7 +409,8 @@
             build-type: 'production'
             number-of-builds-to-keep: -1
             mobile-parameters:
-            git-branch: 'origin/master'
+            git-branch: 'master'
+            git-branch-to-build: '${GIT_ORIGIN_BRANCH}'
             git-fetch-filter-refspec: '+refs/heads/master:refs/remotes/origin/master'
             fastlane-lane: 'production'
             fastlane-env: 'production'
@@ -448,11 +451,12 @@
             LANGUAGE=en_US.UTF-8
             LC_ALL=en_US.UTF-8
 
-            GIT_ORIGIN_BRANCH={git-branch}
+            GIT_BRANCH={git-branch}
+            GIT_ORIGIN_BRANCH=origin/${GIT_BRANCH}
     scm:
       - git:
           branches:
-          - $GIT_ORIGIN_BRANCH
+          - {git-branch-to-build}
           url: git@github.com:CruGlobal/{name}.git
           credentials-id: '66c3b5a3-0f7c-4e22-97b2-a78fb5a73658'
           refspec: {git-fetch-filter-refspec}
