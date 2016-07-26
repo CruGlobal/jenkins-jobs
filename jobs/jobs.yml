@@ -308,7 +308,7 @@
         - 'web-template':
             build-script: react_deploy.sh
 
-publisher:
+- publisher:
     name: 'publish-mobile-screenshots'
     publishers:
       - html-publisher:
@@ -319,8 +319,8 @@ publisher:
           allow-missing: true
           link-to-last-build: false
 
-publisher:
-    name: 'publish-mobile-html-results'
+- publisher:
+    name: 'publish-mobile-html-unit-test-results'
     publishers:
       - html-publisher:
           name: "Test Results"
@@ -468,22 +468,22 @@ publisher:
         colormap: xterm
     builders:
       - shell: |
-        set +x
-        diffContent=$(git diff $GIT_ORIGIN_BRANCH^ $GIT_ORIGIN_BRANCH)
-        diffSearchString="fastlane\|FASTLANE_USER\|FASTLANE_PASSWORD\|FASTLANE_DONT_STORE_PASSWORD\|FASTLANE_TEAM_ID\|CODE_SIGNING_IDENTITY\|CERT_PASSWORD\|KEYCHAIN_NAME|\KEYCHAIN_PASSWORD\|DELIVER_PASSWORD\|DELIVER_USER"
-        RED_COLOR='\033[0;31m'
-        NO_COLOR='\033[0m'
-        $diffContent | grep -q $diffSearchString
-        set -x
-        if [ $? -eq 0 ]; then
-          echo -e "${RED_COLOR}Unfortunately you do not have permission to change build scripts. Contact your system admin if you think you should be able to run this build.${NO_COLOR}"
-          exit 1
-        else
-          exit 0
-        fi
+          set +x
+          diffContent=$(git diff $GIT_ORIGIN_BRANCH^ $GIT_ORIGIN_BRANCH)
+          diffSearchString="fastlane\|FASTLANE_USER\|FASTLANE_PASSWORD\|FASTLANE_DONT_STORE_PASSWORD\|FASTLANE_TEAM_ID\|CODE_SIGNING_IDENTITY\|CERT_PASSWORD\|KEYCHAIN_NAME|\KEYCHAIN_PASSWORD\|DELIVER_PASSWORD\|DELIVER_USER"
+          RED_COLOR='\033[0;31m'
+          NO_COLOR='\033[0m'
+          $diffContent | grep -q $diffSearchString
+          set -x
+          if [ $? -eq 0 ]; then
+            echo -e "${RED_COLOR}Unfortunately you do not have permission to change build scripts. Contact your system admin if you think you should be able to run this build.${NO_COLOR}"
+            exit 1
+          else
+            exit 0
+          fi
       - shell: |
-        bundle install
-        bundle exec fastlane {fastlane-lane} --env {fastlane-env}
+          bundle install
+          bundle exec fastlane {fastlane-lane} --env {fastlane-env}
     publishers: '{obj:mobile-publishers}'
 
 
