@@ -55,6 +55,22 @@
     jobs:
       - 'docker-{name}'
 
+- project:
+    name: base-image-solr-efs
+    image_description: |
+      Docker image for solr-efs testing
+    build_command: |
+      #!/bin/bash
+
+      cd ecs/{name}
+      echo 'Building base image'
+      docker build -t cruglobal/{name}:latest .
+
+      echo 'Pushing base image'
+      docker push cruglobal/{name}:latest
+    jobs:
+      - 'docker-{name}'
+
 # template for docker image build jobs
 - job-template:
     name: 'docker-{name}'
