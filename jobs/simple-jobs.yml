@@ -62,6 +62,9 @@
     build_command: |
       #!/bin/bash
 
+      pwd
+      ls -al
+      ls -al ecs
       cd ecs/{name}
       echo 'Building base image'
       docker build -t cruglobal/{name}:latest .
