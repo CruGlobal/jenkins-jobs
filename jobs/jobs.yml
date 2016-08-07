@@ -378,7 +378,20 @@
             git-fetch-filter-refspec: '+refs/pull/*:refs/remotes/origin/pr/*'
             fastlane-lane: 'run_tests'
             fastlane-env: 'tests'
-            mobile-publishers:
+            triggers:
+              - github-pull-request:
+                  admin-list: '{obj:authorized-developers}'
+                  white-list: '{obj:authorized-developers}'
+                  white-list-target-branches: {git-branch}
+                  github-hooks: true
+                  status-context: 'Jenkins'
+                  status-add-test-results: 'true'
+                  triggered-status: 'Build has been triggered'
+                  started-status: 'Build has begun'
+                  success-status: 'Build success'
+                  failure-status: 'Build failed'
+                  error-status: 'Error during build'
+            publishers:
               - 'publish-mobile-html-unit-test-results'
               - 'publish-mobile-html-code-coverage-results'
               - 'publish-mobile-junit-results'
@@ -398,6 +411,8 @@
             git-fetch-filter-refspec: '+refs/heads/develop:refs/remotes/origin/develop'
             fastlane-lane: 'beta'
             fastlane-env: 'beta'
+            triggers:
+              - github
             publishers:
               - 'publish-mobile-html-unit-test-results'
               - 'publish-mobile-html-code-coverage-results'
@@ -414,13 +429,15 @@
             git-fetch-filter-refspec: '+refs/heads/master:refs/remotes/origin/master'
             fastlane-lane: 'production'
             fastlane-env: 'production'
+            triggers:
+              - github
             publishers:
               - 'publish-mobile-screenshots'
               - 'publish-mobile-html-unit-test-results'
               - 'publish-mobile-html-code-coverage-results'
               - 'publish-mobile-junit-results'
               - email:
-                recipients: '{email-recipients}'
+                  recipients: '{email-recipients}'
 
 
 
@@ -461,19 +478,10 @@
           wipe-workspace: false
           skip-tag: true
           prune: true
-    triggers:
-      - github-pull-request:
-          admin-list: '{obj:authorized-developers}'
-          white-list: '{obj:authorized-developers}'
-          white-list-target-branches: {git-branch}
-          github-hooks: true
-          status-context: 'Jenkins'
-          status-add-test-results: 'true'
-          triggered-status: 'Build has been triggered'
-          started-status: 'Build has begun'
-          success-status: 'Build success'
-          failure-status: 'Build failed'
-          error-status: 'Error during build'
+          excluded-users:
+            - cru-jenkins-mobile
+            - cru-jenkins2
+            - cru-jenkins
     wrappers:
       - build-name:
           name: '$GIT_ORIGIN_BRANCH #$BUILD_NUMBER'
@@ -481,7 +489,7 @@
           users:
             - '66c3b5a3-0f7c-4e22-97b2-a78fb5a73658'
       - ansicolor:
-        colormap: xterm
+          colormap: xterm
     builders:
       - shell: |
           #!/usr/bin/env bash
