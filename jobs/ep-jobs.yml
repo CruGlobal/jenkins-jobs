@@ -1,7 +1,7 @@
 - job:
-    name: give-ep-docker-images
+    name: give-ep-docker-images-uat
     description: |
-      Description for give-ep-docker-images goes here
+      Build EP docker images for UAT
     jdk: JDK8
 
     properties:
@@ -11,7 +11,7 @@
     scm:
       - git:
           branches:
-            - "*/add-docker-building"
+            - "refs/heads/develop"
           url: git@github.com:CruGlobal/give-ep-devops.git
           wipe-workspace: false
           skip-tag: true
@@ -20,7 +20,7 @@
     builders:
           - maven-target:
               maven-version: maven v3.3.9
-              goals: -B -U -e clean install -DskipAllTests  -Dapplication.package.version=0-aws-messaging-SNAPSHOT
+              goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
               java_opts:
                 - "-Xmx200m -XX:MaxPermSize=256m"
               settings: /var/lib/jenkins/ep-settings.xml
@@ -34,10 +34,54 @@
               -t $GIT_COMMIT-$BUILD_NUMBER
 
 - job:
+    name: give-ep-deploy-ecs-uat
+    description: |
+      Deploys the Give / Elastic path apps to UAT (aka Staging).
+
+    parameters:
+      - string:
+          name: GIT_COMMIT
+          description: "the give-ep devops commit to deploy"
+
+      - string:
+          name: BUILD_NUMBER
+          description: "the build number of the give-ep-docker-images-uat job to deploy"
+
+    publishers:
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=give-ep-cortex
+              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              GIT_BRANCH=origin/develop
+              ENVIRONMENT=staging
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=give-ep-cmserver
+              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              GIT_BRANCH=origin/develop
+              ENVIRONMENT=staging
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=give-ep-integration
+              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              GIT_BRANCH=origin/develop
+              ENVIRONMENT=staging
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=give-ep-search
+              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              GIT_BRANCH=origin/develop
+              ENVIRONMENT=staging
+
+- job:
     name: give-ep-update-db-uat
     project-type: maven
     description: |
-      Description for give-ep-update-db-uat goes here
+      Update the EP database for UAT
     jdk: JDK8
 
     properties:
@@ -47,7 +91,7 @@
     scm:
       - git:
           branches:
-            - "*/add-docker-building"
+            - "refs/heads/develop"
           url: git@github.com:CruGlobal/give-ep-devops.git
           wipe-workspace: false
           skip-tag: true
@@ -55,7 +99,7 @@
 
     maven:
       root-pom: pusher-package/pom.xml
-      goals: -B -U -e clean install -DskipAllTests -Dapplication.package.version=0-aws-messaging-SNAPSHOT
+      goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
       settings: /var/lib/jenkins/ep-settings.xml
       post-step-run-condition: SUCCESS
 
@@ -67,3 +111,249 @@
           -f ../environments/uat/pusher.conf \
           -f ../environments/uat/database.properties \
           -p ../target/ext-deployment-package-0-*.zip -d update-db;
+
+- job:
+    name: give-ep-commerce-engine-build-develop
+    project-type: maven
+    description: |
+        Builds the develop branch of give-ep-commerce-engine.
+        It skips tests, so mainly this is to check compilability.      
+    jdk: JDK8
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/give-ep-commerce-engine/
+
+    scm:
+      - git:
+          branches:
+            - "*/develop"
+          url: git@github.com:CruGlobal/give-ep-commerce-engine.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    maven:
+          goals: package -DskipAllTests --batch-mode --errors --threads 1C
+          maven-opts: -Xmx1536m
+          run-headless: true
+          settings: /var/lib/jenkins/ep-settings.xml
+
+- job:
+    name: give-ep-commerce-engine-test-develop
+    project-type: maven
+    description: |
+        Tests the develop branch of give-ep-commerce-engine.
+    jdk: JDK8
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/give-ep-commerce-engine/
+
+    scm:
+      - git:
+          branches:
+            - "*/develop"
+          url: git@github.com:CruGlobal/give-ep-commerce-engine.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    triggers:
+      - reverse:
+            jobs: give-ep-commerce-engine-build-develop
+            result: SUCCESS
+
+    maven:
+          goals: clean install --batch-mode --update-snapshots --errors --threads 1C
+          maven-opts: -Xmx1536m
+          run-headless: true
+          settings: /var/lib/jenkins/ep-settings.xml
+
+- job:
+    name: give-ep-commerce-engine-deploy-develop
+    project-type: maven
+    description: |
+        Deploys the develop branch of give-ep-commerce-engine to our nexus server.
+    jdk: JDK8
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/give-ep-commerce-engine/
+
+    scm:
+      - git:
+          branches:
+            - "*/develop"
+          url: git@github.com:CruGlobal/give-ep-commerce-engine.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    triggers:
+      - reverse:
+            jobs: give-ep-commerce-engine-test-develop
+            result: SUCCESS
+
+    maven:
+          goals: clean deploy -P with-source-jars -DskipAllTests  --batch-mode --update-snapshots --errors
+          maven-opts: -Xmx1536m
+          run-headless: true
+          settings: /var/lib/jenkins/ep-settings.xml
+
+- job:
+    name: give-ep-extensions-build-develop
+    project-type: maven
+    description: |
+        Builds the develop branch of give-ep-extensions.
+        It skips tests, so mainly this is to check compilability.      
+    jdk: JDK8
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/give-ep-extensions/
+
+    scm:
+      - git:
+          branches:
+            - "*/develop"
+          url: git@github.com:CruGlobal/give-ep-extensions.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    triggers:
+      - reverse:
+            jobs: give-ep-commerce-engine-deploy-develop
+            result: SUCCESS
+
+    maven:
+          goals: package -DskipAllTests --update-snapshots --errors  --batch-mode --threads 1C
+          maven-opts: -Xmx1536m
+          run-headless: true
+          settings: /var/lib/jenkins/ep-settings.xml
+
+- job:
+    name: give-ep-extensions-test-develop
+    project-type: maven
+    description: |
+        Tests the develop branch of give-ep-extensions.
+    jdk: JDK8
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/give-ep-extensions/
+
+    scm:
+      - git:
+          branches:
+            - "*/develop"
+          url: git@github.com:CruGlobal/give-ep-extensions.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    triggers:
+      - reverse:
+            jobs: give-ep-extensions-build-develop
+            result: SUCCESS
+
+    maven:
+          goals: clean test --batch-mode --threads 1C
+          maven-opts: -Xmx1536m
+          run-headless: true
+          settings: /var/lib/jenkins/ep-settings.xml
+
+- job:
+    name: give-ep-extensions-deploy-develop
+    project-type: maven
+    description: |
+        Deploys the develop branch of give-ep-extensions to our nexus server.
+    jdk: JDK8
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/give-ep-extensions/
+
+    scm:
+      - git:
+          branches:
+            - "*/develop"
+          url: git@github.com:CruGlobal/give-ep-extensions.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    triggers:
+      - reverse:
+            jobs: give-ep-extensions-test-develop
+            result: SUCCESS
+
+    maven:
+          goals: clean deploy --update-snapshots --errors --batch-mode
+          maven-opts: -Xmx1536m
+          run-headless: true
+          settings: /var/lib/jenkins/ep-settings.xml
+
+- job:
+    name: give-ep-cmclient-build-develop
+    project-type: maven
+    description: |
+        Builds the develop branch of give-ep-cmclient.
+    jdk: JDK8
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/give-ep-cmclient/
+
+    scm:
+      - git:
+          branches:
+            - "*/develop"
+          url: git@github.com:CruGlobal/give-ep-cmclient.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    triggers:
+      - reverse:
+            jobs: give-ep-extensions-deploy-develop
+            result: SUCCESS
+
+    maven:
+          goals: clean deploy -P multi-platform --update-snapshots --errors  --batch-mode
+          maven-opts: -Xmx1536m
+          run-headless: true
+          settings: /var/lib/jenkins/ep-settings.xml
+
+- job:
+    name: give-ep-deployment-package-deploy-develop
+    project-type: maven
+    description: |
+        Builds and Deploys the deployment package from the develop branch of give-ep-extensions to our nexus server.
+    jdk: JDK8
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/give-ep-extensions/
+
+    scm:
+      - git:
+          branches:
+            - "*/develop"
+          url: git@github.com:CruGlobal/give-ep-extensions.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    triggers:
+      - reverse:
+            jobs: give-ep-extensions-deploy-develop
+            result: SUCCESS
+
+    maven:
+          goals: clean deploy --update-snapshots --errors  --batch-mode
+          maven-opts: -Xmx1536m
+          run-headless: true
+          settings: /var/lib/jenkins/ep-settings.xml
+
