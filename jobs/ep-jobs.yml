@@ -133,7 +133,7 @@
           skip-tag: true
           prune: true
 
-    maven:
+    maven: &typicalMaven
           goals: package -DskipAllTests --batch-mode --errors --threads 1C
           maven-opts: -Xmx1536m
           run-headless: true
@@ -165,10 +165,8 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: clean install --batch-mode --update-snapshots --errors --threads 1C
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
 
 - job:
     name: give-ep-commerce-engine-deploy-develop
@@ -196,10 +194,8 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: clean deploy -P with-source-jars -DskipAllTests  --batch-mode --update-snapshots --errors
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
 
 - job:
     name: give-ep-extensions-build-develop
@@ -228,10 +224,8 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: package -DskipAllTests --update-snapshots --errors  --batch-mode --threads 1C
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
 
 - job:
     name: give-ep-extensions-test-develop
@@ -259,10 +253,8 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: clean test --batch-mode --threads 1C
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
 
 - job:
     name: give-ep-extensions-deploy-develop
@@ -290,10 +282,8 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: clean deploy --update-snapshots --errors --batch-mode
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
 
 - job:
     name: give-ep-cmclient-build-develop
@@ -321,10 +311,8 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: clean deploy -P multi-platform --update-snapshots --errors  --batch-mode
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
 
 - job:
     name: give-ep-deployment-package-deploy-develop
@@ -352,8 +340,5 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: clean deploy --update-snapshots --errors  --batch-mode
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
-
