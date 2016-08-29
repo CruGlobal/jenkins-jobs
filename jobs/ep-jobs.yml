@@ -112,6 +112,11 @@
           -f ../environments/uat/database.properties \
           -p ../target/ext-deployment-package-0-*.zip -d update-db;
 
+    reporters:
+      - email: &typicalEmail
+          recipients: 'matt.drees@cru.org, dhughes@xumak.com'
+          send-to-individuals: true
+
 - job:
     name: give-ep-commerce-engine-build-develop
     project-type: maven
@@ -140,6 +145,10 @@
           settings: /var/lib/jenkins/ep-settings.xml
           run-headless: true
           automatic-archiving: false
+
+    reporters:
+      - email:
+          <<: *typicalEmail
 
 - job:
     name: give-ep-commerce-engine-test-develop
@@ -170,6 +179,10 @@
           <<: *typicalMaven
           goals: clean install --batch-mode --update-snapshots --errors --threads 1C
 
+    reporters:
+      - email:
+          <<: *typicalEmail
+
 - job:
     name: give-ep-commerce-engine-deploy-develop
     project-type: maven
@@ -198,6 +211,10 @@
     maven:
           <<: *typicalMaven
           goals: clean deploy -P with-source-jars -DskipAllTests  --batch-mode --update-snapshots --errors
+
+    reporters:
+      - email:
+          <<: *typicalEmail
 
 - job:
     name: give-ep-extensions-build-develop
@@ -229,6 +246,10 @@
           <<: *typicalMaven
           goals: package -DskipAllTests --update-snapshots --errors  --batch-mode --threads 1C
 
+    reporters:
+      - email:
+          <<: *typicalEmail
+
 - job:
     name: give-ep-extensions-test-develop
     project-type: maven
@@ -257,6 +278,10 @@
     maven:
           <<: *typicalMaven
           goals: clean test --batch-mode --threads 1C
+
+    reporters:
+      - email:
+          <<: *typicalEmail
 
 - job:
     name: give-ep-extensions-deploy-develop
@@ -287,6 +312,10 @@
           <<: *typicalMaven
           goals: clean deploy --update-snapshots --errors --batch-mode
 
+    reporters:
+      - email:
+          <<: *typicalEmail
+
 - job:
     name: give-ep-cmclient-build-develop
     project-type: maven
@@ -316,6 +345,10 @@
           <<: *typicalMaven
           goals: clean deploy -P multi-platform --update-snapshots --errors  --batch-mode
 
+    reporters:
+      - email:
+          <<: *typicalEmail
+
 - job:
     name: give-ep-deployment-package-deploy-develop
     project-type: maven
@@ -344,3 +377,7 @@
     maven:
           <<: *typicalMaven
           goals: clean deploy --update-snapshots --errors  --batch-mode
+
+    reporters:
+      - email:
+          <<: *typicalEmail
