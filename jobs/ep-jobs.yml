@@ -112,6 +112,11 @@
           -f ../environments/uat/database.properties \
           -p ../target/ext-deployment-package-0-*.zip -d update-db;
 
+    reporters:
+      - email: &typicalEmail
+          recipients: 'matt.drees@cru.org, dhughes@xumak.com'
+          send-to-individuals: true
+
 - job:
     name: give-ep-commerce-engine-build-develop
     project-type: maven
@@ -133,11 +138,17 @@
           skip-tag: true
           prune: true
 
-    maven:
+    maven: &typicalMaven
           goals: package -DskipAllTests --batch-mode --errors --threads 1C
           maven-opts: -Xmx1536m
           run-headless: true
           settings: /var/lib/jenkins/ep-settings.xml
+          run-headless: true
+          automatic-archiving: false
+
+    reporters:
+      - email:
+          <<: *typicalEmail
 
 - job:
     name: give-ep-commerce-engine-test-develop
@@ -165,10 +176,12 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: clean install --batch-mode --update-snapshots --errors --threads 1C
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
+
+    reporters:
+      - email:
+          <<: *typicalEmail
 
 - job:
     name: give-ep-commerce-engine-deploy-develop
@@ -196,10 +209,12 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: clean deploy -P with-source-jars -DskipAllTests  --batch-mode --update-snapshots --errors
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
+
+    reporters:
+      - email:
+          <<: *typicalEmail
 
 - job:
     name: give-ep-extensions-build-develop
@@ -228,10 +243,12 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: package -DskipAllTests --update-snapshots --errors  --batch-mode --threads 1C
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
+
+    reporters:
+      - email:
+          <<: *typicalEmail
 
 - job:
     name: give-ep-extensions-test-develop
@@ -259,10 +276,12 @@
             result: SUCCESS
 
     maven:
-          goals: clean test --batch-mode --threads 1C
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
+          <<: *typicalMaven
+          goals: clean verify --errors --batch-mode --threads 1C
+
+    reporters:
+      - email:
+          <<: *typicalEmail
 
 - job:
     name: give-ep-extensions-deploy-develop
@@ -290,10 +309,12 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: clean deploy --update-snapshots --errors --batch-mode
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
+
+    reporters:
+      - email:
+          <<: *typicalEmail
 
 - job:
     name: give-ep-cmclient-build-develop
@@ -321,10 +342,12 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: clean deploy -P multi-platform --update-snapshots --errors  --batch-mode
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
+
+    reporters:
+      - email:
+          <<: *typicalEmail
 
 - job:
     name: give-ep-deployment-package-deploy-develop
@@ -352,8 +375,9 @@
             result: SUCCESS
 
     maven:
+          <<: *typicalMaven
           goals: clean deploy --update-snapshots --errors  --batch-mode
-          maven-opts: -Xmx1536m
-          run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
 
+    reporters:
+      - email:
+          <<: *typicalEmail
