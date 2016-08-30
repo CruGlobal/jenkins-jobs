@@ -277,7 +277,7 @@
 
     maven:
           <<: *typicalMaven
-          goals: clean test --batch-mode --threads 1C
+          goals: clean verify --batch-mode --threads 1C
 
     reporters:
       - email:
