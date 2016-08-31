@@ -1,7 +1,7 @@
 - job:
-    name: give-ep-docker-images-uat
+    name: give-ep-docker-images-develop
     description: |
-      Build EP docker images for UAT
+      Build EP docker images for UAT from develop branch
     jdk: JDK8
 
     properties:
