@@ -17,6 +17,9 @@
           skip-tag: true
           prune: true
 
+    triggers:
+      - github
+
     builders:
           - maven-target:
               maven-version: maven v3.3.9
@@ -138,6 +141,9 @@
           skip-tag: true
           prune: true
 
+    triggers:
+      - github          
+
     maven: &typicalMaven
           goals: package -DskipAllTests --batch-mode --errors --threads 1C
           maven-opts: -Xmx1536m
@@ -241,6 +247,7 @@
       - reverse:
             jobs: give-ep-commerce-engine-deploy-develop
             result: SUCCESS
+      - github
 
     maven:
           <<: *typicalMaven
@@ -340,6 +347,7 @@
       - reverse:
             jobs: give-ep-extensions-deploy-develop
             result: SUCCESS
+      - github
 
     maven:
           <<: *typicalMaven
