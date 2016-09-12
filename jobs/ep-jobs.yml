@@ -376,6 +376,7 @@
 
     maven:
           <<: *typicalMaven
+          root-pom: packager/pom.xml
           goals: clean deploy --update-snapshots --errors  --batch-mode
 
     reporters:
