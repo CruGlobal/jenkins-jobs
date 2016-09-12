@@ -300,8 +300,6 @@
 
       Historic builds can be manually deployed to either staging or production,
       by running the 'Deploy to Production' or the 'Deploy to Staging' build promotions.
-      (This won't work for builds that were not pushed to dockerhub --
-      currently, only staging/master images get pushed to dockerhub).
 
     parameters:
       - git:
