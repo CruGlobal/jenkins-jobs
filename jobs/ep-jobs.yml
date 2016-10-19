@@ -23,20 +23,20 @@
       - github
 
     builders:
-          - maven-target:
-              maven-version: maven v3.3.9
-              goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
-              java_opts:
-                - "-Xmx200m -XX:MaxPermSize=256m"
-              settings: ${JENKINS_HOME}/ep-settings.xml
+      - maven-target:
+          maven-version: maven v3.3.9
+          goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
+          java_opts:
+            - "-Xmx200m -XX:MaxPermSize=256m"
+          settings: ${JENKINS_HOME}/ep-settings.xml
 
-          - shell: |
-              cd docker-setup/DockerImageBuilder/
-              ./DockerImageBuilder.sh \
-              -p $WORKSPACE/pusher-package/target/ext-deployment-package-0-*.zip \
-              -f config/docker-build-development.conf \
-              -e development \
-              -t $GIT_COMMIT-$BUILD_NUMBER
+      - shell: |
+          cd docker-setup/DockerImageBuilder/
+          ./DockerImageBuilder.sh \
+          -p $WORKSPACE/pusher-package/target/ext-deployment-package-0-*.zip \
+          -f config/docker-build-development.conf \
+          -e development \
+          -t $GIT_COMMIT-$BUILD_NUMBER
 
 - job:
     name: give-ep-deploy-uat
@@ -149,7 +149,7 @@
           prune: true
 
     triggers:
-      - github          
+      - github
 
     maven: &typicalMaven
           goals: package -DskipAllTests --batch-mode --errors --threads 1C
@@ -525,23 +525,23 @@
       - github
 
     builders:
-          - maven-target:
-              maven-version: maven v3.3.9
-              settings: ${JENKINS_HOME}/ep-settings.xml
-              goals: |
-                clean
-                install
-                --batch-mode
-                --errors
-                -Dapplication.package.version=${RELEASE_NUMBER}
+      - maven-target:
+          maven-version: maven v3.3.9
+          settings: ${JENKINS_HOME}/ep-settings.xml
+          goals: |
+            clean
+            install
+            --batch-mode
+            --errors
+            -Dapplication.package.version=${RELEASE_NUMBER}
 
-          - shell: |
-              cd docker-setup/DockerImageBuilder/
-              ./DockerImageBuilder.sh \
-              -p $WORKSPACE/pusher-package/target/ext-deployment-package-${RELEASE_NUMBER}.zip \
-              -f config/docker-build-production.conf \
-              -e production \
-              -t $GIT_COMMIT-${RELEASE_NUMBER}
+      - shell: |
+          cd docker-setup/DockerImageBuilder/
+          ./DockerImageBuilder.sh \
+          -p $WORKSPACE/pusher-package/target/ext-deployment-package-${RELEASE_NUMBER}.zip \
+          -f config/docker-build-production.conf \
+          -e production \
+          -t $GIT_COMMIT-${RELEASE_NUMBER}
 
 - job:
     name: give-ep-deploy-prod
