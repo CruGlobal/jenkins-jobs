@@ -661,7 +661,7 @@
     name: give-ep-extensions-test-master
     project-type: maven
     description: |
-        Tests the develop master of give-ep-extensions.
+        Tests the master branch of give-ep-extensions.
     jdk: JDK8
 
     properties:
