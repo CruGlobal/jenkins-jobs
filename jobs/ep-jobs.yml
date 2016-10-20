@@ -13,7 +13,7 @@
     scm:
       - git:
           branches:
-            - "refs/heads/develop"
+            - origin/develop
           url: git@github.com:CruGlobal/give-ep-devops.git
           wipe-workspace: false
           skip-tag: true
@@ -101,7 +101,7 @@
     scm:
       - git:
           branches:
-            - "refs/heads/develop"
+            - origin/develop
           url: git@github.com:CruGlobal/give-ep-devops.git
           wipe-workspace: false
           skip-tag: true
@@ -142,7 +142,7 @@
     scm:
       - git:
           branches:
-            - "*/develop"
+            - origin/develop
           url: git@github.com:CruGlobal/give-ep-commerce-engine.git
           wipe-workspace: false
           skip-tag: true
@@ -176,7 +176,7 @@
     scm:
       - git:
           branches:
-            - "*/develop"
+            - origin/develop
           url: git@github.com:CruGlobal/give-ep-commerce-engine.git
           wipe-workspace: false
           skip-tag: true
@@ -209,7 +209,7 @@
     scm:
       - git:
           branches:
-            - "*/develop"
+            - origin/develop
           url: git@github.com:CruGlobal/give-ep-commerce-engine.git
           wipe-workspace: false
           skip-tag: true
@@ -243,7 +243,7 @@
     scm:
       - git:
           branches:
-            - "*/develop"
+            - origin/develop
           url: git@github.com:CruGlobal/give-ep-extensions.git
           wipe-workspace: false
           skip-tag: true
@@ -277,7 +277,7 @@
     scm:
       - git:
           branches:
-            - "*/develop"
+            - origin/develop
           url: git@github.com:CruGlobal/give-ep-extensions.git
           wipe-workspace: false
           skip-tag: true
@@ -310,7 +310,7 @@
     scm:
       - git:
           branches:
-            - "*/develop"
+            - origin/develop
           url: git@github.com:CruGlobal/give-ep-extensions.git
           wipe-workspace: false
           skip-tag: true
@@ -343,7 +343,7 @@
     scm:
       - git:
           branches:
-            - "*/develop"
+            - origin/develop
           url: git@github.com:CruGlobal/give-ep-cmclient.git
           wipe-workspace: false
           skip-tag: true
@@ -377,7 +377,7 @@
     scm:
       - git:
           branches:
-            - "*/develop"
+            - origin/develop
           url: git@github.com:CruGlobal/give-ep-extensions.git
           wipe-workspace: false
           skip-tag: true
@@ -412,7 +412,7 @@
     scm:
       - git:
           branches:
-            - "refs/heads/master"
+            - origin/master
           url: git@github.com:CruGlobal/give-ep-devops.git
           wipe-workspace: false
           skip-tag: true
@@ -500,7 +500,7 @@
     scm:
       - git:
           branches:
-            - "refs/heads/master"
+            - origin/master
           url: git@github.com:CruGlobal/give-ep-devops.git
           wipe-workspace: false
           skip-tag: true
@@ -570,7 +570,7 @@
     scm:
       - git:
           branches:
-            - "*/master"
+            - /origin/master
           url: git@github.com:CruGlobal/give-ep-commerce-engine.git
           wipe-workspace: false
           skip-tag: true
@@ -671,7 +671,7 @@
     scm:
       - git:
           branches:
-            - "*/master"
+            - /origin/master
           url: git@github.com:CruGlobal/give-ep-extensions.git
           wipe-workspace: false
           skip-tag: true
@@ -737,7 +737,7 @@
     scm:
       - git:
           branches:
-            - "*/master"
+            - /origin/master
           url: git@github.com:CruGlobal/give-ep-cmclient.git
           wipe-workspace: false
           skip-tag: true
