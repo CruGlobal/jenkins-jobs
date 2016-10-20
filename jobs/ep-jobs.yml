@@ -28,7 +28,7 @@
               goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
               java_opts:
                 - "-Xmx200m -XX:MaxPermSize=256m"
-              settings: /var/lib/jenkins/ep-settings.xml
+              settings: ${JENKINS_HOME}/ep-settings.xml
 
           - shell: |
               cd docker-setup/DockerImageBuilder/
@@ -110,7 +110,7 @@
     maven:
       root-pom: pusher-package/pom.xml
       goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
-      settings: /var/lib/jenkins/ep-settings.xml
+      settings: ${JENKINS_HOME}/ep-settings.xml
       post-step-run-condition: SUCCESS
 
     postbuilders:
@@ -155,7 +155,7 @@
           goals: package -DskipAllTests --batch-mode --errors --threads 1C
           maven-opts: -Xmx1536m
           run-headless: true
-          settings: /var/lib/jenkins/ep-settings.xml
+          settings: ${JENKINS_HOME}/ep-settings.xml
           automatic-archiving: false
 
     reporters:
@@ -427,7 +427,7 @@
               goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
               java_opts:
                 - "-Xmx200m -XX:MaxPermSize=256m"
-              settings: /var/lib/jenkins/ep-settings.xml
+              settings: ${JENKINS_HOME}/ep-settings.xml
 
           - shell: |
               cd docker-setup/DockerImageBuilder/
@@ -509,7 +509,7 @@
     maven:
       root-pom: pusher-package/pom.xml
       goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
-      settings: /var/lib/jenkins/ep-settings.xml
+      settings: ${JENKINS_HOME}/ep-settings.xml
       post-step-run-condition: SUCCESS
 
     postbuilders:
