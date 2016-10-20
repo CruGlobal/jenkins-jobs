@@ -400,10 +400,113 @@
 # Jobs that build from the master branch and deploy to Production
 
 - job:
+    name: give-ep-release-master
+    description: |
+      Performs a maven release of EP artifacts from the master branches of the extensions and commerce-engine repos.
+
+      This replaces the SNAPSHOT versions in each repo with the given RELEASE_NUMBER, and links the two together correctly.
+      Then it performs a maven build & deploy.
+    jdk: JDK8
+
+    parameters:
+      - string:
+          name: RELEASE_NUMBER
+          description: |
+            The maven release version to use for the deployed artifacts.
+
+            Note: this must (currently) start with a digit; it's depended upon by our wsdl extraction in BuildDockerImages.sh
+          default: ${BUILD_NUMBER}
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/give-ep-devops/
+
+    scm:
+      - git:
+          branches:
+            - origin/master
+          url: git@github.com:CruGlobal/give-ep-devops.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    builders:
+      - shell: |
+          #!/bin/bash
+
+          # make `mvn` available within set-ep-versions.sh
+          mvn() {
+            $(find ${JENKINS_HOME}/tools/hudson.tasks.Maven_MavenInstallation -name 'mvn' | sed -n 1p) $@
+          }
+          export -f mvn
+
+          mvn --version
+
+          mkdir -p release-workspace
+          cd release-workspace
+
+          ../scripts/release-give-ep.sh \
+            --release-branch master \
+            --maven-settings ${JENKINS_HOME}/ep-settings.xml \
+            ${RELEASE_NUMBER}
+
+      - maven-target: &releaseMavenBuild
+          maven-version: maven v3.3.9
+          settings: ${JENKINS_HOME}/ep-settings.xml
+          pom: release-workspace/commerce-engine/pom.xml
+          goals: |
+            clean
+            deploy
+            -DskipAllTests
+            --errors
+            --batch-mode
+
+      - maven-target:
+          <<: *releaseMavenBuild
+          pom: release-workspace/extensions/pom.xml
+          goals: |
+            clean
+            deploy
+            -DskipAllTests
+            --errors
+            --batch-mode
+            --activate-profiles deployment-package
+
+      - shell: |
+          #!/bin/bash
+          cd release-workspace/commerce-engine
+
+          git tag ${RELEASE_NUMBER}
+          git push origin ${RELEASE_NUMBER}
+          cd -
+
+          cd release-workspace/extensions
+          git tag ${RELEASE_NUMBER}
+          git push origin ${RELEASE_NUMBER}
+          cd -
+
+          git tag ${RELEASE_NUMBER}
+          git push origin ${RELEASE_NUMBER}
+
+    publishers:
+      - trigger-parameterized-builds:
+          - project: give-ep-docker-images-master
+            predefined-parameters: |
+              RELEASE_NUMBER=${RELEASE_NUMBER}
+
+
+- job:
     name: give-ep-docker-images-master
     description: |
       Build EP docker images for Production from master branch
     jdk: JDK8
+
+    parameters:
+      - string:
+          name: RELEASE_NUMBER
+          description: |
+            The maven version of the extensions deployment package to build/deploy.
+            This will normally be the build number of the jenkins job that built that package.
 
     properties:
       - github:
@@ -424,18 +527,21 @@
     builders:
           - maven-target:
               maven-version: maven v3.3.9
-              goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
-              java_opts:
-                - "-Xmx200m -XX:MaxPermSize=256m"
               settings: ${JENKINS_HOME}/ep-settings.xml
+              goals: |
+                clean
+                install
+                --batch-mode
+                --errors
+                -Dapplication.package.version=${RELEASE_NUMBER}
 
           - shell: |
               cd docker-setup/DockerImageBuilder/
               ./DockerImageBuilder.sh \
-              -p $WORKSPACE/pusher-package/target/ext-deployment-package-0-*.zip \
+              -p $WORKSPACE/pusher-package/target/ext-deployment-package-${RELEASE_NUMBER}.zip \
               -f config/docker-build-production.conf \
               -e production \
-              -t $GIT_COMMIT-$BUILD_NUMBER
+              -t $GIT_COMMIT-${RELEASE_NUMBER}
 
 - job:
     name: give-ep-deploy-prod
@@ -451,40 +557,42 @@
           description: "the give-ep devops commit to deploy"
 
       - string:
-          name: BUILD_NUMBER
-          description: "the build number of the give-ep-docker-images-master job to deploy"
+          name: RELEASE_NUMBER
+          description: "the release number of the image to deploy"
 
     publishers:
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-cortex
-              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              IMAGE_TAG=${GIT_COMMIT}-${RELEASE_NUMBER}
               GIT_BRANCH=origin/master
               ENVIRONMENT=production
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-cmserver
-              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              IMAGE_TAG=${GIT_COMMIT}-${RELEASE_NUMBER}
               GIT_BRANCH=origin/master
               ENVIRONMENT=production
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-integration
-              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              IMAGE_TAG=${GIT_COMMIT}-${RELEASE_NUMBER}
               GIT_BRANCH=origin/master
               ENVIRONMENT=production
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-search
-              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              IMAGE_TAG=${GIT_COMMIT}-${RELEASE_NUMBER}
               GIT_BRANCH=origin/master
               ENVIRONMENT=production
       - trigger-parameterized-builds:
           - project: give-ep-update-db-prod
+            predefined-parameters: |
+              RELEASE_NUMBER=${RELEASE_NUMBER}
 
 - job:
     name: give-ep-update-db-prod
@@ -492,6 +600,11 @@
     description: |
       Update the EP database for Production
     jdk: JDK8
+
+    parameters:
+      - string:
+          name: RELEASE_NUMBER
+          description: "the release number of the deployment package containing the database changes to apply"
 
     properties:
       - github:
@@ -508,7 +621,7 @@
 
     maven:
       root-pom: pusher-package/pom.xml
-      goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
+      goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots -Dapplication.package.version=${RELEASE_NUMBER}
       settings: ${JENKINS_HOME}/ep-settings.xml
       post-step-run-condition: SUCCESS
 
@@ -519,38 +632,7 @@
           ./PushDeploy.sh \
           -f ../environments/prod/pusher.conf \
           -f ../environments/prod/database.properties \
-          -p ../target/ext-deployment-package-0-*.zip -d update-db;
-
-    reporters:
-      - email:
-          <<: *typicalEmail
-
-- job:
-    name: give-ep-commerce-engine-build-master
-    project-type: maven
-    description: |
-        Builds the master branch of give-ep-commerce-engine.
-        It skips tests, so mainly this is to check compilability.      
-    jdk: JDK8
-
-    properties:
-      - github:
-          url: https://github.com/CruGlobal/give-ep-commerce-engine/
-
-    scm:
-      - git:
-          branches:
-            - "*/master"
-          url: git@github.com:CruGlobal/give-ep-commerce-engine.git
-          wipe-workspace: false
-          skip-tag: true
-          prune: true
-
-    triggers:
-      - github          
-
-    maven:
-          <<: *typicalMaven
+          -p ../target/ext-deployment-package-${RELEASE_NUMBER}.zip -d update-db;
 
     reporters:
       - email:
@@ -570,88 +652,18 @@
     scm:
       - git:
           branches:
-            - /origin/master
+            - origin/master
           url: git@github.com:CruGlobal/give-ep-commerce-engine.git
           wipe-workspace: false
           skip-tag: true
           prune: true
 
     triggers:
-      - reverse:
-            jobs: give-ep-commerce-engine-build-master
-            result: SUCCESS
-
-    maven:
-          <<: *typicalMaven
-          goals: clean install --batch-mode --update-snapshots --errors --threads 1C
-
-    reporters:
-      - email:
-          <<: *typicalEmail
-
-- job:
-    name: give-ep-commerce-engine-deploy-master
-    project-type: maven
-    description: |
-        Deploys the master branch of give-ep-commerce-engine to our nexus server.
-    jdk: JDK8
-
-    properties:
-      - github:
-          url: https://github.com/CruGlobal/give-ep-commerce-engine/
-
-    scm:
-      - git:
-          branches:
-            - "*/master"
-          url: git@github.com:CruGlobal/give-ep-commerce-engine.git
-          wipe-workspace: false
-          skip-tag: true
-          prune: true
-
-    triggers:
-      - reverse:
-            jobs: give-ep-commerce-engine-test-master
-            result: SUCCESS
-
-    maven:
-          <<: *typicalMaven
-          goals: clean deploy -P with-source-jars -DskipAllTests  --batch-mode --update-snapshots --errors
-
-    reporters:
-      - email:
-          <<: *typicalEmail
-
-- job:
-    name: give-ep-extensions-build-master
-    project-type: maven
-    description: |
-        Builds the master branch of give-ep-extensions.
-        It skips tests, so mainly this is to check compilability.      
-    jdk: JDK8
-
-    properties:
-      - github:
-          url: https://github.com/CruGlobal/give-ep-extensions/
-
-    scm:
-      - git:
-          branches:
-            - "*/master"
-          url: git@github.com:CruGlobal/give-ep-extensions.git
-          wipe-workspace: false
-          skip-tag: true
-          prune: true
-
-    triggers:
-      - reverse:
-            jobs: give-ep-commerce-engine-deploy-master
-            result: SUCCESS
       - github
 
     maven:
           <<: *typicalMaven
-          goals: package -DskipAllTests --update-snapshots --errors  --batch-mode --threads 1C
+          goals: clean install --batch-mode --update-snapshots --errors --threads 1C
 
     reporters:
       - email:
@@ -671,16 +683,14 @@
     scm:
       - git:
           branches:
-            - /origin/master
+            - origin/master
           url: git@github.com:CruGlobal/give-ep-extensions.git
           wipe-workspace: false
           skip-tag: true
           prune: true
 
     triggers:
-      - reverse:
-            jobs: give-ep-extensions-build-master
-            result: SUCCESS
+      - github
 
     maven:
           <<: *typicalMaven
@@ -690,38 +700,6 @@
       - email:
           <<: *typicalEmail
 
-- job:
-    name: give-ep-extensions-deploy-master
-    project-type: maven
-    description: |
-        Deploys the master branch of give-ep-extensions to our nexus server.
-    jdk: JDK8
-
-    properties:
-      - github:
-          url: https://github.com/CruGlobal/give-ep-extensions/
-
-    scm:
-      - git:
-          branches:
-            - "*/master"
-          url: git@github.com:CruGlobal/give-ep-extensions.git
-          wipe-workspace: false
-          skip-tag: true
-          prune: true
-
-    triggers:
-      - reverse:
-            jobs: give-ep-extensions-test-master
-            result: SUCCESS
-
-    maven:
-          <<: *typicalMaven
-          goals: clean deploy --update-snapshots --errors --batch-mode
-
-    reporters:
-      - email:
-          <<: *typicalEmail
 
 - job:
     name: give-ep-cmclient-build-master
@@ -737,55 +715,18 @@
     scm:
       - git:
           branches:
-            - /origin/master
+            - origin/master
           url: git@github.com:CruGlobal/give-ep-cmclient.git
           wipe-workspace: false
           skip-tag: true
           prune: true
 
     triggers:
-      - reverse:
-            jobs: give-ep-extensions-deploy-master
-            result: SUCCESS
       - github
 
     maven:
           <<: *typicalMaven
           goals: clean deploy -P multi-platform --update-snapshots --errors  --batch-mode
-
-    reporters:
-      - email:
-          <<: *typicalEmail
-
-- job:
-    name: give-ep-deployment-package-deploy-master
-    project-type: maven
-    description: |
-        Builds and Deploys the deployment package from the master branch of give-ep-extensions to our nexus server.
-    jdk: JDK8
-
-    properties:
-      - github:
-          url: https://github.com/CruGlobal/give-ep-extensions/
-
-    scm:
-      - git:
-          branches:
-            - "*/master"
-          url: git@github.com:CruGlobal/give-ep-extensions.git
-          wipe-workspace: false
-          skip-tag: true
-          prune: true
-
-    triggers:
-      - reverse:
-            jobs: give-ep-extensions-deploy-master
-            result: SUCCESS
-
-    maven:
-          <<: *typicalMaven
-          root-pom: packager/pom.xml
-          goals: clean deploy --update-snapshots --errors  --batch-mode
 
     reporters:
       - email:
