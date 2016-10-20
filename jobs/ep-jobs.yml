@@ -39,9 +39,12 @@
               -t $GIT_COMMIT-$BUILD_NUMBER
 
 - job:
-    name: give-ep-deploy-ecs-uat
+    name: give-ep-deploy-uat
     description: |
       Deploys the Give / Elastic path apps to UAT (aka Staging).
+
+      Specifically, this kicks off a deploy-ecs build for each of the four EP webapps,
+      and an update-db build for the database.
 
     parameters:
       - string:
@@ -81,6 +84,8 @@
               IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
               GIT_BRANCH=origin/develop
               ENVIRONMENT=staging
+      - trigger-parameterized-builds:
+          - project: give-ep-update-db-uat
 
 - job:
     name: give-ep-update-db-uat
@@ -434,9 +439,12 @@
               -t $GIT_COMMIT-$BUILD_NUMBER
 
 - job:
-    name: give-ep-deploy-ecs-prod
+    name: give-ep-deploy-prod
     description: |
       Deploys the Give / Elastic path apps to Production.
+
+      Specifically, this kicks off a deploy-ecs build for each of the four EP webapps,
+      and an update-db build for the database.
 
     parameters:
       - string:
@@ -476,6 +484,8 @@
               IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
               GIT_BRANCH=origin/master
               ENVIRONMENT=production
+      - trigger-parameterized-builds:
+          - project: give-ep-update-db-prod
 
 - job:
     name: give-ep-update-db-prod
