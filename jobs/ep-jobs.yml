@@ -156,7 +156,6 @@
           maven-opts: -Xmx1536m
           run-headless: true
           settings: /var/lib/jenkins/ep-settings.xml
-          run-headless: true
           automatic-archiving: false
 
     reporters:
