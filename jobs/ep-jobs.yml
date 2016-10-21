@@ -21,6 +21,9 @@
 
     triggers:
       - github
+      - reverse:
+            jobs: give-ep-deployment-package-deploy-develop
+            result: SUCCESS
 
     builders:
       - maven-target:
