@@ -16,9 +16,9 @@ Getting set up
  *  create a new env (eg `virtualenv venv`) and activate it (`source venv/bin/activate`)
  *  run `pip install -e .`
  *  run `pip install requests`
- *  you should be able to run `jenkins-jobs --version` now
+ *  you should be able to run `jenkins-jobs --version` now, and verify that version `1.4.1` printed
  *  in the same terminal (to keep `venv` active), change your working directory to the `jenkins-jobs` project
- *  generate the xml config for one of our jobs; eg `jenkins-jobs test jobs/jobs.yml mpdx | less`
+ *  generate the xml config for one of our jobs; eg `jenkins-jobs test jobs/app-jobs.yml mpdx | less`
  *  create `jenkins_jobs.ini` by copying `jenkins_jobs.ini.example` and fill in your username and api key
     (go to the [people][jenkins-people] page, find yourself, click 'Configure', and click 'Show API Token').
 
