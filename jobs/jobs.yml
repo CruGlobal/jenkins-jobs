@@ -258,6 +258,32 @@
     jobs:
       - 'rails-template'
 
+
+- project:
+    name: jesus-film-android
+    description-intro: Builds, tests, & deploys the Jesus Film Android App.
+    email-recipients: michael.harrison@cru.org
+    authorized-developers:
+      - michaelharro
+      - frett
+      - bleppard
+    crashlytics-group-default: jesus-film-android-alpha
+    jobs:
+      - 'mobile-group-template'
+
+- project:
+    name: jesus-film-ios
+    description-intro: Builds, tests, & deploys the Jesus Film iOS App.
+    email-recipients: michael.harrison@cru.org
+    authorized-developers:
+      - michaelharro
+      - charliepixegon
+      - mresimont
+    crashlytics-group-default: jesus-film-ios-alpha
+    jobs:
+      - 'mobile-group-template'
+
+
 - job-group:
     name: 'php-template'
     jobs:
@@ -281,6 +307,208 @@
     jobs:
         - '{name}':
             build-script: react_deploy.sh
+
+- publisher:
+    name: 'publish-mobile-screenshots'
+    publishers:
+      - html-publisher:
+          name: "Screen Shots"
+          dir: "fastlane/output/screenshots"
+          files: "screenshots.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+
+- publisher:
+    name: 'publish-mobile-html-unit-test-results'
+    publishers:
+      - html-publisher:
+          name: "Unit Test Results"
+          dir: "fastlane/output/unit_test_reports"
+          files: "report.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+
+- publisher:
+    name: 'publish-mobile-html-code-coverage-results'
+    publishers:
+      - html-publisher:
+          name: "Code Coverage Results"
+          dir: "fastlane/output/code_coverage_reports"
+          files: "index.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+
+- publisher:
+    name: 'publish-mobile-junit-results'
+    publishers:
+      - junit:
+          results: fastlane/report.xml
+          keep-long-stdio: true
+          health-scale-factor: 1.0
+          allow-empty-results: true
+
+
+- job-group:
+    name: 'mobile-group-template'
+    defaults:
+      crashlytics-group-default: ''
+    jobs:
+        - '{name}-{build-type}':
+            description-build-type-info: 'Runs when pull requests are created. It will run your tests and put the result on the PR.'
+            build-type: 'tests'
+            number-of-builds-to-keep: 1
+            mobile-parameters:
+              - git:
+                  name: sha1
+                  description: |
+                    If specified, jenkins will use this git branch to build.
+                    If not, jenkins will pick a branch (between 'master' and 'staging')
+                    that seems most likely to be the one you want built.
+                    This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
+                    or, if there are none of those, the most recently-built branch.
+                  type: branch
+                  branch-filter: '.*/merge'
+                  sort: 'descending'
+                  default: :origin/(master|staging)
+            git-branch: '$GIT_BRANCH'
+            git-branch-to-build: '$sha1'
+            git-fetch-filter-refspec: '+refs/pull/*:refs/remotes/origin/pr/*'
+            fastlane-lane: 'run_tests'
+            fastlane-env: 'tests'
+            triggers:
+              - github-pull-request:
+                  admin-list: '{obj:authorized-developers}'
+                  white-list: '{obj:authorized-developers}'
+                  white-list-target-branches: {git-branch}
+                  github-hooks: true
+                  status-context: 'Jenkins'
+                  status-add-test-results: 'true'
+                  triggered-status: 'Build has been triggered'
+                  started-status: 'Build has begun'
+                  success-status: 'Build success'
+                  failure-status: 'Build failed'
+                  error-status: 'Error during build'
+            publishers:
+              - 'publish-mobile-html-unit-test-results'
+              - 'publish-mobile-html-code-coverage-results'
+              - 'publish-mobile-junit-results'
+              - email:
+                  recipients: '{email-recipients}'
+        - '{name}-{build-type}':
+            description-build-type-info: 'Runs when pull requests are submitted to {git-branch} branch. If building and testing is successful the app will be deployed to crashlytics for beta testing.'
+            build-type: 'beta'
+            number-of-builds-to-keep: 5
+            parameters:
+              - string:
+                  name: CRASHLYTICS_GROUP
+                  default: {crashlytics-group-default}
+                  description: Alias of Crashlytics group to receive beta build
+            git-branch: 'develop'
+            git-branch-to-build: '$GIT_ORIGIN_BRANCH'
+            git-fetch-filter-refspec: '+refs/heads/develop:refs/remotes/origin/develop'
+            fastlane-lane: 'beta'
+            fastlane-env: 'beta'
+            triggers:
+              - github
+            publishers:
+              - 'publish-mobile-html-unit-test-results'
+              - 'publish-mobile-html-code-coverage-results'
+              - 'publish-mobile-junit-results'
+              - email:
+                  recipients: '{email-recipients}'
+        - '{name}-{build-type}':
+            description-build-type-info: 'Runs when pull requests are submitted to {git-branch} branch. If building and testing is successful the app will be deployed to crashlytics for beta testing.'
+            build-type: 'production'
+            number-of-builds-to-keep: -1
+            mobile-parameters:
+            git-branch: 'master'
+            git-branch-to-build: '$GIT_ORIGIN_BRANCH'
+            git-fetch-filter-refspec: '+refs/heads/master:refs/remotes/origin/master'
+            fastlane-lane: 'production'
+            fastlane-env: 'production'
+            triggers:
+              - github
+            publishers:
+              - 'publish-mobile-screenshots'
+              - 'publish-mobile-html-unit-test-results'
+              - 'publish-mobile-html-code-coverage-results'
+              - 'publish-mobile-junit-results'
+              - email:
+                  recipients: '{email-recipients}'
+
+
+
+- job-template:
+    name: '{name}-{build-type}'
+    node: mac
+    logrotate:
+      numToKeep: '{number-of-builds-to-keep}'
+    description: |
+      {description-intro}
+
+      {description-build-type-info}
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/{name}/
+      - inject:
+          properties-content: |
+            #ANDROID
+            ANDROID_SDK_PATH=/Volumes/External\ HD/android-sdk-macosx
+
+            #PATH
+            PATH=$PATH:/Users/Shared/Jenkins/.rbenv/shims:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Volumes/External\ HD/android-sdk-macosx/tools:/Volumes/External\ HD/android-sdk-macosx/platform-tools
+
+            #LANGUAGE SETTINGS (Fixes Ruby issue with Fastlane)
+            LANG=en_US.UTF-8
+            LANGUAGE=en_US.UTF-8
+            LC_ALL=en_US.UTF-8
+
+            GIT_BRANCH={git-branch}
+            GIT_ORIGIN_BRANCH=origin/$GIT_BRANCH
+    scm:
+      - git:
+          branches:
+            - {git-branch-to-build}
+          url: git@github.com:CruGlobal/{name}.git
+          credentials-id: '66c3b5a3-0f7c-4e22-97b2-a78fb5a73658'
+          refspec: {git-fetch-filter-refspec}
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+          excluded-users:
+            - cru-jenkins-mobile
+            - cru-jenkins2
+            - cru-jenkins
+    wrappers:
+      - build-name:
+          name: '$GIT_ORIGIN_BRANCH #$BUILD_NUMBER'
+      - ssh-agent-credentials:
+          users:
+            - '66c3b5a3-0f7c-4e22-97b2-a78fb5a73658'
+      - ansicolor:
+          colormap: xterm
+    builders:
+      - shell: |
+          #!/usr/bin/env bash
+          set +x
+          diffContent=$(git diff $GIT_ORIGIN_BRANCH^ $GIT_ORIGIN_BRANCH)
+          diffSearchString="fastlane[^/metadata]\|FASTLANE_USER\|FASTLANE_PASSWORD\|FASTLANE_DONT_STORE_PASSWORD\|FASTLANE_TEAM_ID\|CODE_SIGNING_IDENTITY\|CERT_PASSWORD\|KEYCHAIN_NAME|\KEYCHAIN_PASSWORD\|DELIVER_PASSWORD\|DELIVER_USER"
+          RED_COLOR='\033[0;31m'
+          NO_COLOR='\033[0m'
+          echo "$diffContent" | grep -q $diffSearchString
+          set -x
+          if [ $? -eq 0 ]; then
+            echo -e "$RED_COLOR" "Unfortunately you do not have permission to change build scripts. Contact your system admin if you think you should be able to run this build." "$NO_COLOR"
+            exit 1
+          else
+            exit 0
+          fi
+      - shell: |
+          bundle install
+          bundle exec fastlane {fastlane-lane} --env {fastlane-env}
 
 
 
