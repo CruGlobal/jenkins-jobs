@@ -127,7 +127,7 @@
 
     reporters:
       - email: &typicalEmail
-          recipients: 'matt.drees@cru.org, dhughes@xumak.com'
+          recipients: 'matt.drees@cru.org'
           send-to-individuals: true
 
 - job:
