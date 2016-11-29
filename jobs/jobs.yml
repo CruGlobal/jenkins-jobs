@@ -46,6 +46,15 @@
       - 'php-template'
 
 - project:
+    name: wordpress
+    description-intro: Builds, tests, & deploys the wordpress docker image.
+    email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org, david.sudarma@cru.org
+    jobs:
+      - 'php-template'
+
+
+
+- project:
     name: global_registry
     description-intro: Builds, tests, & deploys the Global Registry docker image.
     jobs:
@@ -130,7 +139,7 @@
 - project:
     name: mpdx
     description-intro: Builds, tests, & deploys the MPDX docker image.
-    email-recipients: josh.starcher@cru.org, dave.raffensperger@cru.org, spencer.oberstadt@cru.org
+    email-recipients: josh.starcher@cru.org, spencer.oberstadt@cru.org
     jobs:
       - 'rails-template'
 
@@ -264,6 +273,14 @@
     email-recipients: josh.starcher@cru.org
     jobs:
       - 'rails-template'
+
+- project:
+    name: staff-conf-onsite
+    description-intro: Builds, tests, & deploys the staff conference onsite docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'rails-template'
+
 
 - job-group:
     name: 'php-template'
