@@ -46,6 +46,13 @@
       - 'php-template'
 
 - project:
+    name: wordpress
+    description-intro: Builds, tests, & deploys the wordpress docker image.
+    email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org, david.sudarma@cru.org
+    jobs:
+      - 'php-template'
+
+- project:
     name: global_registry
     description-intro: Builds, tests, & deploys the Global Registry docker image.
     jobs:
@@ -242,7 +249,6 @@
     email-recipients: asaph.yuan@cru.org, david.raffensperger@cru.org
     jobs:
       - 'rails-template'
-
 
 - project:
     name: voke_admin
