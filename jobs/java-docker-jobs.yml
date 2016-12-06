@@ -149,7 +149,7 @@
 
     maven:
       root-pom: pom.xml
-      goals: 'clean package -Dimage.tag=${GIT_COMMIT}-${BUILD_NUMBER} -P CI -DskipTests'
+      goals: 'clean package -Dimage.tag=${{GIT_COMMIT}}-${{BUILD_NUMBER}} -P CI -DskipTests'
       post-step-run-condition: SUCCESS
 
     postbuilders:
