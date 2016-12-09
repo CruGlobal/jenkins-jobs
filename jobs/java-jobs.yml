@@ -21,6 +21,10 @@
       - the IP address of the target server
       - the management password for the wildfly 'deployer' user on the target server
 
+    properties:
+      - github:
+          url: http://github.com/CruGlobal/godtools-api/
+
     parameters:
       - choice:
           name: targetEnvironment
@@ -46,7 +50,7 @@
           wipe-workspace: false
           skip-tag: true
           prune: true
-          
+
     builders:
           - maven-builder:
               name: maven v3.3.9
