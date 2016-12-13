@@ -7,10 +7,10 @@
 
       cd ecs/{name}
       echo 'Building base image'
-      docker build -t cruglobal/{name}:latest .
+      docker build -t 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest .
 
       echo 'Pushing base image'
-      docker push cruglobal/{name}:latest
+      docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest
     jobs:
       - 'docker-{name}'
 
@@ -23,10 +23,10 @@
 
       cd ecs/{name}
       echo 'Building base image'
-      docker build -t cruglobal/{name}:latest .
+      docker build -t 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest .
 
       echo 'Pushing base image'
-      docker push cruglobal/{name}:latest
+      docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest
     jobs:
       - 'docker-{name}'
 
@@ -39,10 +39,10 @@
 
       cd ecs/{name}
       echo 'Building base image'
-      docker build -t cruglobal/{name}:latest .
+      docker build -t 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest .
 
       echo 'Pushing base image'
-      docker push cruglobal/{name}:latest
+      docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest
     jobs:
       - 'docker-{name}'
 
@@ -52,25 +52,6 @@
       Base docker image for Ruby on Rails apps. Supports ruby versions 2.2.2, 2.3.0 and 2.3.1
     build_command: |
       ecs/base-image-ruby-version-arg/build_ruby_versions
-    jobs:
-      - 'docker-{name}'
-
-- project:
-    name: base-image-solr-efs
-    image_description: |
-      Docker image for solr-efs testing
-    build_command: |
-      #!/bin/bash
-
-      pwd
-      ls -al
-      ls -al ecs
-      cd ecs/{name}
-      echo 'Building base image'
-      docker build -t cruglobal/{name}:latest .
-
-      echo 'Pushing base image'
-      docker push cruglobal/{name}:latest
     jobs:
       - 'docker-{name}'
 
