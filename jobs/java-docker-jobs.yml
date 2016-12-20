@@ -32,16 +32,13 @@
       Builds on the 'staging' branch automatically trigger a deployment
       of that image to the staging environment.
 
-      From 7am to 1pm on weekdays, builds on the 'master' branch automatically trigger a
-      deployment of that image to the production environment.
-
-      Only the master and staging branches are automatically built.
+      Only the staging branch is automatically built.
       Other branches may be manually built via `Build with Parameters`.
 
       Historic builds can be manually deployed to either staging or production,
       by running the 'Deploy to Production' or the 'Deploy to Staging' build promotions.
-      (This won't work for builds that were not pushed to dockerhub --
-      currently, only staging/master images get pushed to dockerhub).
+      (This won't work for builds that were not pushed to ECR --
+      currently, only staging/master images get pushed to ECR).
 
     parameters:
       - git:
@@ -108,6 +105,7 @@
                 earliest-min: "0"
                 latest-hour: "13"
                 latest-min: "0"
+              - condition-kind: never
             action:
               - trigger-parameterized-builds:
                   - project: deploy-ecs
@@ -128,6 +126,7 @@
                   condition-operands:
                     - <<: *is-weekday
                     - <<: *is-within-work-hours
+              - condition-kind: never
             action:
               - email-ext:
                   recipients: '{email-recipients}'
