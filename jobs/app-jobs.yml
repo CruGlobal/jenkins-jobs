@@ -25,6 +25,13 @@
       - 'rails-template'
 
 - project:
+    name: cru-bot
+    description-intro: Builds, tests, & deploys the cru-bot docker image.
+    email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org
+    jobs:
+      - 'php-template'
+
+- project:
     name: global-profile-api
     description-intro: Builds, tests, & deploys the global-profile-api docker image.
     email-recipients: brian.zoetewey@ccci.org
