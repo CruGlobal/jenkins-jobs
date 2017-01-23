@@ -149,13 +149,6 @@
       - 'rails-template'
 
 - project:
-    name: mpdx_api
-    description-intro: Builds, tests, & deploys the MPDX API docker image.
-    email-recipients: josh.starcher@cru.org, spencer.oberstadt@cru.org, tataihono.nikora@cru.org
-    jobs:
-      - 'rails-template'
-
-- project:
     name: ministry_locator
     description-intro: Builds, tests, & deploys the ministry locator docker image.
     email-recipients: josh.starcher@cru.org, spencer.oberstadt@cru.org
@@ -277,21 +270,12 @@
     jobs:
       - 'openresty-template'
 
-
 - project:
     name: voke-dashboards
     description-intro: Builds, tests, & deploys the Voke Dashboards API docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
       - 'rails-template'
-
-- project:
-    name: staff-conf-onsite
-    description-intro: Builds, tests, & deploys the staff conference onsite docker image.
-    email-recipients: josh.starcher@cru.org
-    jobs:
-      - 'rails-template'
-
 
 - job-group:
     name: 'php-template'
