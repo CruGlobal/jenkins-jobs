@@ -208,3 +208,23 @@
     wrappers:
       - build-name:
           name: '$GIT_BRANCH #$BUILD_NUMBER'
+
+- job:
+    name: create-jenkins-jobs
+    description: |
+      Create new jenkins jobs.
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/cru-ansible/
+
+    scm:
+      - git:
+          branches:
+          - master
+          url: git@github.com:CruGlobal/cru-ansible.git
+          wipe-workspace: false
+          skip-tag: true
+
+    builders:
+      - shell: ansible-playbook aws_jenkins_add_jobs.yml --tags="jjb_add_jobs"
