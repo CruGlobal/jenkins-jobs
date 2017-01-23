@@ -137,7 +137,14 @@
 - project:
     name: mpdx
     description-intro: Builds, tests, & deploys the MPDX docker image.
-    email-recipients: josh.starcher@cru.org, dave.raffensperger@cru.org, spencer.oberstadt@cru.org
+    email-recipients: josh.starcher@cru.org, spencer.oberstadt@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
+    name: mpdx_api
+    description-intro: Builds, tests, & deploys the MPDX API docker image.
+    email-recipients: josh.starcher@cru.org, dave.raffensperger@cru.org, spencer.oberstadt@cru.org, tataihono.nikora@cru.org
     jobs:
       - 'rails-template'
 
@@ -278,6 +285,14 @@
     jobs:
       - 'rails-template'
 
+- project:
+    name: staff-conf-onsite
+    description-intro: Builds, tests, & deploys the staff conference onsite docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'rails-template'
+
+
 - job-group:
     name: 'php-template'
     jobs:
@@ -320,8 +335,6 @@
 
       Historic builds can be manually deployed to either staging or production,
       by running the 'Deploy to Production' or the 'Deploy to Staging' build promotions.
-      (This won't work for builds that were not pushed to dockerhub --
-      currently, only staging/master images get pushed to dockerhub).
 
     parameters:
       - git:
