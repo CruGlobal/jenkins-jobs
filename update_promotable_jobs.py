@@ -1,5 +1,6 @@
 """
-    Adds both Production and Staging deployment promotion definitions.
+    Adds both Production and Staging deployment promotion definitions to
+    jobs defined in jobs/app-jobs.yml and jobs/java-app-jobs.yml
 """
 import requests
 import ConfigParser
@@ -15,18 +16,17 @@ def run():
         for environment in ['staging', 'production']:
             update_job_promotion(job, environment, cluster)
 
-
 def parse_job_data():
-    with open('jobs/jobs.yml', 'r') as stream:
-        data = yaml.safe_load(stream)
-        jobs = dict()
-        for item in data:
-            if 'project' in item:
-                project = item['project']
-                name = project['name']
-                jobs[name] = project
+    jobs = dict()
+    for file in ['jobs/app-jobs.yml','jobs/java-docker-jobs.yml']:
+        with open(file, 'r') as stream:
+            data = yaml.safe_load(stream)
+            for item in data:
+                if 'project' in item:
+                    project = item['project']
+                    name = project['name']
+                    jobs[name] = project
     return jobs
-
 
 def determine_jobs(job_data):
     all_jobs = job_data.keys()

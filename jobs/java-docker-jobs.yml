@@ -1,0 +1,163 @@
+- defaults:
+    name: global
+    email-recipients: $DEFAULT_RECIPIENTS
+    cluster: ''
+
+- project:
+    name: ert-api
+    description-intro: Builds, tests, & deploys the ERT API docker image.
+    email-recipients: mike.albert@cru.org
+    base-image: 056154071827.dkr.ecr.us-east-1.amazonaws.com/base-image-wildfly:syslog-tcp-socket-fix
+    jdk: JDK7
+    jobs:
+      - '{name}'
+
+- project:
+    name: thekey
+    description-intro: Builds, tests, & deploys theKey docker image.
+    email-recipients: mike.albert@cru.org
+    base-image: 056154071827.dkr.ecr.us-east-1.amazonaws.com/base-image-wildfly:syslog-tcp-socket-fix
+    jdk: JDK8
+    jobs:
+      - '{name}'
+
+# maven template for java apps on ECS
+- job-template:
+    name: '{name}'
+    project-type: maven
+    jdk: '{jdk}'
+    description: |
+      {description-intro}
+
+      Builds on the 'staging' branch automatically trigger a deployment
+      of that image to the staging environment.
+
+      Only the staging branch is automatically built.
+      Other branches may be manually built via `Build with Parameters`.
+
+      Historic builds can be manually deployed to either staging or production,
+      by running the 'Deploy to Production' or the 'Deploy to Staging' build promotions.
+      (This won't work for builds that were not pushed to ECR --
+      currently, only staging/master images get pushed to ECR).
+
+    parameters:
+      - git:
+          name: BRANCH_SPECIFIER
+          description: |
+            If specified, jenkins will use this git branch to build.
+            If not, jenkins will pick a branch (between 'master' and 'staging')
+            that seems most likely to be the one you want built.
+            This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
+            or, if there are none of those, the most recently-built branch.
+          type: branch
+          sort: none
+          default: origin/*
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/{name}/
+      - promoted-build:
+            names:
+              - Deploy to Staging
+              - Deploy to Production
+    scm:
+      - git:
+          branches:
+          - $BRANCH_SPECIFIER
+          browser: githubweb
+          browser-url: http://github.com/CruGlobal/{name}.git
+          url: git@github.com:CruGlobal/{name}.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    triggers:
+      - github
+
+    publishers:
+      - conditional-publisher:
+          - condition-kind: strings-match
+            condition-string1: "$GIT_BRANCH"
+            condition-string2: "origin/staging"
+            action:
+              - trigger-parameterized-builds:
+                  - project: deploy-ecs
+                    predefined-parameters: |
+                      IMAGE_TAG=$GIT_COMMIT-$BUILD_NUMBER
+                      PROJECT_NAME=$JOB_NAME
+                      GIT_COMMIT=$GIT_COMMIT
+                      GIT_BRANCH=$GIT_BRANCH
+                      ENVIRONMENT=staging
+                      CLUSTER={cluster}
+                    condition: SUCCESS
+          - condition-kind: and
+            condition-operands:
+              - &is-master
+                condition-kind: strings-match
+                condition-string1: "$GIT_BRANCH"
+                condition-string2: "origin/master"
+              - &is-weekday
+                condition-kind: day-of-week
+                day-selector: weekday
+              - &is-within-work-hours
+                condition-kind: time
+                earliest-hour: "7"
+                earliest-min: "0"
+                latest-hour: "13"
+                latest-min: "0"
+              - condition-kind: never
+            action:
+              - trigger-parameterized-builds:
+                  - project: deploy-ecs
+                    predefined-parameters: |
+                      IMAGE_TAG=$GIT_COMMIT-$BUILD_NUMBER
+                      PROJECT_NAME=$JOB_NAME
+                      GIT_COMMIT=$GIT_COMMIT
+                      GIT_BRANCH=$GIT_BRANCH
+                      ENVIRONMENT=production
+                      CLUSTER={cluster}
+                    condition: SUCCESS
+          - condition-kind: and
+            condition-operands:
+              - <<: *is-master
+              - condition-kind: not
+                condition-operand:
+                  condition-kind: and
+                  condition-operands:
+                    - <<: *is-weekday
+                    - <<: *is-within-work-hours
+              - condition-kind: never
+            action:
+              - email-ext:
+                  recipients: '{email-recipients}'
+                  failure: false
+                  success: true
+                  send-to:
+                    -  recipients
+                    -  requester
+                    -  developers
+                  body: |
+                    Note: $JOB_NAME #$BUILD_NUMBER was built, but was not automatically deployed to production since it is now after-hours.
+                    To manually deploy, run the 'Deploy to Production' promotion here:
+                    ${{BUILD_URL}}promotion/
+
+                    $DEFAULT_CONTENT
+                  presend-script: $DEFAULT_PRESEND_SCRIPT
+    prebuilders:
+      - shell: docker pull {base-image}
+
+    maven:
+      root-pom: pom.xml
+      goals: 'clean package -Dimage.tag=${{GIT_COMMIT}}-${{BUILD_NUMBER}} -P CI -DskipTests'
+      post-step-run-condition: SUCCESS
+
+    postbuilders:
+      - shell: |
+          docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:${{GIT_COMMIT}}-${{BUILD_NUMBER}};
+          docker rmi 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:${{GIT_COMMIT}}-${{BUILD_NUMBER}};
+
+    wrappers:
+      - build-name:
+          name: '$GIT_BRANCH #$BUILD_NUMBER'
+      - ansicolor:
+          colormap: xterm

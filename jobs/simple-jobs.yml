@@ -1,0 +1,230 @@
+- project:
+    name: base-image-nginx
+    image_description: |
+      Base docker image for nginx
+    build_command: |
+      #!/bin/bash
+
+      cd ecs/{name}
+      echo 'Building base image'
+      docker build -t 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest .
+
+      echo 'Pushing base image'
+      docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest
+    jobs:
+      - 'docker-{name}'
+
+- project:
+    name: base-image-openresty
+    image_description: |
+      Base docker image for openresty
+    build_command: |
+      #!/bin/bash
+
+      cd ecs/{name}
+      echo 'Building base image'
+      docker build -t 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest .
+
+      echo 'Pushing base image'
+      docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest
+    jobs:
+      - 'docker-{name}'
+
+- project:
+    name: base-image-php
+    image_description: |
+      Base docker image for php
+    build_command: |
+      #!/bin/bash
+
+      cd ecs/{name}
+      echo 'Building base image'
+      docker build -t 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest .
+
+      echo 'Pushing base image'
+      docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest
+    jobs:
+      - 'docker-{name}'
+
+- project:
+    name: base-image-ruby-version-arg
+    image_description: |
+      Base docker image for Ruby on Rails apps. Supports ruby versions 2.2.2, 2.3.0 and 2.3.1
+    build_command: |
+      ecs/base-image-ruby-version-arg/build_ruby_versions
+    jobs:
+      - 'docker-{name}'
+
+# template for docker image build jobs
+- job-template:
+    name: 'docker-{name}'
+    description: '{image_description}'
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/ecs_config
+      - inject:
+            properties-content: |
+              DEFAULT_RECIPIENTS=mike.albert@cru.org
+    scm:
+      - git:
+          branches:
+          - origin/ecr-switch
+          url: git@github.com:CruGlobal/ecs_config.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+          included-regions:
+            - ecs/{name}/.*
+    triggers:
+      - github
+    builders:
+      - shell: '{build_command}'
+
+    # actions that the Jenkins job should perform after the build is complete
+    publishers:
+      - email-ext:
+          recipients: $DEFAULT_RECIPIENTS
+          failure: true
+          success: true
+          attach-build-log: true
+          send-to:
+            -  recipients
+            -  requester
+          body: |
+            Email body for {name} goes here
+
+            $DEFAULT_CONTENT
+          presend-script: $DEFAULT_PRESEND_SCRIPT
+
+- job:
+    name: deploy-ecs
+    description: |
+      A generic job to deploy ECS tasks and services.
+      The parameters given define which docker image to pull from docker hub, and which ECS task and service to update.
+    concurrent: true
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/ecs_config
+
+    parameters:
+      - string:
+          name: PROJECT_NAME
+          description: The name of the project which should match the name of the docker hub repository
+
+      - string:
+          name: IMAGE_TAG
+          description: The tag of the image to deploy
+
+      - string:
+          name: ENVIRONMENT
+          description: Which environment to deploy to. If not provided, it will be determined from the git branch name.
+
+      - string:
+          name: GIT_BRANCH
+          description: Which git branch is being deployed. This is currently only used to determine ENVIRONMENT
+
+      - string:
+          name: CLUSTER
+          description: Which ECS cluster the app should be deployed to. By default, the stage cluster is used for all non-production environments, and prod is used for all production environments.
+
+      - string:
+          name: IMAGE_NAME
+          description: 'OPTIONAL: Allows for overriding docker image name derived by default from PROJECT_NAME'
+
+    scm:
+      - git:
+          branches:
+          - refs/remotes/origin/ecr-switch
+          url: git@github.com:CruGlobal/ecs_config.git
+          wipe-workspace: false
+          skip-tag: true
+
+    builders:
+      - shell: |
+          blackbox_postdeploy
+          DEPLOY_ONLY=true ./bin/deploy.sh
+          blackbox_shred_all_files
+
+    wrappers:
+      - build-name:
+          name: '${ENV,var="PROJECT_NAME"}-${ENV,var="ENVIRONMENT"} #${BUILD_NUMBER}'
+
+- job:
+    name: syslog-splunk
+    description: |
+      A job that builds changes to master and deploys the image to docker hub.
+      Builds automatically trigger a deployment of that image to the staging environment.
+      The "Deploy to Production" promotion process deploys that image to the production environment.
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/syslog-splunk/
+
+    parameters:
+      - git:
+          name: BRANCH_SPECIFIER
+          description: |
+            If specified, jenkins will use this git branch to build.
+            If not, jenkins will pick a branch (between 'master' and 'staging')
+            that seems most likely to be the one you want built.
+            This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
+            or, if there are none of those, the most recently-built branch.
+          type: branch
+          sort: ascending
+          default: "*/master"
+
+    scm:
+      - git:
+          branches:
+          - $BRANCH_SPECIFIER
+          url: git@github.com:CruGlobal/syslog-splunk.git
+          wipe-workspace: false
+          skip-tag: true
+
+    triggers:
+      - github
+
+    builders:
+      - shell: ./build.rb --push
+
+    publishers:
+      - conditional-publisher:
+          - condition-kind: strings-match
+            condition-string1: "$GIT_BRANCH"
+            condition-string2: "origin/master"
+            action:
+              - trigger-parameterized-builds:
+                  - project: deploy-ecs
+                    predefined-parameters: |
+                      IMAGE_TAG=$GIT_COMMIT-$BUILD_NUMBER
+                      PROJECT_NAME=$JOB_NAME
+                      GIT_COMMIT=$GIT_COMMIT
+                      GIT_BRANCH=$GIT_BRANCH
+                      ENVIRONMENT=staging
+                      CLUSTER={cluster}
+                    condition: SUCCESS
+
+    wrappers:
+      - build-name:
+          name: '$GIT_BRANCH #$BUILD_NUMBER'
+
+- job:
+    name: create-jenkins-jobs
+    description: |
+      Create new jenkins jobs.
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/cru-ansible/
+
+    scm:
+      - git:
+          branches:
+          - master
+          url: git@github.com:CruGlobal/cru-ansible.git
+          wipe-workspace: false
+          skip-tag: true
+
+    builders:
+      - shell: ansible-playbook aws_jenkins_add_jobs.yml --tags="jjb_add_jobs"
