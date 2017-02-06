@@ -68,7 +68,7 @@
     scm:
       - git:
           branches:
-          - origin/ecr-switch
+          - origin/master
           url: git@github.com:CruGlobal/ecs_config.git
           wipe-workspace: false
           skip-tag: true
