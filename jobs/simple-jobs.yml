@@ -135,7 +135,7 @@
     scm:
       - git:
           branches:
-          - refs/remotes/origin/ecr-switch
+          - refs/remotes/origin/master
           url: git@github.com:CruGlobal/ecs_config.git
           wipe-workspace: false
           skip-tag: true
