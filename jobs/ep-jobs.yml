@@ -524,9 +524,6 @@
           skip-tag: true
           prune: true
 
-    triggers:
-      - github
-
     builders:
       - maven-target:
           maven-version: maven v3.3.9
