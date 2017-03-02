@@ -18,6 +18,13 @@
       - 'rails-template'
 
 - project:
+    name: college-bound
+    description-intro: Builds and deploys the college-bound image.
+    email-recipients: spencer.oberstadt@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
     name: cruprojects
     description-intro: Builds, tests, & deploys the cruprojects.com docker image.
     email-recipients: spencer.oberstadt@cru.org
