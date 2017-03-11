@@ -278,7 +278,14 @@
       - 'openresty-template'
 
 - project:
-    name: voke-dashboards
+    name: cruorg_proxy
+    description-intro: Builds, tests, & deploys the cruorg_proxy docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'openresty-template'
+
+- project:
+    name: model_contracts
     description-intro: Builds, tests, & deploys the Voke Dashboards API docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
