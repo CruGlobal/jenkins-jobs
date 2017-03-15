@@ -289,7 +289,7 @@
     description-intro: Builds, tests, & deploys the Voke Dashboards API docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
-      - 'rails-template'
+      - 'php-template'
 
 - job-group:
     name: 'php-template'
