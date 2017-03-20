@@ -56,7 +56,7 @@
 
       - string:
           name: BUILD_NUMBER
-          description: "the build number of the give-ep-docker-images-uat job to deploy"
+          description: "the build number of the give-ep-docker-images-develop job to deploy"
 
     publishers:
       - trigger-parameterized-builds:
@@ -731,3 +731,94 @@
     reporters:
       - email:
           <<: *typicalEmail
+
+- job:
+    name: give-ep-deploy-test
+    description: |
+      Deploys the Give / Elastic path apps to test.
+
+      Specifically, this kicks off a deploy-ecs build for each of the four EP webapps,
+      and an update-db build for the database.  This job currently uses the docker
+      images from give-ep-docker-images-develop.
+
+    parameters:
+      - string:
+          name: GIT_COMMIT
+          description: "the give-ep devops commit to deploy"
+
+      - string:
+          name: BUILD_NUMBER
+          description: "the build number of the give-ep-docker-images-develop job to deploy"
+
+    publishers:
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=give-ep-cortex
+              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              GIT_BRANCH=origin/develop
+              ENVIRONMENT=test
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=give-ep-cmserver
+              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              GIT_BRANCH=origin/develop
+              ENVIRONMENT=test
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=give-ep-integration
+              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              GIT_BRANCH=origin/develop
+              ENVIRONMENT=test
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=give-ep-search
+              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              GIT_BRANCH=origin/develop
+              ENVIRONMENT=test
+      - trigger-parameterized-builds:
+          - project: give-ep-update-db-test
+
+- job:
+    name: give-ep-update-db-test
+    project-type: maven
+    description: |
+      Update the EP database for test
+    jdk: JDK8
+
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/give-ep-devops/
+
+    scm:
+      - git:
+          branches:
+            - origin/develop
+          url: git@github.com:CruGlobal/give-ep-devops.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+
+    maven:
+      root-pom: pusher-package/pom.xml
+      goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
+      settings: ${JENKINS_HOME}/ep-settings.xml
+      post-step-run-condition: SUCCESS
+
+    postbuilders:
+      - shell: |
+          cd pusher-package/the-pusher/;
+
+          ./PushDeploy.sh \
+          -f ../environments/test/pusher.conf \
+          -f ../environments/test/database.properties \
+          -p ../target/ext-deployment-package-0-*.zip -d update-db;
+
+    reporters:
+      - email: &typicalEmail
+          recipients: 'matt.drees@cru.org'
+          send-to-individuals: true
+
