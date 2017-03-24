@@ -98,7 +98,7 @@
       - shell: |
           cd docker-setup/DockerImageBuilder/
           ./DockerImageBuilder.sh \
-          -p $WORKSPACE/pusher-package/target/ext-deployment-package-${RELEASE_NUMBER}.zip \
+          -p $WORKSPACE/pusher-package/target/ext-deployment-package-${{RELEASE_NUMBER}}.zip \
           -f config/docker-build-production.conf \
           -e production \
           -t $GIT_COMMIT-${{RELEASE_NUMBER}}
