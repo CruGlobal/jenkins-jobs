@@ -1,47 +1,6 @@
 # Jobs that build from the develop branch and deploy to UAT
 
 - job:
-    name: give-ep-docker-images-develop
-    description: |
-      Build EP docker images for UAT from develop branch
-    jdk: JDK8
-
-    properties:
-      - github:
-          url: https://github.com/CruGlobal/give-ep-devops/
-
-    scm:
-      - git:
-          branches:
-            - origin/develop
-          url: git@github.com:CruGlobal/give-ep-devops.git
-          wipe-workspace: false
-          skip-tag: true
-          prune: true
-
-    triggers:
-      - github
-      - reverse:
-            jobs: give-ep-deployment-package-deploy-develop
-            result: SUCCESS
-
-    builders:
-      - maven-target:
-          maven-version: maven v3.3.9
-          goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
-          java_opts:
-            - "-Xmx200m -XX:MaxPermSize=256m"
-          settings: ${JENKINS_HOME}/ep-settings.xml
-
-      - shell: |
-          cd docker-setup/DockerImageBuilder/
-          ./DockerImageBuilder.sh \
-          -p $WORKSPACE/pusher-package/target/ext-deployment-package-0-*.zip \
-          -f config/docker-build-development.conf \
-          -e development \
-          -t $GIT_COMMIT-$BUILD_NUMBER
-
-- job:
     name: give-ep-deploy-staging
     description: |
       Deploys the Give / Elastic path apps to UAT (aka Staging).
@@ -496,52 +455,6 @@
           - project: give-ep-docker-images-master
             predefined-parameters: |
               RELEASE_NUMBER=${RELEASE_NUMBER}
-
-
-- job:
-    name: give-ep-docker-images-master
-    description: |
-      Build EP docker images for Production from master branch
-    jdk: JDK8
-
-    parameters:
-      - string:
-          name: RELEASE_NUMBER
-          description: |
-            The maven version of the extensions deployment package to build/deploy.
-            This will normally be the build number of the jenkins job that built that package.
-
-    properties:
-      - github:
-          url: https://github.com/CruGlobal/give-ep-devops/
-
-    scm:
-      - git:
-          branches:
-            - origin/master
-          url: git@github.com:CruGlobal/give-ep-devops.git
-          wipe-workspace: false
-          skip-tag: true
-          prune: true
-
-    builders:
-      - maven-target:
-          maven-version: maven v3.3.9
-          settings: ${JENKINS_HOME}/ep-settings.xml
-          goals: |
-            clean
-            install
-            --batch-mode
-            --errors
-            -Dapplication.package.version=${RELEASE_NUMBER}
-
-      - shell: |
-          cd docker-setup/DockerImageBuilder/
-          ./DockerImageBuilder.sh \
-          -p $WORKSPACE/pusher-package/target/ext-deployment-package-${RELEASE_NUMBER}.zip \
-          -f config/docker-build-production.conf \
-          -e production \
-          -t $GIT_COMMIT-${RELEASE_NUMBER}
 
 - job:
     name: give-ep-deploy-production
