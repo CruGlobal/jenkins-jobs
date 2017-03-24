@@ -43,7 +43,7 @@
           goals: clean install -DskipAllTests --batch-mode --errors --update-snapshots
           java_opts:
             - "-Xmx200m -XX:MaxPermSize=256m"
-          settings: ${JENKINS_HOME}/ep-settings.xml
+          settings: ${{JENKINS_HOME}}/ep-settings.xml
 
       - shell: |
           cd docker-setup/DockerImageBuilder/
@@ -87,7 +87,7 @@
     builders:
       - maven-target:
           maven-version: maven v3.3.9
-          settings: ${JENKINS_HOME}/ep-settings.xml
+          settings: ${{JENKINS_HOME}}/ep-settings.xml
           goals: |
             clean
             install
@@ -101,4 +101,4 @@
           -p $WORKSPACE/pusher-package/target/ext-deployment-package-${RELEASE_NUMBER}.zip \
           -f config/docker-build-production.conf \
           -e production \
-          -t $GIT_COMMIT-${RELEASE_NUMBER}
+          -t $GIT_COMMIT-${{RELEASE_NUMBER}}
