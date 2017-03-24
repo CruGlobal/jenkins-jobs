@@ -818,7 +818,6 @@
           -p ../target/ext-deployment-package-0-*.zip -d update-db;
 
     reporters:
-      - email: &typicalEmail
-          recipients: 'matt.drees@cru.org'
-          send-to-individuals: true
+      - email:
+          <<: *typicalEmail
 
