@@ -93,7 +93,7 @@
             install
             --batch-mode
             --errors
-            -Dapplication.package.version=${RELEASE_NUMBER}
+            -Dapplication.package.version=${{RELEASE_NUMBER}}
 
       - shell: |
           cd docker-setup/DockerImageBuilder/
