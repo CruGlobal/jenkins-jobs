@@ -42,7 +42,7 @@
           -t $GIT_COMMIT-$BUILD_NUMBER
 
 - job:
-    name: give-ep-deploy-uat
+    name: give-ep-deploy-staging
     description: |
       Deploys the Give / Elastic path apps to UAT (aka Staging).
 
@@ -91,10 +91,10 @@
           - project: give-ep-update-db-uat
 
 - job:
-    name: give-ep-update-db-uat
+    name: give-ep-update-db-staging
     project-type: maven
     description: |
-      Update the EP database for UAT
+      Update the EP database for UAT (aka Staging)
     jdk: JDK8
 
     properties:
@@ -544,7 +544,7 @@
           -t $GIT_COMMIT-${RELEASE_NUMBER}
 
 - job:
-    name: give-ep-deploy-prod
+    name: give-ep-deploy-production
     description: |
       Deploys the Give / Elastic path apps to Production.
 
@@ -595,7 +595,7 @@
               RELEASE_NUMBER=${RELEASE_NUMBER}
 
 - job:
-    name: give-ep-update-db-prod
+    name: give-ep-update-db-production
     project-type: maven
     description: |
       Update the EP database for Production
