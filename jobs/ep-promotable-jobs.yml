@@ -1,10 +1,12 @@
 - project:
     name: give-ep-docker-images-develop
+    environment: staging
     jobs:
       - give-ep-docker-images-develop
 
 - project:
     name: give-ep-docker-images-master
+    environment: production
     jobs:
       - give-ep-docker-images-master
 
@@ -13,7 +15,6 @@
     description: |
       Build EP docker images for UAT from develop branch
     jdk: JDK8
-    environment: staging
 
     properties:
       - github:
@@ -59,7 +60,6 @@
     description: |
       Build EP docker images for Production from master branch
     jdk: JDK8
-    environment: production
 
     parameters:
       - string:
