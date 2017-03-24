@@ -18,6 +18,9 @@
     properties:
       - github:
           url: https://github.com/CruGlobal/give-ep-devops/
+      - promoted-build:
+            names:
+              - Deploy to Staging
 
     scm:
       - git:
@@ -68,6 +71,9 @@
     properties:
       - github:
           url: https://github.com/CruGlobal/give-ep-devops/
+      - promoted-build:
+            names:
+              - Deploy to Production
 
     scm:
       - git:
