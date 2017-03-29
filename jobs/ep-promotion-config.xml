@@ -34,19 +34,18 @@ BUILD_NUMBER=${PROMOTED_NUMBER}</properties>
         </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
       </configs>
     </hudson.plugins.parameterizedtrigger.BuildTrigger>
-    <hudson.plugins.parameterizedtrigger.TriggerBuilder>
+    <hudson.plugins.parameterizedtrigger.BuildTrigger>
       <configs>
-        <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
+        <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
           <configs>
             <hudson.plugins.parameterizedtrigger.CurrentBuildParameters/>
           </configs>
           <projects>give-ep-update-db-prod</projects>
-          <condition>ALWAYS</condition>
+          <condition>SUCCESS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
           <triggerFromChildProjects>false</triggerFromChildProjects>
-          <buildAllNodesWithLabel>false</buildAllNodesWithLabel>
-        </hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
+        </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
       </configs>
-    </hudson.plugins.parameterizedtrigger.TriggerBuilder>
+    </hudson.plugins.parameterizedtrigger.BuildTrigger>
   </buildSteps>
 </hudson.plugins.promoted__builds.PromotionProcess>
