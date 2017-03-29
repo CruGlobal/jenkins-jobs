@@ -40,7 +40,7 @@ BUILD_NUMBER=${PROMOTED_NUMBER}</properties>
           <configs>
             <hudson.plugins.parameterizedtrigger.CurrentBuildParameters/>
           </configs>
-          <projects>give-ep-update-db-prod</projects>
+          <projects>give-ep-update-db-{{environment}}</projects>
           <condition>SUCCESS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
           <triggerFromChildProjects>false</triggerFromChildProjects>
