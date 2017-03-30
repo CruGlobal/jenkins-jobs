@@ -47,7 +47,7 @@
               GIT_BRANCH=origin/develop
               ENVIRONMENT=staging
       - trigger-parameterized-builds:
-          - project: give-ep-update-db-uat
+          - project: give-ep-update-db-staging
 
 - job:
     name: give-ep-update-db-staging
@@ -503,7 +503,7 @@
               GIT_BRANCH=origin/master
               ENVIRONMENT=production
       - trigger-parameterized-builds:
-          - project: give-ep-update-db-prod
+          - project: give-ep-update-db-production
             predefined-parameters: |
               RELEASE_NUMBER=${RELEASE_NUMBER}
 
