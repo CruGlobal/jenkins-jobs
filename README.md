@@ -14,4 +14,4 @@ How to Add a Job
  * simple-jobs.yml --> Docker image build jobs and other misc jobs
 * Issue a pull request against master and assign to Mike Albert or Matt Drees
 * After approval has been given, merge to master and delete the feature branch
-* To create your new job on Jenkins, run the "create-jenkins-jobs" job on Jenkins Production. **Note: Contact Matt Drees or Karl Kranich before executing this job as it will affect existing ElasticPath jobs**
+* To create your new job on Jenkins, run the "create-jenkins-jobs" job on Jenkins Production.
