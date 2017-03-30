@@ -1,6 +1,8 @@
 """
     Adds both Production and Staging deployment promotion definitions to
     jobs defined in jobs/app-jobs.yml and jobs/java-app-jobs.yml
+
+    Adds custom promotion definitions to ep jobs in jobs/ep-promotable-jobs.yml
 """
 import requests
 import ConfigParser
@@ -9,16 +11,26 @@ import yaml
 
 
 def run():
-    job_data = parse_job_data()
-    jobs = determine_jobs(job_data)
-    for job in jobs:
-        cluster = job_data[job].get('cluster', '')
-        for environment in ['staging', 'production']:
-            update_job_promotion(job, environment, cluster)
+    job_data = parse_job_data(['jobs/app-jobs.yml','jobs/java-docker-jobs.yml'])
+    try:
+       jobs = determine_jobs(job_data)
+       xml_config_file = "jobs/promotion-config.xml"
+       for job in jobs:
+           cluster = job_data[job].get('cluster', '')
+           for environment in ['staging', 'production']:
+               update_job_promotion(job, environment, cluster, xml_config_file)
+    finally:
+        job_data = parse_job_data(['jobs/ep-promotable-jobs.yml'])
+        jobs = determine_jobs(job_data)
+        xml_config_file = "jobs/ep-promotion-config.xml"
+        for job in jobs:
+            cluster = job_data[job].get('cluster', '')
+            environment = job_data[job].get('environment', 'staging')
+            update_job_promotion(job, environment, cluster, xml_config_file)
 
-def parse_job_data():
+def parse_job_data(files):
     jobs = dict()
-    for file in ['jobs/app-jobs.yml','jobs/java-docker-jobs.yml']:
+    for file in files:
         with open(file, 'r') as stream:
             data = yaml.safe_load(stream)
             for item in data:
@@ -39,7 +51,7 @@ def determine_jobs(job_data):
     return jobs
 
 
-def update_job_promotion(job, environment, cluster):
+def update_job_promotion(job, environment, cluster, xml_config_file):
     if environment == "production":
         promotion_process = "Deploy to Production"
         icon = "star-gold"
@@ -52,7 +64,7 @@ def update_job_promotion(job, environment, cluster):
     config = ConfigParser.RawConfigParser()
     config.read('jenkins_jobs.ini')
 
-    content = load_config_content(cluster, environment, icon)
+    content = load_config_content(cluster, environment, icon, xml_config_file)
     print("Updating job: ", job)
     create_or_update_job(config, content, job, promotion_process)
 
@@ -75,8 +87,8 @@ def create_or_update_job(config, config_content, job, promotion_process):
         print("Updated job: %s; process: %s; Response Code: %s" % (job, promotion_process, r))
 
 
-def load_config_content(cluster, environment, icon):
-    config_to_use = "jobs/promotion-config.xml"
+def load_config_content(cluster, environment, icon, xml_config_file):
+    config_to_use = xml_config_file
     with open(config_to_use, 'r') as config_file:
         content = config_file.read()
     content = content.replace("{{icon}}", icon)
