@@ -454,6 +454,7 @@
       - trigger-parameterized-builds:
           - project: give-ep-docker-images-master
             current-parameters: true
+            condition: SUCCESS
 
 - job:
     name: give-ep-deploy-production
