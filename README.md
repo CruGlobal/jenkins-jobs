@@ -6,7 +6,7 @@ This project contains configuration for all jobs running on jenkins-prod.cru.org
 How to Add a Job
 ----------------
 * Create a feature branch and add your job definition to the appropriate yaml file.
- * app -jobs.yml --> Ruby on Rails, PHP, openresty and react apps running on ECS/Docker
+ * app-jobs.yml --> Ruby on Rails, PHP, openresty and react apps running on ECS/Docker
  * ep-jobs.yml --> ElasticPath jobs
  * ep-promotable-jobs.yml --> ElasticPath jobs that use the promotable jobs plugin
  * java-docker-jobs.yml --> Java apps running on ECS/docker
