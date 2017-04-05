@@ -80,6 +80,13 @@
       - 'php-template'
 
 - project:
+    name: mobile-content-api
+    description-intro: Builds, tests, & deploys the Mobile Content API docker image.
+    email-recipients: daniel.goers@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
     name: infobase
     description-intro: Builds, tests, & deploys the Infobase docker image.
     email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
