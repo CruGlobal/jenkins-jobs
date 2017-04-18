@@ -453,7 +453,8 @@
     publishers:
       - trigger-parameterized-builds:
           - project: give-ep-docker-images-master
-            current-parameters: true
+            predefined-parameters: |
+              RELEASE_NUMBER=${RELEASE_NUMBER}
             condition: SUCCESS
 
 - job:
