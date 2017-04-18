@@ -26,6 +26,7 @@
               <properties>GIT_COMMIT=${PROMOTED_GIT_COMMIT}
 BUILD_NUMBER=${PROMOTED_NUMBER}</properties>
             </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+            <hudson.plugins.parameterizedtrigger.CurrentBuildParameters/>
           </configs>
           <projects>give-ep-deploy-{{environment}}</projects>
           <condition>SUCCESS</condition>

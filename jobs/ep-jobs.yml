@@ -455,6 +455,7 @@
           - project: give-ep-docker-images-master
             predefined-parameters: |
               RELEASE_NUMBER=${RELEASE_NUMBER}
+            condition: SUCCESS
 
 - job:
     name: give-ep-deploy-production
