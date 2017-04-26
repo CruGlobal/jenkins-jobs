@@ -1,20 +1,4 @@
 - project:
-    name: base-image-nginx
-    image_description: |
-      Base docker image for nginx
-    build_command: |
-      #!/bin/bash
-
-      cd ecs/{name}
-      echo 'Building base image'
-      docker build -t 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest .
-
-      echo 'Pushing base image'
-      docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest
-    jobs:
-      - 'docker-{name}'
-
-- project:
     name: base-image-openresty
     image_description: |
       Base docker image for openresty
