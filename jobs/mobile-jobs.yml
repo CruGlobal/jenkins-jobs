@@ -52,21 +52,6 @@
           health-scale-factor: 1.0
           allow-empty-results: true
 
-- '{name}-{build-type}':
-            parameters:
-              - string:
-                  name: CRASHLYTICS_GROUP
-                  default: {crashlytics-group-default}
-                  description: Alias of Crashlytics group to receive beta build
-            triggers:
-              - github
-            publishers:
-              - 'publish-mobile-html-unit-test-results'
-              - 'publish-mobile-html-code-coverage-results'
-              - 'publish-mobile-junit-results'
-              - email:
-                  recipients: '{email-recipients}'
-
 - job-template:
     name: '{name}-beta'
     node: mac
@@ -76,6 +61,11 @@
       {description-intro}
 
       Runs when pull requests are submitted to develop branch. If building and testing is successful the app will be deployed to crashlytics for beta testing.
+    parameters:
+      - string:
+          name: CRASHLYTICS_GROUP
+          default: {crashlytics-group-default}
+          description: Alias of Crashlytics group to receive beta build
     properties:
       - github:
           url: https://github.com/CruGlobal/{name}/
@@ -108,6 +98,8 @@
             - cru-jenkins-mobile
             - cru-jenkins2
             - cru-jenkins
+    triggers:
+      - github
     wrappers:
       - build-name:
           name: '$GIT_ORIGIN_BRANCH #$BUILD_NUMBER'
@@ -135,3 +127,9 @@
       - shell: |
           bundle install
           bundle exec fastlane beta --env beta
+    publishers:
+      - 'publish-mobile-html-unit-test-results'
+      - 'publish-mobile-html-code-coverage-results'
+      - 'publish-mobile-junit-results'
+      - email:
+          recipients: '{email-recipients}'
