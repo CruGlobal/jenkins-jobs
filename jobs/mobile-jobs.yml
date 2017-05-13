@@ -5,6 +5,7 @@
     crashlytics-group-default: god-tools-ios
     jobs:
         - '{name}-beta'
+        - '{name}-production'
 
 - job-template:
     name: '{name}-beta'
@@ -82,6 +83,106 @@
           bundle install
           bundle exec fastlane beta --env beta
     publishers:
+      - html-publisher:
+          name: "Unit Test Results"
+          dir: "fastlane/output/unit_test_reports"
+          files: "report.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+      - html-publisher:
+          name: "Code Coverage Results"
+          dir: "fastlane/output/code_coverage_reports"
+          files: "index.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+      - junit:
+          results: fastlane/report.xml
+          keep-long-stdio: true
+          health-scale-factor: 1.0
+          allow-empty-results: true
+      - email:
+          recipients: '{email-recipients}'
+
+- job-template:
+    name: '{name}-production'
+    node: mac
+    logrotate:
+      numToKeep: -1
+    description: |
+      {description-intro}
+
+      Runs when pull requests are submitted to master branch. If building and testing is successful the app will be deployed to the appstore/playstore for you to review prior to submitting the app.
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/{name}/
+      - inject:
+          properties-content: |
+            #ANDROID
+            ANDROID_SDK_PATH=/Users/Shared/android-sdk-macosx
+
+            #PATH
+            PATH=$PATH:/Users/jenkins/.rbenv/shims:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/Shared/android-sdk-macosx/tools:/Users/Shared/android-sdk-macosx/platform-tools
+
+            #LANGUAGE SETTINGS (Fixes Ruby issue with Fastlane)
+            LANG=en_US.UTF-8
+            LANGUAGE=en_US.UTF-8
+            LC_ALL=en_US.UTF-8
+
+            GIT_BRANCH=master
+            GIT_ORIGIN_BRANCH=origin/$GIT_BRANCH
+    scm:
+      - git:
+          branches:
+            - '$GIT_ORIGIN_BRANCH'
+          url: git@github.com:CruGlobal/{name}.git
+          credentials-id: '66c3b5a3-0f7c-4e22-97b2-a78fb5a73658'
+          refspec: '+refs/heads/master:refs/remotes/origin/master'
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+          excluded-users:
+            - cru-jenkins-mobile
+            - cru-jenkins2
+            - cru-jenkins
+    triggers:
+      - github
+    wrappers:
+      - build-name:
+          name: '$GIT_ORIGIN_BRANCH #$BUILD_NUMBER'
+      - ssh-agent-credentials:
+          users:
+            - '66c3b5a3-0f7c-4e22-97b2-a78fb5a73658'
+      - ansicolor:
+          colormap: xterm
+    builders:
+      - shell: |
+          #!/usr/bin/env bash
+          set +x
+          diffContent=$(git diff $GIT_ORIGIN_BRANCH^ $GIT_ORIGIN_BRANCH)
+          diffSearchString="fastlane[^/metadata]\|FASTLANE_USER\|FASTLANE_PASSWORD\|FASTLANE_DONT_STORE_PASSWORD\|FASTLANE_TEAM_ID\|CODE_SIGNING_IDENTITY\|CERT_PASSWORD\|KEYCHAIN_NAME|\KEYCHAIN_PASSWORD\|DELIVER_PASSWORD\|DELIVER_USER"
+          RED_COLOR='\033[0;31m'
+          NO_COLOR='\033[0m'
+          echo "$diffContent" | grep -q $diffSearchString
+          set -x
+          if [ $? -eq 0 ]; then
+            echo -e "$RED_COLOR" "Unfortunately you do not have permission to change build scripts. Contact your system admin if you think you should be able to run this build." "$NO_COLOR"
+            exit 1
+          else
+            exit 0
+          fi
+      - shell: |
+          bundle install
+          bundle exec fastlane production --env production
+    publishers:
+      - html-publisher:
+          name: "Screen Shots"
+          dir: "fastlane/output/screenshots"
+          files: "screenshots.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
       - html-publisher:
           name: "Unit Test Results"
           dir: "fastlane/output/unit_test_reports"
