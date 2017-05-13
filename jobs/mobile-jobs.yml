@@ -33,7 +33,7 @@
           type: branch
           branch-filter: '.*/merge'
           sort: 'descending'
-          default: :origin/(master|staging)
+          default: :origin/(master|develop)
     properties:
       - github:
           url: https://github.com/CruGlobal/{name}/
