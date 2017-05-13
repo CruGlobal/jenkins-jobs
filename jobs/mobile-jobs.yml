@@ -1,14 +1,10 @@
 - project:
-    name: jesus-film-ios
-    description-intro: Builds, tests, & deploys the Jesus Film iOS App.
+    name: godtools-swift
+    description-intro: Builds, tests, & deploys the New Godtools iOS App.
     email-recipients: michael.harrison@cru.org
-    authorized-developers:
-      - michaelharro
-      - charliepixegon
-      - mresimont
-    crashlytics-group-default: jesus-film-ios-alpha
+    crashlytics-group-default: god-tools-ios
     jobs:
-      - 'mobile-group-template'
+      - '{name}-beta'
 
 - job-template:
     name: '{name}-beta'
