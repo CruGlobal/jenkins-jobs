@@ -4,7 +4,7 @@
     email-recipients: michael.harrison@cru.org
     crashlytics-group-default: god-tools-ios
     jobs:
-      - '{name}-beta'
+        - '{name}-beta'
 
 - job-template:
     name: '{name}-beta'
@@ -18,7 +18,7 @@
     parameters:
       - string:
           name: CRASHLYTICS_GROUP
-          default: {crashlytics-group-default}
+          default: '{crashlytics-group-default}'
           description: Alias of Crashlytics group to receive beta build
     properties:
       - github:
