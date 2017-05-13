@@ -4,8 +4,88 @@
     email-recipients: michael.harrison@cru.org
     crashlytics-group-default: god-tools-ios
     jobs:
+        - '{name}-tests'
         - '{name}-beta'
         - '{name}-production'
+
+- job-template:
+    name: '{name}-tests'
+    node: mac
+    logrotate:
+      numToKeep: 1
+    description: |
+      {description-intro}
+
+      Runs tests when pull requests are created. The results are reported on the PR.
+    parameters:
+      - git:
+          name: sha1
+          description: |
+            If specified, jenkins will use this git branch to build.
+            If not, jenkins will pick a branch (between 'master' and 'staging')
+            that seems most likely to be the one you want built.
+            This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
+            or, if there are none of those, the most recently-built branch.
+          type: branch
+          branch-filter: '.*/merge'
+          sort: 'descending'
+          default: :origin/(master|staging)
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/{name}/
+      - inject:
+          properties-content:
+              !include-raw: .env.mobile-jobs
+    scm:
+      - git:
+          branches:
+            - '$sha1'
+          url: git@github.com:CruGlobal/{name}.git
+          credentials-id: '66c3b5a3-0f7c-4e22-97b2-a78fb5a73658'
+          refspec: '+refs/pull/*:refs/remotes/origin/pr/*'
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+          excluded-users:
+            - cru-jenkins-mobile
+            - cru-jenkins2
+            - cru-jenkins
+    wrappers:
+      - build-name:
+          name: '$GIT_ORIGIN_BRANCH #$BUILD_NUMBER'
+      - ssh-agent-credentials:
+          users:
+            - '66c3b5a3-0f7c-4e22-97b2-a78fb5a73658'
+      - ansicolor:
+          colormap: xterm
+    builders:
+      - shell:
+          !include-raw: fastlane-modification-check.sh
+      - shell: |
+          bundle install
+          bundle exec fastlane run_tests --env tests
+    publishers:
+      - html-publisher:
+          name: "Unit Test Results"
+          dir: "fastlane/output/unit_test_reports"
+          files: "report.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+      - html-publisher:
+          name: "Code Coverage Results"
+          dir: "fastlane/output/code_coverage_reports"
+          files: "index.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+      - junit:
+          results: fastlane/report.xml
+          keep-long-stdio: true
+          health-scale-factor: 1.0
+          allow-empty-results: true
+      - email:
+          recipients: '{email-recipients}'
 
 - job-template:
     name: '{name}-beta'
