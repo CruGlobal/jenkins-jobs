@@ -3,6 +3,10 @@
     description-intro: Builds, tests, & deploys the New Godtools iOS App.
     email-recipients: michael.harrison@cru.org
     crashlytics-group-default: god-tools-ios
+    developers:
+        - michaelharro
+        - ryancarlson
+        - pablomarti
     jobs:
         - '{name}-tests'
         - '{name}-beta'
@@ -50,6 +54,19 @@
             - cru-jenkins-mobile
             - cru-jenkins2
             - cru-jenkins
+    triggers:
+      - github-pull-request:
+          admin-list: '{obj:developers}'
+          white-list: '{obj:developers}'
+          github-hooks: true
+          cron: 'H/5 * * * *'
+          status-context: 'Jenkins'
+          status-add-test-results: 'true'
+          triggered-status: 'Build has been triggered'
+          started-status: 'Build has begun'
+          success-status: 'Build success'
+          failure-status: 'Build failed'
+          error-status: 'Error during build'
     wrappers:
       - build-name:
           name: '$GIT_ORIGIN_BRANCH #$BUILD_NUMBER'
