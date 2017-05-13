@@ -53,19 +53,11 @@
           allow-empty-results: true
 
 - '{name}-{build-type}':
-            description-build-type-info: 'Runs when pull requests are submitted to {git-branch} branch. If building and testing is successful the app will be deployed to crashlytics for beta testing.'
-            build-type: 'beta'
-            number-of-builds-to-keep: 5
             parameters:
               - string:
                   name: CRASHLYTICS_GROUP
                   default: {crashlytics-group-default}
                   description: Alias of Crashlytics group to receive beta build
-            git-branch: 'develop'
-            git-branch-to-build: '$GIT_ORIGIN_BRANCH'
-            git-fetch-filter-refspec: '+refs/heads/develop:refs/remotes/origin/develop'
-            fastlane-lane: 'beta'
-            fastlane-env: 'beta'
             triggers:
               - github
             publishers:
@@ -83,7 +75,7 @@
     description: |
       {description-intro}
 
-      Runs when pull requests are submitted to {git-branch} branch. If building and testing is successful the app will be deployed to crashlytics for beta testing.
+      Runs when pull requests are submitted to develop branch. If building and testing is successful the app will be deployed to crashlytics for beta testing.
     properties:
       - github:
           url: https://github.com/CruGlobal/{name}/
@@ -100,15 +92,15 @@
             LANGUAGE=en_US.UTF-8
             LC_ALL=en_US.UTF-8
 
-            GIT_BRANCH={git-branch}
+            GIT_BRANCH=develop
             GIT_ORIGIN_BRANCH=origin/$GIT_BRANCH
     scm:
       - git:
           branches:
-            - {git-branch-to-build}
+            - '$GIT_ORIGIN_BRANCH'
           url: git@github.com:CruGlobal/{name}.git
           credentials-id: '66c3b5a3-0f7c-4e22-97b2-a78fb5a73658'
-          refspec: {git-fetch-filter-refspec}
+          refspec: '+refs/heads/develop:refs/remotes/origin/develop'
           wipe-workspace: false
           skip-tag: true
           prune: true
