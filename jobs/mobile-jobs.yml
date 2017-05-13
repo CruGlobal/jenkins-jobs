@@ -1,3 +1,80 @@
+- project:
+    name: jesus-film-ios
+    description-intro: Builds, tests, & deploys the Jesus Film iOS App.
+    email-recipients: michael.harrison@cru.org
+    authorized-developers:
+      - michaelharro
+      - charliepixegon
+      - mresimont
+    crashlytics-group-default: jesus-film-ios-alpha
+    jobs:
+      - 'mobile-group-template'
+
+- publisher:
+    name: 'publish-mobile-screenshots'
+    publishers:
+      - html-publisher:
+          name: "Screen Shots"
+          dir: "fastlane/output/screenshots"
+          files: "screenshots.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+
+- publisher:
+    name: 'publish-mobile-html-unit-test-results'
+    publishers:
+      - html-publisher:
+          name: "Unit Test Results"
+          dir: "fastlane/output/unit_test_reports"
+          files: "report.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+
+- publisher:
+    name: 'publish-mobile-html-code-coverage-results'
+    publishers:
+      - html-publisher:
+          name: "Code Coverage Results"
+          dir: "fastlane/output/code_coverage_reports"
+          files: "index.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+
+- publisher:
+    name: 'publish-mobile-junit-results'
+    publishers:
+      - junit:
+          results: fastlane/report.xml
+          keep-long-stdio: true
+          health-scale-factor: 1.0
+          allow-empty-results: true
+
+- '{name}-{build-type}':
+            description-build-type-info: 'Runs when pull requests are submitted to {git-branch} branch. If building and testing is successful the app will be deployed to crashlytics for beta testing.'
+            build-type: 'beta'
+            number-of-builds-to-keep: 5
+            parameters:
+              - string:
+                  name: CRASHLYTICS_GROUP
+                  default: {crashlytics-group-default}
+                  description: Alias of Crashlytics group to receive beta build
+            git-branch: 'develop'
+            git-branch-to-build: '$GIT_ORIGIN_BRANCH'
+            git-fetch-filter-refspec: '+refs/heads/develop:refs/remotes/origin/develop'
+            fastlane-lane: 'beta'
+            fastlane-env: 'beta'
+            triggers:
+              - github
+            publishers:
+              - 'publish-mobile-html-unit-test-results'
+              - 'publish-mobile-html-code-coverage-results'
+              - 'publish-mobile-junit-results'
+              - email:
+                  recipients: '{email-recipients}'
+
 - job-template:
     name: '{name}-beta'
     node: mac
