@@ -10,48 +10,6 @@
     jobs:
       - 'mobile-group-template'
 
-- publisher:
-    name: 'publish-mobile-screenshots'
-    publishers:
-      - html-publisher:
-          name: "Screen Shots"
-          dir: "fastlane/output/screenshots"
-          files: "screenshots.html"
-          keep-all: true
-          allow-missing: true
-          link-to-last-build: false
-
-- publisher:
-    name: 'publish-mobile-html-unit-test-results'
-    publishers:
-      - html-publisher:
-          name: "Unit Test Results"
-          dir: "fastlane/output/unit_test_reports"
-          files: "report.html"
-          keep-all: true
-          allow-missing: true
-          link-to-last-build: false
-
-- publisher:
-    name: 'publish-mobile-html-code-coverage-results'
-    publishers:
-      - html-publisher:
-          name: "Code Coverage Results"
-          dir: "fastlane/output/code_coverage_reports"
-          files: "index.html"
-          keep-all: true
-          allow-missing: true
-          link-to-last-build: false
-
-- publisher:
-    name: 'publish-mobile-junit-results'
-    publishers:
-      - junit:
-          results: fastlane/report.xml
-          keep-long-stdio: true
-          health-scale-factor: 1.0
-          allow-empty-results: true
-
 - job-template:
     name: '{name}-beta'
     node: mac
@@ -128,8 +86,24 @@
           bundle install
           bundle exec fastlane beta --env beta
     publishers:
-      - 'publish-mobile-html-unit-test-results'
-      - 'publish-mobile-html-code-coverage-results'
-      - 'publish-mobile-junit-results'
+      - html-publisher:
+          name: "Unit Test Results"
+          dir: "fastlane/output/unit_test_reports"
+          files: "report.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+      - html-publisher:
+          name: "Code Coverage Results"
+          dir: "fastlane/output/code_coverage_reports"
+          files: "index.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: false
+      - junit:
+          results: fastlane/report.xml
+          keep-long-stdio: true
+          health-scale-factor: 1.0
+          allow-empty-results: true
       - email:
           recipients: '{email-recipients}'
