@@ -8,6 +8,11 @@
         - ryancarlson
         - pablomarti
     jobs:
+        - 'mobile-group'
+
+- job-group:
+    name: 'mobile-group'
+    jobs:
         - '{name}-tests'
         - '{name}-beta'
         - '{name}-production'
@@ -21,7 +26,7 @@
       {description-intro}
 
       Runs tests when pull requests are created. The results are reported on the PR.
-    parameters:
+    test_parameters:
       - git:
           name: sha1
           description: |
@@ -34,6 +39,7 @@
           branch-filter: '.*/merge'
           sort: 'descending'
           default: :origin/(master|develop)
+    parameters: '{obj:test_parameters}'
     properties:
       - github:
           url: https://github.com/CruGlobal/{name}/
@@ -113,11 +119,12 @@
       {description-intro}
 
       Runs when pull requests are submitted to develop branch. If building and testing is successful the app will be deployed to crashlytics for beta testing.
-    parameters:
+    beta_parameters:
       - string:
           name: CRASHLYTICS_GROUP
           default: '{crashlytics-group-default}'
           description: Alias of Crashlytics group to receive beta build
+    parameters: '{obj:beta_parameters}'
     properties:
       - github:
           url: https://github.com/CruGlobal/{name}/
@@ -186,6 +193,8 @@
       {description-intro}
 
       Runs when pull requests are submitted to master branch. If building and testing is successful the app will be deployed to the appstore/playstore for you to review prior to submitting the app.
+    production_parameters:
+    parameters: '{obj:production_parameters}'
     properties:
       - github:
           url: https://github.com/CruGlobal/{name}/
