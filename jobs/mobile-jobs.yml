@@ -28,6 +28,64 @@
                   - jesus-film-android-alpha
                   - jesus-film-android-beta
                 description: Alias of Crashlytics group to receive beta build
+
+- project:
+    name: jesus-film-ios
+    description-intro: Builds, tests, & deploys the Jesus Film iOS App.
+    email-recipients: michael.harrison@cru.org
+    developers:
+      - michaelharro
+      - charliepixegon
+      - mresimont
+    crashlytics-group-default: jesus-film-ios-alpha
+    jobs:
+      - 'mobile-group':
+        test_parameters:
+            - git:
+                name: sha1
+                description: |
+                  If specified, jenkins will use this git branch to build.
+                  If not, jenkins will pick a branch (between 'master' and 'staging')
+                  that seems most likely to be the one you want built.
+                  This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
+                  or, if there are none of those, the most recently-built branch.
+                type: branch
+                branch-filter: '.*/merge'
+                sort: 'descending'
+                default: :origin/(master|develop)
+            - string:
+                name: ARCLIGHT_URL
+                default: 'https://api.arclight.org'
+                description: URL of arclight server for app to point at
+        beta_parameters:
+            - choice:
+                name: CRASHLYTICS_GROUP
+                choices: 
+                  - jesus-film-ios-alpha
+                  - jesus-film-ios-beta
+                description: Alias of Crashlytics group to receive beta build
+            - choice:
+                name: ARCLIGHT_URL
+                choices: 
+                  - https://api.arclight.org
+                  - https://preprod.arclight.org
+                  - http://qa.jfpmedia.com
+                description: URL of arclight server for app to point at
+            - choice:
+                name: PARSE_URL
+                choices: 
+                  - https://parse.arclight.org:1337/parse
+                  - https://parse.arclight.org:1338/parse
+                description: URL of parse server for app to point at. Production = 1337. Test = 1338.
+        production_parameters:
+            - string:
+                name: ARCLIGHT_URL
+                default: 'https://api.arclight.org'
+                description: Do not change!
+
+
+
+
 - job-group:
     name: 'mobile-group'
     jobs:
