@@ -189,6 +189,11 @@
           link-to-last-build: false
       - email:
           recipients: '{email-recipients}'
+      - post-tasks:
+          - matches:
+            - log-text: .*
+              operator: OR
+            script: fastlane/output/fastlane_cleanup_script.sh
 
 - job-template:
     name: '{name}-beta'
@@ -253,6 +258,11 @@
           link-to-last-build: false
       - email:
           recipients: '{email-recipients}'
+      - post-tasks:
+          - matches:
+            - log-text: .*
+              operator: OR
+            script: fastlane/output/fastlane_cleanup_script.sh
 
 - job-template:
     name: '{name}-production'
@@ -324,3 +334,8 @@
           link-to-last-build: false
       - email:
           recipients: '{email-recipients}'
+      - post-tasks:
+          - matches:
+            - log-text: .*
+              operator: OR
+            script: fastlane/output/fastlane_cleanup_script.sh
