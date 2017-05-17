@@ -193,7 +193,7 @@
           - matches:
             - log-text: .*
               operator: OR
-            script: fastlane/output/fastlane_cleanup_script.sh
+            script: $WORKSPACE/fastlane_cleanup_script.sh
 
 - job-template:
     name: '{name}-beta'
@@ -262,7 +262,7 @@
           - matches:
             - log-text: .*
               operator: OR
-            script: fastlane/output/fastlane_cleanup_script.sh
+            script: $WORKSPACE/fastlane_cleanup_script.sh
 
 - job-template:
     name: '{name}-production'
@@ -338,4 +338,4 @@
           - matches:
             - log-text: .*
               operator: OR
-            script: fastlane/output/fastlane_cleanup_script.sh
+            script: $WORKSPACE/fastlane_cleanup_script.sh
