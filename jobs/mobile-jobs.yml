@@ -187,11 +187,6 @@
           keep-all: true
           allow-missing: true
           link-to-last-build: false
-      - junit:
-          results: fastlane/report.xml
-          keep-long-stdio: true
-          health-scale-factor: 1.0
-          allow-empty-results: true
       - email:
           recipients: '{email-recipients}'
 
@@ -256,11 +251,6 @@
           keep-all: true
           allow-missing: true
           link-to-last-build: false
-      - junit:
-          results: fastlane/report.xml
-          keep-long-stdio: true
-          health-scale-factor: 1.0
-          allow-empty-results: true
       - email:
           recipients: '{email-recipients}'
 
@@ -332,10 +322,5 @@
           keep-all: true
           allow-missing: true
           link-to-last-build: false
-      - junit:
-          results: fastlane/report.xml
-          keep-long-stdio: true
-          health-scale-factor: 1.0
-          allow-empty-results: true
       - email:
           recipients: '{email-recipients}'
