@@ -129,8 +129,20 @@
       - github:
           url: https://github.com/CruGlobal/{name}/
       - inject:
-          properties-content:
-              !include-raw: .env.mobile-jobs
+          properties-content: |
+            #ANDROID
+            ANDROID_SDK_PATH=/Users/Shared/android-sdk-macosx
+
+            #PATH
+            PATH=$PATH:/Users/jenkins/.rbenv/shims:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/Shared/android-sdk-macosx/tools:/Users/Shared/android-sdk-macosx/platform-tools
+
+            #LANGUAGE SETTINGS (Fixes Ruby issue with Fastlane)
+            LANG=en_US.UTF-8
+            LANGUAGE=en_US.UTF-8
+            LC_ALL=en_US.UTF-8
+
+            GIT_BRANCH=$GIT_BRANCH
+            GIT_ORIGIN_BRANCH=origin/$GIT_BRANCH
     scm:
       - git:
           branches:
@@ -209,8 +221,20 @@
       - github:
           url: https://github.com/CruGlobal/{name}/
       - inject:
-          properties-content:
-              !include-raw: .env.mobile-jobs
+          properties-content: |
+            #ANDROID
+            ANDROID_SDK_PATH=/Users/Shared/android-sdk-macosx
+
+            #PATH
+            PATH=$PATH:/Users/jenkins/.rbenv/shims:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/Shared/android-sdk-macosx/tools:/Users/Shared/android-sdk-macosx/platform-tools
+
+            #LANGUAGE SETTINGS (Fixes Ruby issue with Fastlane)
+            LANG=en_US.UTF-8
+            LANGUAGE=en_US.UTF-8
+            LC_ALL=en_US.UTF-8
+
+            GIT_BRANCH=develop
+            GIT_ORIGIN_BRANCH=origin/$GIT_BRANCH
     scm:
       - git:
           branches:
@@ -278,8 +302,20 @@
       - github:
           url: https://github.com/CruGlobal/{name}/
       - inject:
-          properties-content:
-              !include-raw: .env.mobile-jobs
+          properties-content: |
+            #ANDROID
+            ANDROID_SDK_PATH=/Users/Shared/android-sdk-macosx
+
+            #PATH
+            PATH=$PATH:/Users/jenkins/.rbenv/shims:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/Shared/android-sdk-macosx/tools:/Users/Shared/android-sdk-macosx/platform-tools
+
+            #LANGUAGE SETTINGS (Fixes Ruby issue with Fastlane)
+            LANG=en_US.UTF-8
+            LANGUAGE=en_US.UTF-8
+            LC_ALL=en_US.UTF-8
+
+            GIT_BRANCH=master
+            GIT_ORIGIN_BRANCH=origin/$GIT_BRANCH
     scm:
       - git:
           branches:
