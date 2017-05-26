@@ -20,6 +20,8 @@
           default: '{crashlytics-group-default}'
           description: Alias of Crashlytics group to receive beta build
     production_parameters:
+    submodule_options:
+      disable: true
 
 - project:
     name: godtools-swift
@@ -44,6 +46,8 @@
       - bleppard
     crashlytics-group-default: jesus-film-android-alpha
     config_modification_check_script: 'echo "No check required"'
+    submodule_options:
+      recursive: true
     beta_parameters:
         - choice:
             name: CRASHLYTICS_GROUP
@@ -161,6 +165,7 @@
             - cru-jenkins-mobile
             - cru-jenkins2
             - cru-jenkins
+          submodule: '{obj:submodule_options}'
     triggers:
       - github-pull-request:
           admin-list: '{obj:developers}'
@@ -252,6 +257,7 @@
             - cru-jenkins-mobile
             - cru-jenkins2
             - cru-jenkins
+          submodule: '{obj:submodule_options}'
     triggers:
       - github
     wrappers:
@@ -332,6 +338,7 @@
             - cru-jenkins-mobile
             - cru-jenkins2
             - cru-jenkins
+          submodule: '{obj:submodule_options}'
     triggers:
       - github
     wrappers:
