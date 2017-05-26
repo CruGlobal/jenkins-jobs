@@ -166,6 +166,8 @@
             - cru-jenkins-mobile
             - cru-jenkins2
             - cru-jenkins
+          ignore-commits-with-messages:
+            - '(?s).*CruGlobal\/build-number-bump-.*'
           submodule: '{obj:submodule_options}'
     triggers:
       - github-pull-request:
@@ -259,6 +261,8 @@
             - cru-jenkins-mobile
             - cru-jenkins2
             - cru-jenkins
+          ignore-commits-with-messages:
+            - '(?s).*CruGlobal\/build-number-bump-.*'
           submodule: '{obj:submodule_options}'
     triggers:
       - github
@@ -341,6 +345,8 @@
             - cru-jenkins-mobile
             - cru-jenkins2
             - cru-jenkins
+          ignore-commits-with-messages:
+            - '(?s).*CruGlobal\/build-number-bump-.*'
           submodule: '{obj:submodule_options}'
     triggers:
       - github
