@@ -140,9 +140,10 @@
           properties-content: |
             #ANDROID
             ANDROID_SDK_PATH=/Users/Shared/android-sdk-macosx
+            ANDROID_HOME=$ANDROID_SDK_PATH
 
             #PATH
-            PATH=$PATH:/Users/jenkins/.rbenv/shims:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/Shared/android-sdk-macosx/tools:/Users/Shared/android-sdk-macosx/platform-tools
+            PATH=$PATH:/Users/jenkins/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/Shared/android-sdk-macosx/tools/bin:/Users/Shared/android-sdk-macosx/tools:/Users/Shared/android-sdk-macosx/platform-tools
 
             #LANGUAGE SETTINGS (Fixes Ruby issue with Fastlane)
             LANG=en_US.UTF-8
@@ -232,9 +233,10 @@
           properties-content: |
             #ANDROID
             ANDROID_SDK_PATH=/Users/Shared/android-sdk-macosx
+            ANDROID_HOME=$ANDROID_SDK_PATH
 
             #PATH
-            PATH=$PATH:/Users/jenkins/.rbenv/shims:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/Shared/android-sdk-macosx/tools:/Users/Shared/android-sdk-macosx/platform-tools
+            PATH=$PATH:/Users/jenkins/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/Shared/android-sdk-macosx/tools/bin:/Users/Shared/android-sdk-macosx/tools:/Users/Shared/android-sdk-macosx/platform-tools
 
             #LANGUAGE SETTINGS (Fixes Ruby issue with Fastlane)
             LANG=en_US.UTF-8
@@ -313,9 +315,10 @@
           properties-content: |
             #ANDROID
             ANDROID_SDK_PATH=/Users/Shared/android-sdk-macosx
+            ANDROID_HOME=$ANDROID_SDK_PATH
 
             #PATH
-            PATH=$PATH:/Users/jenkins/.rbenv/shims:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/Shared/android-sdk-macosx/tools:/Users/Shared/android-sdk-macosx/platform-tools
+            PATH=$PATH:/Users/jenkins/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/Shared/android-sdk-macosx/tools/bin:/Users/Shared/android-sdk-macosx/tools:/Users/Shared/android-sdk-macosx/platform-tools
 
             #LANGUAGE SETTINGS (Fixes Ruby issue with Fastlane)
             LANG=en_US.UTF-8
