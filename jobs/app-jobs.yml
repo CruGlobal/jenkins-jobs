@@ -293,7 +293,14 @@
 
 - project:
     name: model_contracts
-    description-intro: Builds, tests, & deploys the Voke Dashboards API docker image.
+    description-intro: Builds, tests, & deploys the Model Contracts docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'php-template'
+
+- project:
+    name: donate-familylife
+    description-intro: Builds, tests, & deploys the donate.familylife.com docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
       - 'php-template'
