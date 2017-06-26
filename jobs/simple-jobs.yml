@@ -6,11 +6,11 @@
       #!/bin/bash
 
       cd ecs/{name}
-      echo 'Building base image'
-      docker build -t 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest .
-
-      echo 'Pushing base image'
-      docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest
+      set -xe && \
+        echo 'Building base image' && \
+        docker build -t 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest . && \
+        echo 'Pushing base image' && \
+        docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest
     jobs:
       - 'docker-{name}'
 
@@ -22,11 +22,11 @@
       #!/bin/bash
 
       cd ecs/{name}
-      echo 'Building base image'
-      docker build -t 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest .
-
-      echo 'Pushing base image'
-      docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest
+      set -xe && \
+        echo 'Building base image' && \
+        docker build -t 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest . && \
+        echo 'Pushing base image' && \
+        docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest
     jobs:
       - 'docker-{name}'
 
