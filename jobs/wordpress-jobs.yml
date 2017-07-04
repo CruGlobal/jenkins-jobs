@@ -3,7 +3,7 @@
     image_description: |
       Base docker image for Wordpress containers
     build_command: |
-      build_and_push.sh
+      $WORKSPACE/build_and_push.sh
     jobs:
       - '{name}'
 
