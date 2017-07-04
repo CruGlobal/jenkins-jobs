@@ -1,0 +1,49 @@
+- project:
+    name: base-image-wordpress
+    image_description: |
+      Base docker image for Wordpress containers
+    build_command: |
+      build_and_push.sh
+    jobs:
+      - '{name}'
+
+# template for docker image build jobs
+- job-template:
+    name: '{name}'
+    description: '{image_description}'
+    properties:
+      - github:
+          url: https://github.com/CruGlobal/base-image-wordpress
+      - inject:
+            properties-content: |
+              DEFAULT_RECIPIENTS=john.plastow@cru.org
+    scm:
+      - git:
+          branches:
+          - origin/master
+          url: git@github.com:CruGlobal/base-image-wordpress.git
+          wipe-workspace: false
+          skip-tag: true
+          prune: true
+    triggers:
+      - github
+    builders:
+      - shell: '{build_command}'
+
+    # actions that the Jenkins job should perform after the build is complete
+    publishers:
+      - email-ext:
+          recipients: $DEFAULT_RECIPIENTS
+          failure: true
+          success: true
+          attach-build-log: true
+          send-to:
+            -  recipients
+            -  requester
+          body: |
+            Email body for {name} goes here
+
+            $DEFAULT_CONTENT
+          presend-script: $DEFAULT_PRESEND_SCRIPT
+
+
