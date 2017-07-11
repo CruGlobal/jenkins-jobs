@@ -309,7 +309,7 @@
 - project:
     name: donate-familylife
     description-intro: Builds, tests, & deploys the donate.familylife.com docker image.
-    email-recipients: josh.starcher@cru.org
+    email-recipients: vdymna@familylife.com, dan@nextafter.com
     jobs:
       - 'php-template'
 
