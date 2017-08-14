@@ -60,19 +60,11 @@
       - 'php-template'
 
 - project:
-    name: wordpress-microsites
+    name: wordpress
     description-intro: Builds, tests, & deploys the wordpress docker image.
     email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org, david.sudarma@cru.org, john.plastow@cru.org
     jobs:
       - 'php-template'
-
-- project:
-    name: wordpress-hosting
-    description-intro: Builds, tests, & deploys the wordpress docker image.
-    email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org, david.sudarma@cru.org, john.plastow@cru.org
-    jobs:
-      - 'php-template'
-
 
 - project:
     name: global_registry
