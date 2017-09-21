@@ -11,6 +11,13 @@
       - 'rails-template'
 
 - project:
+    name: campaign-forms
+    description-intro: Builds, tests, & deploys the campaign-forms docker image.
+    email-recipients: brian.zoetewey@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
     name: cap
     description-intro: Builds, tests, & deploys the combined application (apply.cru.org) docker image.
     email-recipients: andrewroth@gmail.com
