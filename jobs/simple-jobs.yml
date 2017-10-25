@@ -128,7 +128,6 @@
       - shell: |
           blackbox_postdeploy
           DEPLOY_ONLY=true ./bin/deploy.sh
-          blackbox_shred_all_files
 
     wrappers:
       - build-name:
