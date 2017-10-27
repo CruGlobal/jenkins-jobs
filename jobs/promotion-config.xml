@@ -21,7 +21,7 @@
         <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
           <configs>
             <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
-              <properties>IMAGE_TAG= ${PROMOTED_GIT_COMMIT}-${PROMOTED_NUMBER}
+              <properties>IMAGE_TAG= {{environment}}-${PROMOTED_NUMBER}
 PROJECT_NAME=${PROMOTED_JOB_NAME}
 GIT_COMMIT=${PROMOTED_GIT_COMMIT}
 GIT_BRANCH=${PROMOTED_GIT_BRANCH}

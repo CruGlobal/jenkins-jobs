@@ -22,28 +22,28 @@
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-cortex
-              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              IMAGE_TAG=staging-${BUILD_NUMBER}
               GIT_BRANCH=origin/develop
               ENVIRONMENT=staging
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-cmserver
-              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              IMAGE_TAG=staging-${BUILD_NUMBER}
               GIT_BRANCH=origin/develop
               ENVIRONMENT=staging
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-integration
-              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              IMAGE_TAG=staging-${BUILD_NUMBER}
               GIT_BRANCH=origin/develop
               ENVIRONMENT=staging
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-search
-              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              IMAGE_TAG=staging-${BUILD_NUMBER}
               GIT_BRANCH=origin/develop
               ENVIRONMENT=staging
       - trigger-parameterized-builds:
@@ -94,7 +94,7 @@
     project-type: maven
     description: |
         Builds the develop branch of give-ep-commerce-engine.
-        It skips tests, so mainly this is to check compilability.      
+        It skips tests, so mainly this is to check compilability.
     jdk: JDK8
 
     properties:
@@ -195,7 +195,7 @@
     project-type: maven
     description: |
         Builds the develop branch of give-ep-extensions.
-        It skips tests, so mainly this is to check compilability.      
+        It skips tests, so mainly this is to check compilability.
     jdk: JDK8
 
     properties:
@@ -479,28 +479,28 @@
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-cortex
-              IMAGE_TAG=${GIT_COMMIT}-${RELEASE_NUMBER}
+              IMAGE_TAG=production-${RELEASE_NUMBER}
               GIT_BRANCH=origin/master
               ENVIRONMENT=production
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-cmserver
-              IMAGE_TAG=${GIT_COMMIT}-${RELEASE_NUMBER}
+              IMAGE_TAG=production-${RELEASE_NUMBER}
               GIT_BRANCH=origin/master
               ENVIRONMENT=production
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-integration
-              IMAGE_TAG=${GIT_COMMIT}-${RELEASE_NUMBER}
+              IMAGE_TAG=production-${RELEASE_NUMBER}
               GIT_BRANCH=origin/master
               ENVIRONMENT=production
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-search
-              IMAGE_TAG=${GIT_COMMIT}-${RELEASE_NUMBER}
+              IMAGE_TAG=production-${RELEASE_NUMBER}
               GIT_BRANCH=origin/master
               ENVIRONMENT=production
       - trigger-parameterized-builds:
@@ -671,28 +671,28 @@
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-cortex
-              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              IMAGE_TAG=test-${BUILD_NUMBER}
               GIT_BRANCH=origin/develop
               ENVIRONMENT=test
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-cmserver
-              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              IMAGE_TAG=test-${BUILD_NUMBER}
               GIT_BRANCH=origin/develop
               ENVIRONMENT=test
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-integration
-              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              IMAGE_TAG=test-${BUILD_NUMBER}
               GIT_BRANCH=origin/develop
               ENVIRONMENT=test
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=give-ep-search
-              IMAGE_TAG=${GIT_COMMIT}-${BUILD_NUMBER}
+              IMAGE_TAG=test-${BUILD_NUMBER}
               GIT_BRANCH=origin/develop
               ENVIRONMENT=test
       - trigger-parameterized-builds:

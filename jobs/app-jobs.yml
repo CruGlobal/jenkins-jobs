@@ -408,7 +408,7 @@
               - trigger-parameterized-builds:
                   - project: deploy-ecs
                     predefined-parameters: |
-                      IMAGE_TAG=$GIT_COMMIT-$BUILD_NUMBER
+                      IMAGE_TAG=staging-$BUILD_NUMBER
                       PROJECT_NAME=$JOB_NAME
                       GIT_COMMIT=$GIT_COMMIT
                       GIT_BRANCH=$GIT_BRANCH
@@ -434,7 +434,7 @@
               - trigger-parameterized-builds:
                   - project: deploy-ecs
                     predefined-parameters: |
-                      IMAGE_TAG=$GIT_COMMIT-$BUILD_NUMBER
+                      IMAGE_TAG=production-$BUILD_NUMBER
                       PROJECT_NAME=$JOB_NAME
                       GIT_COMMIT=$GIT_COMMIT
                       GIT_BRANCH=$GIT_BRANCH
