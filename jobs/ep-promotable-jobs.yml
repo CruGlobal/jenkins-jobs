@@ -52,7 +52,7 @@
           -p $WORKSPACE/pusher-package/target/ext-deployment-package-0-*.zip \
           -f config/docker-build-development.conf \
           -e development \
-          -t $GIT_COMMIT-$BUILD_NUMBER
+          -t {environment}-$BUILD_NUMBER
 
 
 - job-template:
@@ -101,4 +101,4 @@
           -p $WORKSPACE/pusher-package/target/ext-deployment-package-${{RELEASE_NUMBER}}.zip \
           -f config/docker-build-production.conf \
           -e production \
-          -t $GIT_COMMIT-${{RELEASE_NUMBER}}
+          -t {environment}-${{RELEASE_NUMBER}}
