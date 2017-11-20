@@ -28,21 +28,7 @@
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
-              PROJECT_NAME=give-ep-cmserver
-              IMAGE_TAG=staging-${BUILD_NUMBER}
-              GIT_BRANCH=origin/develop
-              ENVIRONMENT=staging
-      - trigger-parameterized-builds:
-          - project: deploy-ecs
-            predefined-parameters: |
               PROJECT_NAME=give-ep-integration
-              IMAGE_TAG=staging-${BUILD_NUMBER}
-              GIT_BRANCH=origin/develop
-              ENVIRONMENT=staging
-      - trigger-parameterized-builds:
-          - project: deploy-ecs
-            predefined-parameters: |
-              PROJECT_NAME=give-ep-search
               IMAGE_TAG=staging-${BUILD_NUMBER}
               GIT_BRANCH=origin/develop
               ENVIRONMENT=staging

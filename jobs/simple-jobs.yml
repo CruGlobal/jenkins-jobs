@@ -199,13 +199,6 @@
 
       This configures/reconfigures all of the jobs in the jenkins-jobs repo.
 
-      Note: there is one exception to the above:
-      executing this job does not rebuild the config for *this* job (create-jenkins-jobs).
-      This is true at the time of writing, anyway, and it's not obvious why it is.
-      Fortunately, this makes it easier to test other job config changes,
-      since manual tweaks to the shell builder below will not be blown away.
-
-
     properties:
       - github:
           url: https://github.com/CruGlobal/cru-ansible/
@@ -220,6 +213,9 @@
 
     builders:
       - shell: |
-        # if this is jenkins-lab.cru.org, and you want to test your jenkins-jobs changes,
-        # manually add `--extra-vars="jenkins_jobs_version=insert-your-jenkins-job-branch"` below.
-        ansible-playbook aws_jenkins_add_jobs.yml --tags="jjb_add_jobs"
+          # if this is jenkins-lab.cru.org, and you want to test your jenkins-jobs changes,
+          # manually add `--extra-vars="jenkins_jobs_version=insert-your-jenkins-job-branch"` below.
+          # Note: when you execute this job, your manual change will be erased.
+          # You'll have to add it again for each time you execute this job.
+
+          ansible-playbook aws_jenkins_add_jobs.yml --tags="jjb_add_jobs"
