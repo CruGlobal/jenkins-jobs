@@ -46,6 +46,13 @@
       - 'php-template'
 
 - project:
+    name: everystudent-web
+    description-intro: Builds, tests, & deploys the everystudent.com docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'php-template'
+
+- project:
     name: global-profile-api
     description-intro: Builds, tests, & deploys the global-profile-api docker image.
     email-recipients: brian.zoetewey@ccci.org
