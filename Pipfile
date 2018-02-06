@@ -1,0 +1,21 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[dev-packages]
+
+
+
+[packages]
+
+requests = "*"
+pyyaml = "*"
+
+
+[requires]
+
+# cru-ansible uses python 2.7
+python_version = "2.7"
