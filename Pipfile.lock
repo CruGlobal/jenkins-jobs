@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f3bb3f00ad0dba2ade5d4143e29e1720c94b4362ee47cb3d98fb33e6bb88ef5f"
+            "sha256": "b51393e6427ba48a2fbb5eed01542cb1036c4bc3ffc97463bc8e68e09b87f671"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -29,10 +29,6 @@
         ]
     },
     "default": {
-        "7726717": {
-            "editable": true,
-            "path": "../jenkins-job-builder/"
-        },
         "certifi": {
             "hashes": [
                 "sha256:14131608ad2fd56836d33a71ee60fa1c82bc9d2c8d98b7bdbc631fe1b3cd1296",
@@ -60,6 +56,11 @@
                 "sha256:2c6a5de3089009e3da7c5dde64a141dbc8551d5b7f6cf4ed7c2568d0cc520a8f"
             ],
             "version": "==2.6"
+        },
+        "jenkins-job-builder": {
+            "editable": true,
+            "git": "https://github.com/CruGlobal/jenkins-job-builder.git",
+            "ref": "3e7ad9692655450fe26371770ec87a17e2a0b23a"
         },
         "jinja2": {
             "hashes": [

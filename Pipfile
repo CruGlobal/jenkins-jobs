@@ -13,7 +13,7 @@ name = "pypi"
 
 requests = "*"
 pyyaml = "*"
-"7726717" = {path = "../jenkins-job-builder/", editable = true}
+jenkins-job-builder = {ref = "modifications-for-cru-jenkins", git = "https://github.com/CruGlobal/jenkins-job-builder.git", editable = true}
 
 
 [requires]
