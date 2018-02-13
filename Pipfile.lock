@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "679f963c8765ac6efd97568532424eb8a5be7633a74b87c9fdd955f7c7cb47c7"
+            "sha256": "f3bb3f00ad0dba2ade5d4143e29e1720c94b4362ee47cb3d98fb33e6bb88ef5f"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -29,6 +29,10 @@
         ]
     },
     "default": {
+        "7726717": {
+            "editable": true,
+            "path": "../jenkins-job-builder/"
+        },
         "certifi": {
             "hashes": [
                 "sha256:14131608ad2fd56836d33a71ee60fa1c82bc9d2c8d98b7bdbc631fe1b3cd1296",
@@ -43,12 +47,62 @@
             ],
             "version": "==3.0.4"
         },
+        "fasteners": {
+            "hashes": [
+                "sha256:564a115ff9698767df401efca29620cbb1a1c2146b7095ebd304b79cc5807a7c",
+                "sha256:427c76773fe036ddfa41e57d89086ea03111bbac57c55fc55f3006d027107e18"
+            ],
+            "version": "==0.14.1"
+        },
         "idna": {
             "hashes": [
                 "sha256:8c7309c718f94b3a625cb648ace320157ad16ff131ae0af362c9f21b80ef6ec4",
                 "sha256:2c6a5de3089009e3da7c5dde64a141dbc8551d5b7f6cf4ed7c2568d0cc520a8f"
             ],
             "version": "==2.6"
+        },
+        "jinja2": {
+            "hashes": [
+                "sha256:74c935a1b8bb9a3947c50a54766a969d4846290e1e788ea44c1392163723c3bd",
+                "sha256:f84be1bb0040caca4cea721fcbbbbd61f9be9464ca236387158b0feea01914a4"
+            ],
+            "version": "==2.10"
+        },
+        "markupsafe": {
+            "hashes": [
+                "sha256:a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665"
+            ],
+            "version": "==1.0"
+        },
+        "monotonic": {
+            "hashes": [
+                "sha256:0bcd2b14e3b7ee7cfde796e408176ceffa01d89646f2e532964ef2aae0c9fa3e",
+                "sha256:a02611d5b518cd4051bf22d21bd0ae55b3a03f2d2993a19b6c90d9d168691f84"
+            ],
+            "version": "==1.4"
+        },
+        "multi-key-dict": {
+            "hashes": [
+                "sha256:deebdec17aa30a1c432cb3f437e81f8621e1c0542a0c0617a74f71e232e9939e",
+                "sha256:cb1e00aa9d8192496cc0cc040f6d9602f35e4cf099e866248be06b04fd45b42b",
+                "sha256:fb67a532d7361a66820aa1e8fe6c0c939f4c34a3a09a3e8db199ce7b77c4fb78",
+                "sha256:3a1e1fc705a30a7de1a153ec2992b3ca3655ccd9225d2e427fe6525c8f160d6d"
+            ],
+            "version": "==2.0.3"
+        },
+        "pbr": {
+            "hashes": [
+                "sha256:60c25b7dfd054ef9bb0ae327af949dd4676aa09ac3a9471cdc871d8a9213f9ac",
+                "sha256:05f61c71aaefc02d8e37c0a3eeb9815ff526ea28b3b76324769e6158d7f95be1"
+            ],
+            "version": "==3.1.1"
+        },
+        "python-jenkins": {
+            "hashes": [
+                "sha256:c285e8c6f7c1ebc96854008de397f89673c93de2c7833f77b82cd584de6b0805",
+                "sha256:12c50a027e12048504c71e984e8e776a15a1204065b86ca2d1d871802c6da336"
+            ],
+            "version": "==0.4.15"
         },
         "pyyaml": {
             "hashes": [
@@ -75,6 +129,20 @@
                 "sha256:9c443e7324ba5b85070c4a818ade28bfabedf16ea10206da1132edaa6dda237e"
             ],
             "version": "==2.18.4"
+        },
+        "six": {
+            "hashes": [
+                "sha256:832dc0e10feb1aa2c68dcc57dbb658f1c7e65b9b61af69048abc87a2db00a0eb",
+                "sha256:70e8a77beed4562e7f14fe23a786b54f6296e34344c23bc42f07b15018ff98e9"
+            ],
+            "version": "==1.11.0"
+        },
+        "stevedore": {
+            "hashes": [
+                "sha256:e3d96b2c4e882ec0c1ff95eaebf7b575a779fd0ccb4c741b9832bed410d58b3d",
+                "sha256:f1c7518e7b160336040fee272174f1f7b29a46febb3632502a8f2055f973d60b"
+            ],
+            "version": "==1.28.0"
         },
         "urllib3": {
             "hashes": [
