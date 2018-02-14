@@ -1,6 +1,6 @@
 
 - job:
-    name: familylife-data-api-mbp-test
+    name: familylife-data-api-mbp
     description: |
       FamilyLife External APIs (ASP.NET Web API)
     project-type: multibranch-pipeline
