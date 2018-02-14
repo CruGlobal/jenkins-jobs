@@ -49,6 +49,8 @@
       - inject:
             properties-content: |
               DEFAULT_RECIPIENTS=mike.albert@cru.org
+
+    node: linux
     scm:
       - git:
           branches:
@@ -116,6 +118,7 @@
           name: IMAGE_NAME
           description: 'OPTIONAL: Allows for overriding docker image name derived by default from PROJECT_NAME'
 
+    node: linux
     scm:
       - git:
           branches:
@@ -157,6 +160,7 @@
           sort: ascending
           default: "*/master"
 
+    node: linux
     scm:
       - git:
           branches:
@@ -203,6 +207,7 @@
       - github:
           url: https://github.com/CruGlobal/cru-ansible/
 
+    node: linux
     scm:
       - git:
           branches:
