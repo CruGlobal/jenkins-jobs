@@ -1,0 +1,22 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[dev-packages]
+
+
+
+[packages]
+
+requests = "*"
+pyyaml = "*"
+jenkins-job-builder = {ref = "modifications-for-cru-jenkins", git = "https://github.com/CruGlobal/jenkins-job-builder.git", editable = true}
+
+
+[requires]
+
+# cru-ansible uses python 2.7
+python_version = "2.7"

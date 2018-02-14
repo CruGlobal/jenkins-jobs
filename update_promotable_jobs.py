@@ -4,8 +4,9 @@
 
     Adds custom promotion definitions to ep jobs in jobs/ep-promotable-jobs.yml
 """
-import requests
 import ConfigParser
+
+import requests
 import sys
 import yaml
 
@@ -112,7 +113,9 @@ def get_crumb_header(password, base_url, user):
             print("crumb unavailable; jenkins probably does not have csrf protection enabled")
             return {}
         else:
-            raise Exception("unsuccessful request for crumb:" + r.reason)
+            raise Exception(
+                "unsuccessful request for crumb: " + r.reason + "\n\n" + r.text
+            )
     pieces = r.text.split(delimiter)
     return {pieces[0]: pieces[1]}
 

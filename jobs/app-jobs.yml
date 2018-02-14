@@ -385,6 +385,7 @@
       - inject:
           properties-content: |
             LD_LIBRARY_PATH=/opt/oracle/instantclient_11_2
+    node: linux
     scm:
       - git:
           branches:

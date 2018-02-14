@@ -17,6 +17,8 @@
       - inject:
             properties-content: |
               DEFAULT_RECIPIENTS=john.plastow@cru.org
+
+    node: linux
     scm:
       - git:
           branches:

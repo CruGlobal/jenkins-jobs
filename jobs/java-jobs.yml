@@ -42,6 +42,7 @@
           defautl: false
           description: "Check this box to run the latest database migration(s) against the target environment (specified above).  Any new migrations above the previous version will be run."
 
+    node: linux
     scm:
       - git:
           url: git@github.com:CruGlobal/godtools-api.git

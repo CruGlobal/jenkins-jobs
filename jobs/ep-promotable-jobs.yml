@@ -23,6 +23,7 @@
             names:
               - Deploy to Staging
 
+    node: linux
     scm:
       - git:
           branches:
@@ -75,6 +76,7 @@
             names:
               - Deploy to Production
 
+    node: linux
     scm:
       - git:
           branches:

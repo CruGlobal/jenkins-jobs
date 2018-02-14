@@ -60,6 +60,8 @@
             names:
               - Deploy to Staging
               - Deploy to Production
+
+    node: linux
     scm:
       - git:
           branches:
