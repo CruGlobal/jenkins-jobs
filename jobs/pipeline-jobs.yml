@@ -1,14 +1,14 @@
 
 - job:
-    name: familylife-data-api-mbp
+    name: familylife-forms-api
     description: |
-      FamilyLife External APIs (ASP.NET Web API)
+      FamilyLife Forms API (ASP.NET Web API)
     project-type: multibranch-pipeline
     branch-sources:
       - github:
           credentials-id: FL-Jenkins-GitHub-User
           owner: CruGlobal
-          repository: FamilyLife-DataAPI
+          repository: FamilyLife-FormsAPI
           behaviors:
             discover-branches:
             filter-by-name-with-wildcards:
