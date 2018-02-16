@@ -12,6 +12,7 @@ How to Add or Update a Job
   * java-docker-jobs.yml --> Java apps running on ECS/docker
   * java-jobs.yml --> Java apps running in a non-containerized environment
   * simple-jobs.yml --> Docker image build jobs and other misc jobs
+  * pipeline-jobs.yml --> Multibranch pipeline jobs
 * Test your work
   * Push your feature branch to github
   * Request Mike Albert to turn on Jenkins Lab, if jenkins-lab.cru.org gives you a 503.
