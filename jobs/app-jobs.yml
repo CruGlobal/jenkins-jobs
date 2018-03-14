@@ -156,6 +156,13 @@
       - 'php-template'
 
 - project:
+    name: crustore
+    description-intro: Builds, tests, & deploys the crustore docker image.
+    email-recipients: josh.starcher@cru.org
+    jobs:
+      - 'php-template'
+
+- project:
     name: mpd_tool
     description-intro: Builds, tests, & deploys the mpd tool docker image.
     email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
