@@ -325,6 +325,13 @@
     email-recipients: josh.starcher@cru.org
     jobs:
       - 'openresty-template'
+      
+- project:
+    name: snowplow-s3loader
+    description-intro: Builds, tests, & deploys the snowplow s3 Loader docker image.
+    email-recipients: josh.starcher@cru.org, luis.rodriguez@cru.org
+    jobs:
+      - 'openresty-template'
 
 - job-group:
     name: 'php-template'
