@@ -13,3 +13,18 @@
             discover-branches:
             filter-by-name-with-wildcards:
               include: master staging
+
+- job:
+    name: FamilyLife-ArtOfParentingAPI
+    description: |
+      FamilyLife Art of Parenting API (.NET Core)
+    project-type: multibranch-pipeline
+    branch-sources:
+      - github:
+          credentials-id: FL-Jenkins-GitHub-User
+          owner: CruGlobal
+          repository: FamilyLife-ArtOfParentingAPI
+          behaviors:
+            discover-branches:
+            filter-by-name-with-wildcards:
+              include: master staging              
