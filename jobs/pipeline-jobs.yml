@@ -15,7 +15,7 @@
               include: master staging
 
 - job:
-    name: FamilyLife-ArtOfParentingAPI
+    name: familylife-aop-api
     description: |
       FamilyLife Art of Parenting API (.NET Core)
     project-type: multibranch-pipeline
