@@ -17,7 +17,9 @@
 - job:
     name: familylife-aop-api
     description: |
-      FamilyLife Art of Parenting API (.NET Core)
+      FamilyLife Art of Parenting API (.NET Core).
+      Code changes to the staging branch are automatically built and deployed to the staging environment.
+      Code changes to the master branch are automatically built and but require manual approval before deployment to the production environment.
     project-type: multibranch-pipeline
     branch-sources:
       - github:
