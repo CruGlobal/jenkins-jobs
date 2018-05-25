@@ -313,6 +313,13 @@
       - 'openresty-template'
 
 - project:
+    name: auto-ssl-redirector
+    description-intro: Builds, tests, & deploys the auto-ssl-redirector docker image.
+    email-recipients: brian.zoetewey@cru.org
+    jobs:
+      - 'openresty-template'
+
+- project:
     name: model_contracts
     description-intro: Builds, tests, & deploys the Model Contracts docker image.
     email-recipients: josh.starcher@cru.org
