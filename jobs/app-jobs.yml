@@ -53,6 +53,13 @@
       - 'php-template'
 
 - project:
+    name: fundable
+    description-intro: Builds, tests, & deploys the Fundable docker image.
+    email-recipients: tataihono.nikora@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
     name: global-profile-api
     description-intro: Builds, tests, & deploys the global-profile-api docker image.
     email-recipients: brian.zoetewey@ccci.org
