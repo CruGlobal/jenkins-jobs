@@ -47,7 +47,7 @@ private void performDeploy(String projectName, String ecsConfigBranch) {
             
             source $ECS_CONFIG/bin/load_environment.sh;
             load_environment;
-            npx serverless deploy --stage ${environment} --verbose;
+            SLS_DEBUG=* npx serverless deploy --stage ${environment} --verbose;
             """.stripIndent()
     }
 }
