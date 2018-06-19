@@ -30,3 +30,18 @@
             discover-branches:
             filter-by-name-with-wildcards:
               include: master staging              
+
+- job:
+    name: scale-of-belief-lambda
+    description: |
+      Scale-of-belief lambda/serverless project.
+    project-type: multibranch-pipeline
+    branch-sources:
+      - github:
+          credentials-id: Cru-Jenkins-GitHub-User
+          owner: CruGlobal
+          repository: scale-of-belief-lambda
+          behaviors:
+            discover-branches:
+            filter-by-name-with-wildcards:
+              include: kma-6-jenkins-deployment
