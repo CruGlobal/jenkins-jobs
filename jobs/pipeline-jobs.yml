@@ -44,4 +44,4 @@
           behaviors:
             discover-branches:
             filter-by-name-with-wildcards:
-              include: kma-6-jenkins-deployment
+              include: staging kma-6-jenkins-deployment
