@@ -57,10 +57,7 @@ private void performDeploy(String projectName, String ecsConfigBranch) {
                 credentialsId: 'Cru-Jenkins-GitHub-User'
         }
 
-        sh """\
-            #!/usr/bin/env bash
-            set -e
-            
+        bash """\
             source $ECS_CONFIG/bin/load_environment.sh;
             load_environment;
             SLS_DEBUG=* npx serverless deploy --stage ${environment} --verbose;
