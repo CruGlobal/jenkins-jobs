@@ -11,13 +11,15 @@ def call(Map config) {
     node('linux') {
         checkout scm
 
+        Deployments deployments = new Deployments()
+        deployments.cleanWorkingTree(except: '.deployment')
+
         stage('Install') {
             sh "npm install"
         }
 
         confirmDeploymentIfNecessary(config)
         stage('Deploy') {
-            Deployments deployments = new Deployments()
             def projectName = config.project ?: deployments.repositoryName()
             def ecsConfigBranch = config.ecsConfigBranch ?: 'master'
             performDeploy(projectName, ecsConfigBranch)
