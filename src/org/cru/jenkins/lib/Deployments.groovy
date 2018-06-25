@@ -55,6 +55,16 @@ private boolean confirmationRequired(LocalDate today, LocalTime currentTime) {
 }
 
 /**
+ * Returns the current directory's git repository name.
+ */
+String repositoryName() {
+    // NOTE: this uses sh/git to get the name,
+    // to avoid the sandbox/script approval process for using the jenkins scm object.
+    def url = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
+    return url.tokenize('/.')[-2]
+}
+
+/**
  * Sends an email requesting a confirmation to deploy, since it is now after-hours.
  * It is sent to all of:
  *   - the project recipients

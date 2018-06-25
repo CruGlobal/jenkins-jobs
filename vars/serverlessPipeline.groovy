@@ -17,7 +17,8 @@ def call(Map config) {
 
         confirmDeploymentIfNecessary(config)
         stage('Deploy') {
-            def projectName = config.project ?: repositoryName()
+            Deployments deployments = new Deployments()
+            def projectName = config.project ?: deployments.repositoryName()
             def ecsConfigBranch = config.ecsConfigBranch ?: 'master'
             performDeploy(projectName, ecsConfigBranch)
         }
@@ -37,11 +38,6 @@ private void confirmDeploymentIfNecessary(config) {
             }
         }
     }
-}
-
-private String repositoryName() {
-    def url = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
-    return url.tokenize('/.')[-2]
 }
 
 private void performDeploy(String projectName, String ecsConfigBranch) {
