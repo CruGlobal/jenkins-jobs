@@ -42,7 +42,9 @@ private void confirmDeploymentIfNecessary(config) {
 
 private void performDeploy(String projectName, String ecsConfigBranch) {
     def environment = environmentFromBranch()
-    String ecsConfigDir = 'deploy_ecs_config'
+    def deploymentWork = '.deployment'
+    sh "mkdir -p ${deploymentWork}"
+    String ecsConfigDir = "${deploymentWork}/ecs_config"
     withEnv([("ECS_CONFIG=${env.WORKSPACE}/${ecsConfigDir}"),
              "PROJECT_NAME=${projectName}",
              "ENVIRONMENT=${environment}"]) {
