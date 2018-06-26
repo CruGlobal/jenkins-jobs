@@ -13,7 +13,7 @@ def call(Map config, String buildStatus = 'STARTED') {
     def subject = "${buildStatus}: Job ${buildPhrase}"
     def summary = "${buildStatus}: <a href='${env.BUILD_URL}'>${buildPhrase}</a>"
     def details = """<p>${buildStatus}: Job ${buildPhrase}:</p>
-    <p>Check console output at <a href='${env.BUILD_URL}'>${buildPhrase}</a></p>"""
+    <p>Check console output at <a href='${env.BUILD_URL}console'>${buildPhrase}</a></p>"""
 
     // Override default values based on build status
     if (buildStatus == 'STARTED') {
