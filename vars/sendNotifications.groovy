@@ -23,7 +23,14 @@ def call(Map config, String buildStatus = 'STARTED') {
     }
 
     // Send notifications
-//    hipchatSend (color: color, notify: true, message: summary)
+    if (config.hipchatRoom) {
+        hipchatSend (
+            color: color,
+            notify: true,
+            message: summary,
+            room: config.hipchatRoom
+        )
+    }
 
     emailext (
             to: config.emailRecipients,

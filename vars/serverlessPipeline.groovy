@@ -11,6 +11,8 @@
  *  emailRecipients - comma-separated list of email addresses that should be notified,
  *      in addition to the build initiator and the developers that contributed to changes in the build;
  *      defaults to an empty list.
+ *  hipchatRoom - the hipchat room notifications should be sent to, in addition to emails;
+ *      default is no hipchat notifications.
  *  notifyOnSuccess - if job notifications should be sent on successful builds; defaults to false
  *  project - the ecs_config PROJECT_NAME; defaults to the git repo name
  *  testBuildFailureNotifications - if the build should immediately fail with a fake failure,

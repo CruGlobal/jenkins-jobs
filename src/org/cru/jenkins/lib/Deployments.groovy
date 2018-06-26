@@ -74,6 +74,16 @@ void sendConfirmationRequest(Map config) {
         </p>
         """.stripIndent()
 
+    if (config.hipchatRoom) {
+        def summary = "${subject} (${env.BUILD_URL}input/)"
+        hipchatSend (
+            color: 'YELLOW',
+            notify: true,
+            message: summary,
+            room: config.hipchatRoom
+        )
+    }
+
     emailext (
         to: config.emailRecipients,
         mimeType: 'text/html',
