@@ -22,7 +22,7 @@ def call(String buildStatus = 'STARTED') {
     }
 
     // Send notifications
-    hipchatSend (color: color, notify: true, message: summary)
+//    hipchatSend (color: color, notify: true, message: summary)
 
     emailext (
             to: 'bitwiseman@bitwiseman.com',
