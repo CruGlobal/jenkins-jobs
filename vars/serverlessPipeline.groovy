@@ -1,4 +1,5 @@
 #!/usr/bin/env groovy
+import org.cru.jenkins.lib.EnvironmentLoader
 
 
 /**
@@ -42,11 +43,13 @@ def call(Map config) {
 private void performDeploy(config) {
     def environment = environmentFromBranch()
 
-    bashWithLoadedEnvironment(
+    def loader = new EnvironmentLoader(
         projectName: config.project,
         environment: environment,
         ecsConfigBranch: config.ecsConfigBranch,
         deploymentWork: '.deployment',
-        script: "SLS_DEBUG=* npx serverless deploy --stage ${environment} --verbose;"
+        this
     )
+
+    loader.bash "SLS_DEBUG=* npx serverless deploy --stage ${environment} --verbose;"
 }
