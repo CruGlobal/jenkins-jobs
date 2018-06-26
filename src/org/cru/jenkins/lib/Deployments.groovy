@@ -62,20 +62,23 @@ private boolean confirmationRequired(LocalDate today, LocalTime currentTime) {
  *   - the one who initiated the build
  */
 void sendConfirmationRequest(Map config) {
-    def subject = "Deployment confirmation required: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+    def buildPhrase = "${env.JOB_NAME} #${env.BUILD_NUMBER}"
+    def status = "Deployment confirmation required"
+    def subject = "${status}: ${buildPhrase}"
     def body = """
         <p>
-        ${env.JOB_NAME} #${env.BUILD_NUMBER} was built,
+        ${buildPhrase} was built,
         but was not automatically deployed since it is now after-hours.
         </p>
         <p>
         To confirm this deployment, click 'Proceed' here, within 15 minutes:
-        <a href='${env.BUILD_URL}input/'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>
+        <a href='${env.BUILD_URL}input/'>${buildPhrase}</a>
         </p>
         """.stripIndent()
 
     if (config.hipchatRoom) {
-        def summary = "${subject} (${env.BUILD_URL}input/)"
+        def summary = "${status}: <a href='${env.BUILD_URL}input/'>${buildPhrase}</a>"
+
         hipchatSend (
             color: 'YELLOW',
             notify: true,
