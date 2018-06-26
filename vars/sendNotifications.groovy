@@ -9,10 +9,11 @@ def call(Map config, String buildStatus = 'STARTED') {
 
     // Default values
     def color = 'RED'
-    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    def buildPhrase = "${env.JOB_NAME} #${env.BUILD_NUMBER}"
+    def subject = "${buildStatus}: Job ${buildPhrase}"
     def summary = "${subject} (${env.BUILD_URL})"
-    def details = """<p>${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-    <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
+    def details = """<p>${buildStatus}: Job ${buildPhrase}:</p>
+    <p>Check console output at <a href='${env.BUILD_URL}'>${buildPhrase}</a></p>"""
 
     // Override default values based on build status
     if (buildStatus == 'STARTED') {
@@ -26,6 +27,7 @@ def call(Map config, String buildStatus = 'STARTED') {
 
     emailext (
             to: config.emailRecipients,
+            mimeType: 'text/html',
             subject: subject,
             body: details,
             recipientProviders: [requestor(), developers()]
