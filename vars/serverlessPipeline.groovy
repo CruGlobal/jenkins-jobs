@@ -18,34 +18,22 @@ def call(Map config) {
             }
 
             confirmDeploymentIfNecessary(config)
+
             stage('Deploy') {
-                def projectName = config.project ?: repositoryName()
-                def ecsConfigBranch = config.ecsConfigBranch ?: 'master'
-                performDeploy(projectName, ecsConfigBranch)
+                performDeploy(config)
             }
         }
     }
 }
 
-private void performDeploy(String projectName, String ecsConfigBranch) {
+private void performDeploy(config) {
     def environment = environmentFromBranch()
-    def deploymentWork = '.deployment'
-    sh "mkdir -p ${deploymentWork}"
-    String ecsConfigDir = "${deploymentWork}/ecs_config"
-    withEnv([("ECS_CONFIG=${env.WORKSPACE}/${ecsConfigDir}"),
-             "PROJECT_NAME=${projectName}",
-             "ENVIRONMENT=${environment}"]) {
 
-        dir(ecsConfigDir) {
-            git url: 'https://github.com/CruGlobal/ecs_config.git',
-                branch: ecsConfigBranch,
-                credentialsId: 'Cru-Jenkins-GitHub-User'
-        }
-
-        bash """\
-            source $ECS_CONFIG/bin/load_environment.sh;
-            load_environment;
-            SLS_DEBUG=* npx serverless deploy --stage ${environment} --verbose;
-            """.stripIndent()
-    }
+    bashWithLoadedEnvironment(
+        projectName: config.project,
+        environment: environment,
+        ecsConfigBranch: config.ecsConfigBranch,
+        deploymentWork: '.deployment',
+        script: "SLS_DEBUG=* npx serverless deploy --stage ${environment} --verbose;"
+    )
 }
