@@ -52,4 +52,6 @@ private void performDeploy(config) {
     )
 
     loader.bash "SLS_DEBUG=* npx serverless deploy --stage ${environment} --verbose;"
+
+    notifyRollbarOfDeployment(loader)
 }
