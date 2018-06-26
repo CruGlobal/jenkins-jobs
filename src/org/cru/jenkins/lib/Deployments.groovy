@@ -55,16 +55,6 @@ private boolean confirmationRequired(LocalDate today, LocalTime currentTime) {
 }
 
 /**
- * Returns the current directory's git repository name.
- */
-String repositoryName() {
-    // NOTE: this uses sh/git to get the name,
-    // to avoid the sandbox/script approval process for using the jenkins scm object.
-    def url = sh(returnStdout: true, script: 'git config remote.origin.url').trim()
-    return url.tokenize('/.')[-2]
-}
-
-/**
  * Sends an email requesting a confirmation to deploy, since it is now after-hours.
  * It is sent to all of:
  *   - the email addresses listed in the emailRecipients config option
@@ -92,23 +82,4 @@ void sendConfirmationRequest(Map config) {
         recipientProviders: [requestor(), developers()]
     )
 
-}
-
-/**
- * Fails the build if the config option testBuildFailureNotifications is truthy.
- */
-void testBuildFailureNotificationsIfConfigured(Map config) {
-    if (config.testBuildFailureNotifications) {
-        error("Fake failure in order to test notifications")
-    }
-}
-
-/**
- * Removes untracked and ignored files and directories.
- * An exclusion pattern may be passed in the 'except' config option.
- * This must be a git checkout.
- */
-void cleanWorkingTree(Map config) {
-    def exclude = config.except ? " --exclude ${config.except}" : ""
-    sh "git clean -d --force --force -x" + exclude
 }

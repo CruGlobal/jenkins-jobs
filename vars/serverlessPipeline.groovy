@@ -1,7 +1,5 @@
 #!/usr/bin/env groovy
 
-import org.cru.jenkins.lib.Deployments
-
 
 /**
  * Defines a jenkins pipeline for serverless projects
@@ -12,9 +10,8 @@ def call(Map config) {
         withNotifications(config) {
             checkout scm
 
-            Deployments deployments = new Deployments()
-            deployments.cleanWorkingTree(except: '.deployment')
-            deployments.testBuildFailureNotificationsIfConfigured(config)
+            cleanWorkingTree(except: '.deployment')
+            testBuildFailureNotificationsIfConfigured(config)
 
             stage('Install') {
                 sh "npm install"
@@ -22,24 +19,9 @@ def call(Map config) {
 
             confirmDeploymentIfNecessary(config)
             stage('Deploy') {
-                def projectName = config.project ?: deployments.repositoryName()
+                def projectName = config.project ?: repositoryName()
                 def ecsConfigBranch = config.ecsConfigBranch ?: 'master'
                 performDeploy(projectName, ecsConfigBranch)
-            }
-        }
-    }
-}
-
-private void confirmDeploymentIfNecessary(config) {
-    def environment = environmentFromBranch()
-    if (environment == 'production' || config.confirmAllBranches) {
-        Deployments deployments = new Deployments()
-        stage('Confirm Deployment') {
-            if (deployments.afterHoursConfirmationRequired()) {
-                deployments.sendConfirmationRequest(config)
-                timeout(time: 15, unit: 'MINUTES') {
-                    input "OK to deploy to ${environment}, after hours?"
-                }
             }
         }
     }
