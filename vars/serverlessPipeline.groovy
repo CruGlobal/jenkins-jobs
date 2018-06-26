@@ -2,14 +2,25 @@
 
 
 /**
- * Defines a jenkins pipeline for serverless projects
+ * Defines a jenkins pipeline for serverless projects.
+ *
+ * Config options:
+ *  confirmAllBranches - if all branches should be subject to deployment confirmation prompts,
+ *      and not just production; defaults to false
+ *  ecsConfigBranch - the ecs_config branch to use; defaults to master
+ *  emailRecipients - comma-separated list of email addresses that should be notified,
+ *      in addition to the build initiator and the developers that contributed to changes in the build;
+ *      defaults to an empty list.
+ *  notifyOnSuccess - if job notifications should be sent on successful builds; defaults to false
+ *  project - the ecs_config PROJECT_NAME; defaults to the git repo name
+ *  testBuildFailureNotifications - if the build should immediately fail with a fake failure,
+ *      to test notifications; defaults to false
  */
 def call(Map config) {
 
     node('linux') {
         withNotifications(config) {
             checkout scm
-
             cleanWorkingTree(except: '.deployment')
             testBuildFailureNotificationsIfConfigured(config)
 
