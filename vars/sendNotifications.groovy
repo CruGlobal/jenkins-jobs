@@ -11,7 +11,7 @@ def call(Map config, String buildStatus = 'STARTED') {
     def color = 'RED'
     def buildPhrase = "${env.JOB_NAME} #${env.BUILD_NUMBER}"
     def subject = "${buildStatus}: Job ${buildPhrase}"
-    def summary = "${subject} (${env.BUILD_URL})"
+    def summary = "${buildStatus}: <a href='${env.BUILD_URL}'>${buildPhrase}</a>"
     def details = """<p>${buildStatus}: Job ${buildPhrase}:</p>
     <p>Check console output at <a href='${env.BUILD_URL}'>${buildPhrase}</a></p>"""
 
