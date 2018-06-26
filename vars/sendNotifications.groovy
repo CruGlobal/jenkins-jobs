@@ -3,7 +3,7 @@
 /**
  * Send notifications based on build status string
  */
-def call(String buildStatus = 'STARTED') {
+def call(Map config, String buildStatus = 'STARTED') {
     // build status of null means successful
     buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
@@ -25,9 +25,9 @@ def call(String buildStatus = 'STARTED') {
 //    hipchatSend (color: color, notify: true, message: summary)
 
     emailext (
-            to: 'bitwiseman@bitwiseman.com',
+            to: config.emailRecipients,
             subject: subject,
             body: details,
-            recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            recipientProviders: [requestor(), developers()]
     )
 }

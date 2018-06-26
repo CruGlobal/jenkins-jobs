@@ -67,11 +67,11 @@ String repositoryName() {
 /**
  * Sends an email requesting a confirmation to deploy, since it is now after-hours.
  * It is sent to all of:
- *   - the project recipients
+ *   - the email addresses listed in the emailRecipients config option
  *   - the developers of commits in this build
  *   - the one who initiated the build
  */
-void sendConfirmationRequest() {
+void sendConfirmationRequest(Map config) {
     def subject = "Deployment confirmation required: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
     def body = """
         <p>
@@ -85,7 +85,7 @@ void sendConfirmationRequest() {
         """.stripIndent()
 
     emailext (
-        to: 'matt.drees+recipient@cru.org',
+        to: config.emailRecipients,
         mimeType: 'text/html',
         subject: subject,
         body: body,

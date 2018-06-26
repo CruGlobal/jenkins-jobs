@@ -9,20 +9,22 @@ import org.cru.jenkins.lib.Deployments
 def call(Map config) {
 
     node('linux') {
-        checkout scm
+        withNotifications(config) {
+            checkout scm
 
-        Deployments deployments = new Deployments()
-        deployments.cleanWorkingTree(except: '.deployment')
+            Deployments deployments = new Deployments()
+            deployments.cleanWorkingTree(except: '.deployment')
 
-        stage('Install') {
-            sh "npm install"
-        }
+            stage('Install') {
+                sh "npm install"
+            }
 
-        confirmDeploymentIfNecessary(config)
-        stage('Deploy') {
-            def projectName = config.project ?: deployments.repositoryName()
-            def ecsConfigBranch = config.ecsConfigBranch ?: 'master'
-            performDeploy(projectName, ecsConfigBranch)
+            confirmDeploymentIfNecessary(config)
+            stage('Deploy') {
+                def projectName = config.project ?: deployments.repositoryName()
+                def ecsConfigBranch = config.ecsConfigBranch ?: 'master'
+                performDeploy(projectName, ecsConfigBranch)
+            }
         }
     }
 }
@@ -33,7 +35,7 @@ private void confirmDeploymentIfNecessary(config) {
         Deployments deployments = new Deployments()
         stage('Confirm Deployment') {
             if (deployments.afterHoursConfirmationRequired()) {
-                deployments.sendConfirmationRequest()
+                deployments.sendConfirmationRequest(config)
                 timeout(time: 15, unit: 'MINUTES') {
                     input "OK to deploy to ${environment}, after hours?"
                 }
