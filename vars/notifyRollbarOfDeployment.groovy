@@ -16,7 +16,8 @@ def call(EnvironmentLoader loader) {
       --form access_token="\${ROLLBAR_ACCESS_TOKEN}" \\
       --form environment="\${ENVIRONMENT}" \\
       --form revision="${gitCommit}" \\
-      --form local_username="${localUsername}"
+      --form local_username="${localUsername}" \\
+      --form comment="${env.BUILD_URL}"
     """.stripIndent()
 
   loader.bash(script)
