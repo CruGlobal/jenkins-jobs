@@ -25,7 +25,12 @@ def call(EnvironmentLoader loader) {
 
 @NonCPS
 private Object getUserId() {
-  def userCause = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause)
-  def localUsername = userCause ? userCause.userId : "N/A"
-  localUsername
+  def build = currentBuild.rawBuild
+  def userCause = build.getCause(hudson.model.Cause$UserIdCause)
+  if (userCause != null) {
+    return userCause.userId
+  } else {
+    def branchCause = build.getCause(jenkins.branch.BranchEventCause)
+    return branchCause ? "github" : "N/A"
+  }
 }
