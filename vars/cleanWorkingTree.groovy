@@ -6,6 +6,6 @@
  * This must be a git checkout.
  */
 void call(Map config) {
-    def exclude = config.except ? " --exclude ${config.except}" : ""
-    sh "git clean -d --force --force -x" + exclude
+  def exclude = config.except ? " --exclude ${config.except}" : ""
+  sh "git clean -d --force --force -x" + exclude
 }

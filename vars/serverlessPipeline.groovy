@@ -21,37 +21,37 @@ import org.cru.jenkins.lib.EnvironmentLoader
  */
 def call(Map config) {
 
-    node('linux') {
-        withNotifications(config) {
-            checkout scm
-            cleanWorkingTree(except: '.deployment')
-            testBuildFailureNotificationsIfConfigured(config)
+  node('linux') {
+    withNotifications(config) {
+      checkout scm
+      cleanWorkingTree(except: '.deployment')
+      testBuildFailureNotificationsIfConfigured(config)
 
-            stage('Install') {
-                sh "npm install"
-            }
+      stage('Install') {
+        sh "npm install"
+      }
 
-            confirmDeploymentIfNecessary(config)
+      confirmDeploymentIfNecessary(config)
 
-            stage('Deploy') {
-                performDeploy(config)
-            }
-        }
+      stage('Deploy') {
+        performDeploy(config)
+      }
     }
+  }
 }
 
 private void performDeploy(config) {
-    def environment = environmentFromBranch()
+  def environment = environmentFromBranch()
 
-    def loader = new EnvironmentLoader(
-        projectName: config.project,
-        environment: environment,
-        ecsConfigBranch: config.ecsConfigBranch,
-        deploymentWork: '.deployment',
-        this
-    )
+  def loader = new EnvironmentLoader(
+    projectName: config.project,
+    environment: environment,
+    ecsConfigBranch: config.ecsConfigBranch,
+    deploymentWork: '.deployment',
+    this
+  )
 
-    loader.bash "SLS_DEBUG=* npx serverless deploy --stage ${environment} --verbose;"
+  loader.bash "SLS_DEBUG=* npx serverless deploy --stage ${environment} --verbose;"
 
-    notifyRollbarOfDeployment(loader)
+  notifyRollbarOfDeployment(loader)
 }

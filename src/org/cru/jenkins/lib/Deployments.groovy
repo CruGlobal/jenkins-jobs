@@ -1,18 +1,15 @@
 package org.cru.jenkins.lib
 
-import groovy.transform.Field
+import static java.time.DayOfWeek.SATURDAY
+import static java.time.DayOfWeek.SUNDAY
 
+import groovy.transform.Field
 import java.time.Clock
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
-
-import static java.time.DayOfWeek.SATURDAY
-import static java.time.DayOfWeek.SUNDAY
-
-
 
 @Field
 static final EnumSet<DayOfWeek> WEEKEND_DAYS = EnumSet.of(SATURDAY, SUNDAY)
@@ -26,7 +23,7 @@ static final LocalTime AUTODEPLOY_HOURS_END = LocalTime.of(13, 0)
  * but also work correctly on Jenkins.
  */
 class ClockHolder {
-    static clock = Clock.system(ZoneId.of("America/New_York"))
+  static clock = Clock.system(ZoneId.of("America/New_York"))
 }
 
 /**
@@ -38,20 +35,20 @@ class ClockHolder {
  */
 boolean afterHoursConfirmationRequired() {
 
-    ZonedDateTime now = ZonedDateTime.now(ClockHolder.clock)
-    def timestampSentence = "It is currently ${now}."
-    LocalDate today = now.toLocalDate()
-    LocalTime currentTime = now.toLocalTime()
-    def required = confirmationRequired(today, currentTime)
-    maybeNot = required ? "" : "not "
-    echo "${timestampSentence} After-hours confirmation is ${maybeNot}required"
-    return required
+  ZonedDateTime now = ZonedDateTime.now(ClockHolder.clock)
+  def timestampSentence = "It is currently ${now}."
+  LocalDate today = now.toLocalDate()
+  LocalTime currentTime = now.toLocalTime()
+  def required = confirmationRequired(today, currentTime)
+  maybeNot = required ? "" : "not "
+  echo "${timestampSentence} After-hours confirmation is ${maybeNot}required"
+  return required
 }
 
 private boolean confirmationRequired(LocalDate today, LocalTime currentTime) {
-    return WEEKEND_DAYS.contains(today.dayOfWeek) ||
-        currentTime.isBefore(AUTODEPLOY_HOURS_BEGIN) ||
-        currentTime.isAfter(AUTODEPLOY_HOURS_END)
+  return WEEKEND_DAYS.contains(today.dayOfWeek) ||
+    currentTime.isBefore(AUTODEPLOY_HOURS_BEGIN) ||
+    currentTime.isAfter(AUTODEPLOY_HOURS_END)
 }
 
 /**
@@ -62,37 +59,37 @@ private boolean confirmationRequired(LocalDate today, LocalTime currentTime) {
  *   - the one who initiated the build
  */
 void sendConfirmationRequest(Map config) {
-    def buildPhrase = "${env.JOB_NAME} #${env.BUILD_NUMBER}"
-    def status = "Deployment confirmation required"
-    def subject = "${status}: ${buildPhrase}"
-    def body = """
-        <p>
-        ${buildPhrase} was built,
-        but was not automatically deployed since it is now after-hours.
-        </p>
-        <p>
-        To confirm this deployment, click 'Proceed' here, within 15 minutes:
-        <a href='${env.BUILD_URL}input/'>${buildPhrase}</a>
-        </p>
-        """.stripIndent()
+  def buildPhrase = "${env.JOB_NAME} #${env.BUILD_NUMBER}"
+  def status = "Deployment confirmation required"
+  def subject = "${status}: ${buildPhrase}"
+  def body = """
+    <p>
+    ${buildPhrase} was built,
+    but was not automatically deployed since it is now after-hours.
+    </p>
+    <p>
+    To confirm this deployment, click 'Proceed' here, within 15 minutes:
+    <a href='${env.BUILD_URL}input/'>${buildPhrase}</a>
+    </p>
+    """.stripIndent()
 
-    if (config.hipchatRoom) {
-        def summary = "${status}: <a href='${env.BUILD_URL}input/'>${buildPhrase}</a>"
+  if (config.hipchatRoom) {
+    def summary = "${status}: <a href='${env.BUILD_URL}input/'>${buildPhrase}</a>"
 
-        hipchatSend (
-            color: 'YELLOW',
-            notify: true,
-            message: summary,
-            room: config.hipchatRoom
-        )
-    }
-
-    emailext (
-        to: config.emailRecipients,
-        mimeType: 'text/html',
-        subject: subject,
-        body: body,
-        recipientProviders: [requestor(), developers()]
+    hipchatSend(
+      color: 'YELLOW',
+      notify: true,
+      message: summary,
+      room: config.hipchatRoom
     )
+  }
+
+  emailext(
+    to: config.emailRecipients,
+    mimeType: 'text/html',
+    subject: subject,
+    body: body,
+    recipientProviders: [requestor(), developers()]
+  )
 
 }

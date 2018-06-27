@@ -6,16 +6,16 @@ import org.cru.jenkins.lib.Deployments
  * The stage is added if this is a production branch, or if the confirmAllBranches option is true.
  */
 void call(Map config) {
-    def environment = environmentFromBranch()
-    if (environment == 'production' || config.confirmAllBranches) {
-        Deployments deployments = new Deployments()
-        stage('Confirm Deployment') {
-            if (deployments.afterHoursConfirmationRequired()) {
-                deployments.sendConfirmationRequest(config)
-                timeout(time: 15, unit: 'MINUTES') {
-                    input "OK to deploy to ${environment}, after hours?"
-                }
-            }
+  def environment = environmentFromBranch()
+  if (environment == 'production' || config.confirmAllBranches) {
+    Deployments deployments = new Deployments()
+    stage('Confirm Deployment') {
+      if (deployments.afterHoursConfirmationRequired()) {
+        deployments.sendConfirmationRequest(config)
+        timeout(time: 15, unit: 'MINUTES') {
+          input "OK to deploy to ${environment}, after hours?"
         }
+      }
     }
+  }
 }
