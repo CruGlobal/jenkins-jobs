@@ -28,6 +28,15 @@
           branches: staging kma-6-jenkins-deployment
 
 
+- project:
+    name: scale-of-belief-import
+    description: |
+      Scale-of-belief lambda/serverless project for importing survey spreadsheets.
+    jobs:
+      - 'pipeline-template':
+          branches: production kma-6-add-jenkins-deployments
+
+
 - job-template:
     id: pipeline-template
 
