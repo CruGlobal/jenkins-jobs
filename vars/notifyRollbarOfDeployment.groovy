@@ -12,6 +12,12 @@ def call(EnvironmentLoader loader) {
   def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 
   script = """
+    if [ -z "\${ROLLBAR_ACCESS_TOKEN}"];
+    then
+      echo "No ROLLBAR_ACCESS_TOKEN; skipping rollbar deployment notification"
+      exit 0;
+    fi
+
     curl https://api.rollbar.com/api/1/deploy/ \\
       --form access_token="\${ROLLBAR_ACCESS_TOKEN}" \\
       --form environment="\${ENVIRONMENT}" \\
