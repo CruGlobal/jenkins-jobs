@@ -6,7 +6,7 @@ import org.cru.jenkins.lib.Deployments
  * The stage is added if this is a production branch, or if the confirmAllBranches option is true.
  */
 void call(Map config) {
-  def environment = environmentFromBranch()
+  def environment = environmentFromBranch(config)
   if (environment == 'production' || config.confirmAllBranches) {
     Deployments deployments = new Deployments()
     stage('Confirm Deployment') {

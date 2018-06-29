@@ -8,6 +8,8 @@ import org.cru.jenkins.lib.EnvironmentLoader
  * Config options:
  *  confirmAllBranches - if all branches should be subject to deployment confirmation prompts,
  *      and not just production; defaults to false
+ *  defaultEnvironment - the environment to use if the branch is neither 'master' nor 'staging';
+ *      defaults to 'staging'
  *  ecsConfigBranch - the ecs_config branch to use; defaults to master
  *  emailRecipients - comma-separated list of email addresses that should be notified,
  *      in addition to the build initiator and the developers that contributed to changes in the build;
@@ -41,7 +43,7 @@ def call(Map config) {
 }
 
 private void performDeploy(config) {
-  def environment = environmentFromBranch()
+  def environment = environmentFromBranch(config)
 
   def loader = new EnvironmentLoader(
     projectName: config.project,
