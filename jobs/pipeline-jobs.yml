@@ -1,47 +1,49 @@
 
-- job:
-    name: familylife-forms-api
+- project:
+    name: FamilyLife-FormsAPI
     description: |
       FamilyLife Forms API (ASP.NET Web API)
-    project-type: multibranch-pipeline
-    branch-sources:
-      - github:
-          credentials-id: FL-Jenkins-GitHub-User
-          owner: CruGlobal
-          repository: FamilyLife-FormsAPI
-          behaviors:
-            discover-branches:
-            filter-by-name-with-wildcards:
-              include: master staging
+    jobs:
+      - 'pipeline-template':
+          github-credentials-id: FL-Jenkins-GitHub-User
 
-- job:
-    name: familylife-aop-api
+
+- project:
+    name: FamilyLife-ArtOfParentingAPI
     description: |
       FamilyLife Art of Parenting API (.NET Core).
       Code changes to the staging branch are automatically built and deployed to the staging environment.
       Code changes to the master branch are automatically built and but require manual approval before deployment to the production environment.
-    project-type: multibranch-pipeline
-    branch-sources:
-      - github:
-          credentials-id: FL-Jenkins-GitHub-User
-          owner: CruGlobal
-          repository: FamilyLife-ArtOfParentingAPI
-          behaviors:
-            discover-branches:
-            filter-by-name-with-wildcards:
-              include: master staging              
+    jobs:
+      - 'pipeline-template':
+          github-credentials-id: FL-Jenkins-GitHub-User
 
-- job:
+
+- project:
     name: scale-of-belief-lambda
     description: |
-      Scale-of-belief lambda/serverless project.
+      Scale-of-belief lambda (serverless) project.
+    jobs:
+      - 'pipeline-template':
+          branches: staging kma-6-jenkins-deployment
+
+
+- job-template:
+    id: pipeline-template
+
+    # Defaults:
+    branches: staging master
+    github-credentials-id: Cru-Jenkins-GitHub-User
+
+    # Job definition:
+    name: '{name}'
     project-type: multibranch-pipeline
     branch-sources:
       - github:
-          credentials-id: Cru-Jenkins-GitHub-User
+          credentials-id: '{github-credentials-id}'
           owner: CruGlobal
-          repository: scale-of-belief-lambda
+          repository: '{name}'
           behaviors:
             discover-branches:
             filter-by-name-with-wildcards:
-              include: staging kma-6-jenkins-deployment
+              include: '{branches}'
