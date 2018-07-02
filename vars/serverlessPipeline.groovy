@@ -14,6 +14,7 @@ def call(Map config) {
 
             Deployments deployments = new Deployments()
             deployments.cleanWorkingTree(except: '.deployment')
+            deployments.testBuildFailureNotificationsIfConfigured(config)
 
             stage('Install') {
                 sh "npm install"

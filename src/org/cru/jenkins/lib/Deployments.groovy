@@ -95,6 +95,15 @@ void sendConfirmationRequest(Map config) {
 }
 
 /**
+ * Fails the build if the config option testBuildFailureNotifications is truthy.
+ */
+void testBuildFailureNotificationsIfConfigured(Map config) {
+    if (config.testBuildFailureNotifications) {
+        error("Fake failure in order to test notifications")
+    }
+}
+
+/**
  * Removes untracked and ignored files and directories.
  * An exclusion pattern may be passed in the 'except' config option.
  * This must be a git checkout.
