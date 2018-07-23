@@ -26,5 +26,13 @@ How to Add or Update a Job
 * To create your new job on Jenkins, run the "create-jenkins-jobs" [job][2] on Jenkins Production.
 
 
+Pipeline Library
+----------------
+This repository also serves as a Jenkins Pipeline shared library.
+As such it follows the layout requirements:
+ * global variables (which can act like steps) go in `vars`
+ * classes (which can hold state or just encapsulate complexity) go in `src`
+ * tests go in `test`
+
 [1]: https://jenkins-lab.cru.org/job/create-jenkins-jobs/configure
 [2]: https://jenkins-prod.cru.org/job/create-jenkins-jobs/
