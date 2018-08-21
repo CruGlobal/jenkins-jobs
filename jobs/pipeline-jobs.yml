@@ -33,7 +33,16 @@
       Scale-of-belief lambda/serverless project for importing survey spreadsheets.
     jobs:
       - 'pipeline-template':
-          branches: production
+          branches: master
+
+
+- project:
+    name: know-god-asset-import
+    description: |
+      Know God asset import lambda (serverless) function.
+    jobs:
+    - 'pipeline-template':
+        branches: master
 
 
 - job-template:
