@@ -21,7 +21,7 @@ import org.cru.jenkins.lib.EnvironmentLoader
  *  testBuildFailureNotifications - if the build should immediately fail with a fake failure,
  *      to test notifications; defaults to false
  */
-def call(Map config) {
+def call(Map config = [:]) {
 
   node('linux') {
     withNotifications(config) {
