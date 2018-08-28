@@ -39,13 +39,6 @@
       - 'rails-template'
 
 - project:
-    name: cru-bot
-    description-intro: Builds, tests, & deploys the cru-bot docker image.
-    email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org
-    jobs:
-      - 'php-template'
-
-- project:
     name: everystudent-web
     description-intro: Builds, tests, & deploys the everystudent.com docker image.
     email-recipients: josh.starcher@cru.org
