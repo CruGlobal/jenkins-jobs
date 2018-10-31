@@ -11,7 +11,7 @@ name = "pypi"
 
 [packages]
 
-requests = "*"
+requests = ">=2.20.0"
 pyyaml = "*"
 jenkins-job-builder = {ref = "modifications-for-cru-jenkins", git = "https://github.com/CruGlobal/jenkins-job-builder.git", editable = true}
 
