@@ -1,188 +1,77 @@
-- project:
-    name: docker-airflow
-    description-intro: Builds, tests, & deploys the apache airflow docker image.
-    email-recipients: josh.starcher@cru.org, luis.rodriguez@cru.org
-    jobs:
-      - 'openresty-template'
-
-- job-group:
-    name: 'openresty-template'
-    jobs:
-        - '{name}':
-            build-script: openresty_deploy.sh
-            
 - job:
-    name: docker-airflow-production
+    name: docker-airflow-deploy
     description: |-
       Deploys the airflow apps based on role to Production.
 
       Specifically, this kicks off a deploy-ecs build for each of the four airflow webapps.
 
     parameters:
-    - string:
-        description: the airflow devops commit to deploy
-        name: GIT_COMMIT
-    - string:
-        description: the release number of the image to deploy
-        name: RELEASE_NUMBER
+      # Note: these are copy/pasted from the deploy-ecs job list in simple-jobs.yml
+      - string:
+          name: PROJECT_NAME
+          description: The name of the project which should match the name of the docker hub repository
+
+      - string:
+          name: IMAGE_TAG
+          description: The tag of the image to deploy
+
+      - string:
+          name: ENVIRONMENT
+          description: Which environment to deploy to. If not provided, it will be determined from the git branch name.
+
+      - string:
+          name: GIT_BRANCH
+          description: Which git branch is being deployed. This is currently only used to determine ENVIRONMENT
+
+      - string:
+          name: CLUSTER
+          description: Which ECS cluster the app should be deployed to. By default, the stage cluster is used for all non-production environments, and prod is used for all production environments.
+
+      - string:
+          name: IMAGE_NAME
+          description: 'OPTIONAL: Allows for overriding docker image name derived by default from PROJECT_NAME'
 
     publishers:
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=airflow-webserver
-              IMAGE_TAG=production-${RELEASE_NUMBER}
-              GIT_BRANCH=origin/master
-              ENVIRONMENT=production
               IMAGE_NAME=docker-airflow
-              CLUSTER=
+              IMAGE_TAG=$IMAGE_TAG
+              GIT_COMMIT=$GIT_COMMIT
+              GIT_BRANCH=$GIT_BRANCH
+              ENVIRONMENT=$ENVIRONMENT
+              CLUSTER=$CLUSTER
 
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=airflow-flower
-              IMAGE_TAG=production-${RELEASE_NUMBER}
-              GIT_BRANCH=origin/master
-              ENVIRONMENT=production
               IMAGE_NAME=docker-airflow
-              CLUSTER=
+              IMAGE_TAG=$IMAGE_TAG
+              GIT_COMMIT=$GIT_COMMIT
+              GIT_BRANCH=$GIT_BRANCH
+              ENVIRONMENT=$ENVIRONMENT
+              CLUSTER=$CLUSTER
 
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=airflow-scheduler
-              IMAGE_TAG=production-${RELEASE_NUMBER}
-              GIT_BRANCH=origin/master
-              ENVIRONMENT=production
               IMAGE_NAME=docker-airflow
-              CLUSTER=
+              IMAGE_TAG=$IMAGE_TAG
+              GIT_COMMIT=$GIT_COMMIT
+              GIT_BRANCH=$GIT_BRANCH
+              ENVIRONMENT=$ENVIRONMENT
+              CLUSTER=$CLUSTER
 
       - trigger-parameterized-builds:
           - project: deploy-ecs
             predefined-parameters: |
               PROJECT_NAME=airflow-worker
-              IMAGE_TAG=production-${RELEASE_NUMBER}
-              GIT_BRANCH=origin/master
-              ENVIRONMENT=production
               IMAGE_NAME=docker-airflow
-              CLUSTER=
-
-
-- job-template:
-    name: '{name}'
-    description: |
-      {description-intro}
-      Builds on the 'staging' branch automatically trigger a deployment
-      of that image to the staging environment.
-      From 7am to 1pm on weekdays, builds on the 'master' branch automatically trigger a
-      deployment of that image to the production environment.
-      Only the master and staging branches are automatically built.
-      Other branches may be manually built via `Build with Parameters`.
-      Historic builds can be manually deployed to either staging or production,
-      by running the 'Deploy to Production' or the 'Deploy to Staging' build promotions.
-    parameters:
-      - git:
-          name: BRANCH_SPECIFIER
-          description: |
-            If specified, jenkins will use this git branch to build.
-            If not, jenkins will pick a branch (between 'master' and 'staging')
-            that seems most likely to be the one you want built.
-            This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
-            or, if there are none of those, the most recently-built branch.
-          type: branch
-          sort: none
-          default: :origin/(master|staging)
-
-    properties:
-      - github:
-          url: https://github.com/CruGlobal/{name}/
-      - promoted-build:
-            names:
-              - Deploy to Staging
-              - Deploy to Production
-      - inject:
-          properties-content: |
-            LD_LIBRARY_PATH=/opt/oracle/instantclient_11_2
-    node: linux
-    scm:
-      - git:
-          branches:
-          - $BRANCH_SPECIFIER
-          url: git@github.com:CruGlobal/{name}.git
-          wipe-workspace: false
-          skip-tag: true
-          prune: true
-    triggers:
-      - github
-
-    builders:
-      - shell: 'PROJECT_NAME=$JOB_NAME DEPLOY_ECS=false ~/bin/{build-script}'
-
-    publishers:
-      - conditional-publisher:
-          - condition-kind: strings-match
-            condition-string1: "$GIT_BRANCH"
-            condition-string2: "origin/staging"
-            action:
-              - trigger-parameterized-builds:
-                  - project: deploy-ecs
-                    predefined-parameters: |
-                      IMAGE_TAG=staging-$BUILD_NUMBER
-                      PROJECT_NAME=$JOB_NAME
-                      GIT_COMMIT=$GIT_COMMIT
-                      GIT_BRANCH=$GIT_BRANCH
-                      ENVIRONMENT=staging
-                      CLUSTER={cluster}
-                    condition: SUCCESS
-          - condition-kind: and
-            condition-operands:
-              - &is-master
-                condition-kind: strings-match
-                condition-string1: "$GIT_BRANCH"
-                condition-string2: "origin/master"
-              - &is-weekday
-                condition-kind: day-of-week
-                day-selector: weekday
-              - &is-within-work-hours
-                condition-kind: time
-                earliest-hour: "7"
-                earliest-min: "0"
-                latest-hour: "13"
-                latest-min: "0"
-            action:
-              - trigger-parameterized-builds:
-                  - project: docker-airflow-production
-                    predefined-parameters: |
-                      RELEASE_NUMBER=$BUILD_NUMBER
-                      GIT_COMMIT=$GIT_COMMIT
-                    condition: SUCCESS
-          - condition-kind: and
-            condition-operands:
-              - <<: *is-master
-              - condition-kind: not
-                condition-operand:
-                  condition-kind: and
-                  condition-operands:
-                    - <<: *is-weekday
-                    - <<: *is-within-work-hours
-            action:
-              - email-ext:
-                  recipients: '{email-recipients}'
-                  failure: false
-                  success: true
-                  send-to:
-                    -  recipients
-                    -  requester
-                    -  developers
-                  body: |
-                    Note: $JOB_NAME #$BUILD_NUMBER was built, but was not automatically deployed to production since it is now after-hours.
-                    To manually deploy, run the 'Deploy to Production' promotion here:
-                    ${{BUILD_URL}}promotion/
-                    $DEFAULT_CONTENT
-                  presend-script: $DEFAULT_PRESEND_SCRIPT
-
-    wrappers:
-      - build-name:
-          name: '$GIT_BRANCH #$BUILD_NUMBER'
-      - rbenv:
-          ruby-version: 2.3.1
+              IMAGE_TAG=$IMAGE_TAG
+              GIT_COMMIT=$GIT_COMMIT
+              GIT_BRANCH=$GIT_BRANCH
+              ENVIRONMENT=$ENVIRONMENT
+              CLUSTER=$CLUSTER
