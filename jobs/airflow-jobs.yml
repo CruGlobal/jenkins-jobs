@@ -29,43 +29,43 @@
     publishers:
       - trigger-parameterized-builds:
           - project: deploy-ecs
-              predefined-parameters: |
-                PROJECT_NAME=airflow-webserver
-                IMAGE_TAG=production-${RELEASE_NUMBER}
-                GIT_BRANCH=origin/master
-                ENVIRONMENT=production
-                IMAGE_NAME=docker-airflow
-                CLUSTER=
+            predefined-parameters: |
+              PROJECT_NAME=airflow-webserver
+              IMAGE_TAG=production-${RELEASE_NUMBER}
+              GIT_BRANCH=origin/master
+              ENVIRONMENT=production
+              IMAGE_NAME=docker-airflow
+              CLUSTER=
 
-          - trigger-parameterized-builds:
-              - project: deploy-ecs
-                  predefined-parameters: |
-                    PROJECT_NAME=airflow-flower
-                    IMAGE_TAG=production-${RELEASE_NUMBER}
-                    GIT_BRANCH=origin/master
-                    ENVIRONMENT=production
-                    IMAGE_NAME=docker-airflow
-                    CLUSTER=
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=airflow-flower
+              IMAGE_TAG=production-${RELEASE_NUMBER}
+              GIT_BRANCH=origin/master
+              ENVIRONMENT=production
+              IMAGE_NAME=docker-airflow
+              CLUSTER=
 
-          - trigger-parameterized-builds:
-              - project: deploy-ecs
-                  predefined-parameters: |
-                    PROJECT_NAME=airflow-scheduler
-                    IMAGE_TAG=production-${RELEASE_NUMBER}
-                    GIT_BRANCH=origin/master
-                    ENVIRONMENT=production
-                    IMAGE_NAME=docker-airflow
-                    CLUSTER=
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=airflow-scheduler
+              IMAGE_TAG=production-${RELEASE_NUMBER}
+              GIT_BRANCH=origin/master
+              ENVIRONMENT=production
+              IMAGE_NAME=docker-airflow
+              CLUSTER=
 
-          - trigger-parameterized-builds:
-              - project: deploy-ecs
-                  predefined-parameters: |
-                    PROJECT_NAME=airflow-worker
-                    IMAGE_TAG=production-${RELEASE_NUMBER}
-                    GIT_BRANCH=origin/master
-                    ENVIRONMENT=production
-                    IMAGE_NAME=docker-airflow
-                    CLUSTER=
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=airflow-worker
+              IMAGE_TAG=production-${RELEASE_NUMBER}
+              GIT_BRANCH=origin/master
+              ENVIRONMENT=production
+              IMAGE_NAME=docker-airflow
+              CLUSTER=
 
 
 - job-template:
