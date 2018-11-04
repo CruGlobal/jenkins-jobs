@@ -362,6 +362,13 @@
       - 'openresty-template'
 
 - project:
+    name: syslog-fluentd
+    description-intro: Builds, tests, & deploys the syslog-fluentd docker image.
+    email-recipients: josh.starcher@cru.org, bill.baker@cru.org
+    jobs:
+      - 'openresty-template'
+
+- project:
     name: docker-airflow
     description-intro: Builds, tests, & deploys the apache airflow docker image.
     email-recipients: josh.starcher@cru.org, luis.rodriguez@cru.org
