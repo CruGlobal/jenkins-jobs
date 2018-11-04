@@ -173,7 +173,7 @@
       - github
 
     builders:
-      - shell: ./build.rb --push
+      - shell: ./build.sh
 
     publishers:
       - conditional-publisher:
