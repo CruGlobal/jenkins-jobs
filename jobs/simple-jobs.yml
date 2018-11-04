@@ -137,7 +137,7 @@
           name: '${ENV,var="PROJECT_NAME"}-${ENV,var="ENVIRONMENT"} #${BUILD_NUMBER}'
 
 - job:
-    name: syslog-splunk
+    name: syslog-fluentd
     description: |
       A job that builds changes to master and deploys the image to docker hub.
       Builds automatically trigger a deployment of that image to the staging environment.
@@ -145,7 +145,7 @@
 
     properties:
       - github:
-          url: https://github.com/CruGlobal/syslog-splunk/
+          url: https://github.com/CruGlobal/syslog-fluentd/
 
     parameters:
       - git:
@@ -165,7 +165,7 @@
       - git:
           branches:
           - $BRANCH_SPECIFIER
-          url: git@github.com:CruGlobal/syslog-splunk.git
+          url: git@github.com:CruGlobal/syslog-fluentd.git
           wipe-workspace: false
           skip-tag: true
 
