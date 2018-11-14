@@ -30,7 +30,7 @@ CLUSTER={{cluster}}
 </properties>
             </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
           </configs>
-          <projects>deploy-ecs</projects>
+          <projects>{{deploy-job}}</projects>
           <condition>SUCCESS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
         </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
