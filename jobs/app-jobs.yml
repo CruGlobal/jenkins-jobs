@@ -367,7 +367,7 @@
     name: docker-airflow
     description-intro: Builds, tests, & deploys the apache airflow docker image.
     email-recipients: josh.starcher@cru.org, luis.rodriguez@cru.org
-    deploy-production-job: docker-airflow-production
+    deploy-production-job: docker-airflow-deploy
     jobs:
       - 'openresty-template'
 
