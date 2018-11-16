@@ -44,6 +44,13 @@
     - 'pipeline-template':
         branches: master
 
+- project:
+    name: shoryuken-scheduled-jobs
+    description: |
+      Collection of Shoryuken cron jobs implemented as AWS Lambda definitions
+    jobs:
+      - 'pipeline-template':
+
 
 - job-template:
     id: pipeline-template
