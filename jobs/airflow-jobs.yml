@@ -1,0 +1,77 @@
+- job:
+    name: docker-airflow-deploy
+    description: |-
+      Deploys the airflow apps based on role to Production.
+
+      Specifically, this kicks off a deploy-ecs build for each of the four airflow webapps.
+
+    parameters:
+      # Note: these are copy/pasted from the deploy-ecs job list in simple-jobs.yml
+      - string:
+          name: PROJECT_NAME
+          description: The name of the project which should match the name of the docker hub repository
+
+      - string:
+          name: IMAGE_TAG
+          description: The tag of the image to deploy
+
+      - string:
+          name: ENVIRONMENT
+          description: Which environment to deploy to. If not provided, it will be determined from the git branch name.
+
+      - string:
+          name: GIT_BRANCH
+          description: Which git branch is being deployed. This is currently only used to determine ENVIRONMENT
+
+      - string:
+          name: CLUSTER
+          description: Which ECS cluster the app should be deployed to. By default, the stage cluster is used for all non-production environments, and prod is used for all production environments.
+
+      - string:
+          name: IMAGE_NAME
+          description: 'OPTIONAL: Allows for overriding docker image name derived by default from PROJECT_NAME'
+
+    publishers:
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=airflow-webserver
+              IMAGE_NAME=docker-airflow
+              IMAGE_TAG=$IMAGE_TAG
+              GIT_COMMIT=$GIT_COMMIT
+              GIT_BRANCH=$GIT_BRANCH
+              ENVIRONMENT=$ENVIRONMENT
+              CLUSTER=$CLUSTER
+
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=airflow-flower
+              IMAGE_NAME=docker-airflow
+              IMAGE_TAG=$IMAGE_TAG
+              GIT_COMMIT=$GIT_COMMIT
+              GIT_BRANCH=$GIT_BRANCH
+              ENVIRONMENT=$ENVIRONMENT
+              CLUSTER=$CLUSTER
+
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=airflow-scheduler
+              IMAGE_NAME=docker-airflow
+              IMAGE_TAG=$IMAGE_TAG
+              GIT_COMMIT=$GIT_COMMIT
+              GIT_BRANCH=$GIT_BRANCH
+              ENVIRONMENT=$ENVIRONMENT
+              CLUSTER=$CLUSTER
+
+      - trigger-parameterized-builds:
+          - project: deploy-ecs
+            predefined-parameters: |
+              PROJECT_NAME=airflow-worker
+              IMAGE_NAME=docker-airflow
+              IMAGE_TAG=$IMAGE_TAG
+              GIT_COMMIT=$GIT_COMMIT
+              GIT_BRANCH=$GIT_BRANCH
+              ENVIRONMENT=$ENVIRONMENT
+              CLUSTER=$CLUSTER

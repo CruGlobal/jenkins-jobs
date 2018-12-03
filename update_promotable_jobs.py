@@ -19,7 +19,9 @@ def run():
        for job in jobs:
            cluster = job_data[job].get('cluster', '')
            for environment in ['staging', 'production']:
-               update_job_promotion(job, environment, cluster, xml_config_file)
+               deploy_job_key = 'deploy-%s-job' % environment
+               deploy_job = job_data[job].get(deploy_job_key, 'deploy-ecs')
+               update_job_promotion(job, environment, cluster, xml_config_file, deploy_job)
     finally:
         job_data = parse_job_data(['jobs/ep-promotable-jobs.yml'])
         jobs = determine_jobs(job_data)
@@ -27,7 +29,7 @@ def run():
         for job in jobs:
             cluster = job_data[job].get('cluster', '')
             environment = job_data[job].get('environment', 'staging')
-            update_job_promotion(job, environment, cluster, xml_config_file)
+            update_job_promotion(job, environment, cluster, xml_config_file, 'deploy-ecs')
 
 def parse_job_data(files):
     jobs = dict()
@@ -52,7 +54,7 @@ def determine_jobs(job_data):
     return jobs
 
 
-def update_job_promotion(job, environment, cluster, xml_config_file):
+def update_job_promotion(job, environment, cluster, xml_config_file, deploy_job):
     if environment == "production":
         promotion_process = "Deploy to Production"
         icon = "star-gold"
@@ -65,7 +67,7 @@ def update_job_promotion(job, environment, cluster, xml_config_file):
     config = ConfigParser.RawConfigParser()
     config.read('jenkins_jobs.ini')
 
-    content = load_config_content(cluster, environment, icon, xml_config_file)
+    content = load_config_content(cluster, environment, icon, xml_config_file, deploy_job)
     print("Updating job: ", job)
     create_or_update_job(config, content, job, promotion_process)
 
@@ -88,13 +90,14 @@ def create_or_update_job(config, config_content, job, promotion_process):
         print("Updated job: %s; process: %s; Response Code: %s" % (job, promotion_process, r))
 
 
-def load_config_content(cluster, environment, icon, xml_config_file):
+def load_config_content(cluster, environment, icon, xml_config_file, deploy_job='deploy-ecs'):
     config_to_use = xml_config_file
     with open(config_to_use, 'r') as config_file:
         content = config_file.read()
     content = content.replace("{{icon}}", icon)
     content = content.replace("{{environment}}", environment)
     content = content.replace("{{cluster}}", cluster)
+    content = content.replace("{{deploy-job}}", deploy_job)
     return content
 
 

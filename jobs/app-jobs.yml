@@ -2,6 +2,8 @@
     name: global
     email-recipients: $DEFAULT_RECIPIENTS
     cluster: ''
+    deploy-staging-job: deploy-ecs
+    deploy-production-job: deploy-ecs
 
 - project:
     name: autonag
@@ -372,6 +374,7 @@
     name: docker-airflow
     description-intro: Builds, tests, & deploys the apache airflow docker image.
     email-recipients: josh.starcher@cru.org, luis.rodriguez@cru.org
+    deploy-production-job: docker-airflow-deploy
     jobs:
       - 'openresty-template'
 
@@ -463,7 +466,7 @@
             condition-string2: "origin/staging"
             action:
               - trigger-parameterized-builds:
-                  - project: deploy-ecs
+                  - project: '{deploy-staging-job}'
                     predefined-parameters: |
                       IMAGE_TAG=staging-$BUILD_NUMBER
                       PROJECT_NAME=$JOB_NAME
@@ -489,7 +492,7 @@
                 latest-min: "0"
             action:
               - trigger-parameterized-builds:
-                  - project: deploy-ecs
+                  - project: '{deploy-production-job}'
                     predefined-parameters: |
                       IMAGE_TAG=production-$BUILD_NUMBER
                       PROJECT_NAME=$JOB_NAME
