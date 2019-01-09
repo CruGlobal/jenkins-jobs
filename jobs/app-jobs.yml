@@ -422,7 +422,7 @@
       by running the 'Deploy to Production' or the 'Deploy to Staging' build promotions.
 
     parameters:
-      - git:
+      - git-parameter:
           name: BRANCH_SPECIFIER
           description: |
             If specified, jenkins will use this git branch to build.
@@ -430,9 +430,8 @@
             that seems most likely to be the one you want built.
             This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
             or, if there are none of those, the most recently-built branch.
-          type: branch
-          sort: none
-          default: :origin/(master|staging)
+          type: PT_BRANCH
+          defaultValue: :origin/(master|staging)
 
     properties:
       - github:
