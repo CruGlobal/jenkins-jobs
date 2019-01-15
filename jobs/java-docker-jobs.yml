@@ -62,6 +62,8 @@
       - build-discarder:
           days-to-keep: 64
           artifact-days-to-keep: 64
+      - inject:
+          properties-content: "GEM_PATH= "
 
     node: linux
     scm:
