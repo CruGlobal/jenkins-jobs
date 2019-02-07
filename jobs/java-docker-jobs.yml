@@ -21,6 +21,16 @@
     jobs:
       - '{name}'
 
+- project:
+    name: gaps
+    description-intro: Builds, tests, & deploys the GAPS docker image.
+    email-recipients: mike.albert@cru.org
+    base-image: jboss/wildfly:15.0.1.Final
+    jdk: JDK8
+    jobs:
+      - '{name}'
+
+
 # maven template for java apps on ECS
 - job-template:
     name: '{name}'
