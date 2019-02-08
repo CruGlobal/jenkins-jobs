@@ -163,4 +163,4 @@
           # Note: when you execute this job, your manual change will be erased.
           # You'll have to add it again for each time you execute this job.
 
-          ansible-playbook aws_jenkins_add_jobs.yml --tags="jjb_add_jobs"
+          ansible-playbook aws_jenkins_add_jobs.yml --tags="jjb_add_jobs" --extra-vars="jenkins_jobs_version=jenkins-lab"
