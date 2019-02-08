@@ -16,6 +16,7 @@ How to Add or Update a Job
 * Test your work
   * Push your feature branch to github
   * Request AWSInfrastructure@cru.org to turn on Jenkins Lab, if jenkins-lab.cru.org gives you a 503
+  * Merge your jenkins-job branch to jenkins-lab branch
   * Run create-jenkins-job to make your job changes, and run your new or updated job
   * Repeat until bugs are gone
 * Issue a pull request against master and request a code review
