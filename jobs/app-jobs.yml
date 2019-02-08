@@ -165,6 +165,13 @@
       - 'php-template'
 
 - project:
+    name: crustore2
+    description-intro: Builds, tests, & deploys the crustore magento 2.3 docker image.
+    email-recipients: luis.rodriguez@cru.org
+    jobs:
+      - 'php-template'
+
+- project:
     name: mpd_tool
     description-intro: Builds, tests, & deploys the mpd tool docker image.
     email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
@@ -239,7 +246,7 @@
     email-recipients: josh.starcher@cru.org
     jobs:
       - 'rails-template'
-      
+
 - project:
     name: staff-conf-onsite17
     description-intro: Builds, tests, & deploys the staff conference onsite docker image.
