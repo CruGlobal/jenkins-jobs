@@ -179,13 +179,6 @@
       - 'rails-template'
 
 - project:
-    name: mpdx
-    description-intro: Builds, tests, & deploys the MPDX docker image.
-    email-recipients: josh.starcher@cru.org, spencer.oberstadt@cru.org
-    jobs:
-      - 'rails-template'
-
-- project:
     name: mpdx_api
     description-intro: Builds, tests, & deploys the MPDX API docker image.
     email-recipients: josh.starcher@cru.org, dave.raffensperger@cru.org, spencer.oberstadt@cru.org, tataihono.nikora@cru.org
