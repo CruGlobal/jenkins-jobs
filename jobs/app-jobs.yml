@@ -370,14 +370,6 @@
     jobs:
       - 'openresty-template'
 
-- project:
-    name: docker-airflow
-    description-intro: Builds, tests, & deploys the apache airflow docker image.
-    email-recipients: josh.starcher@cru.org, luis.rodriguez@cru.org
-    deploy-production-job: docker-airflow-deploy
-    jobs:
-      - 'openresty-template'
-
 - job-group:
     name: 'php-template'
     jobs:
