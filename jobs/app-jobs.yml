@@ -166,8 +166,9 @@
 
 - project:
     name: crustore2
-    description-intro: Builds, tests, & deploys the crustore magento 2.3 docker image.
-    email-recipients: luis.rodriguez@cru.org
+    description-intro: Builds, tests, & deploys the crustore magento 2.3 image.
+    email-recipients: luis.rodriguez@cru.org, steve.blevins@cru.org
+    deploy-production-job: crustore2-deploy
     jobs:
       - 'php-template'
 
