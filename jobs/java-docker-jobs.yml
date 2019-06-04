@@ -30,6 +30,14 @@
     jobs:
       - '{name}'
 
+- project:
+    name: credential-services
+    description-intro: Builds, tests, & deploys the Credential Services docker image.
+    email-recipients: mike.albert@cru.org
+    base-image: tomcat:8.5.27-jre8
+    jdk: JDK8
+    jobs:
+      - '{name}'
 
 # maven template for java apps on ECS
 - job-template:
