@@ -15,18 +15,11 @@
       - 'docker-{name}'
 
 - project:
-    name: base-image-php
+    name: base-image-php-version-arg
     image_description: |
-      Base docker image for php
+      Base docker image for php. Supports PHP versions 7.2.x and 7.3.x
     build_command: |
-      #!/bin/bash
-
-      cd ecs/{name}
-      set -xe && \
-        echo 'Building base image' && \
-        docker build -t 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest . && \
-        echo 'Pushing base image' && \
-        docker push 056154071827.dkr.ecr.us-east-1.amazonaws.com/{name}:latest
+      ecs/base-image-php-version-arg/build_php_versions
     jobs:
       - 'docker-{name}'
 
