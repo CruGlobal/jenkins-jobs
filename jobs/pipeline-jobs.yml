@@ -51,6 +51,13 @@
     jobs:
       - 'pipeline-template':
 
+- project:
+    name: cru-udp-pipeline
+    description: |
+      Cru User Data Platform pipeline (serverless) function.
+    jobs:
+    - 'pipeline-template':
+        branches: master
 
 - job-template:
     id: pipeline-template
