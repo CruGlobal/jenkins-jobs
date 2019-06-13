@@ -17,6 +17,7 @@ import org.cru.jenkins.lib.EnvironmentLoader
  *  hipchatRoom - the hipchat room notifications should be sent to, in addition to emails;
  *      default is no hipchat notifications.
  *  notifyOnSuccess - if job notifications should be sent on successful builds; defaults to false
+ *  packageManager - Package Manager to use during Install stage: yarn, npm (default)
  *  project - the ecs_config PROJECT_NAME; defaults to the git repo name
  *  testBuildFailureNotifications - if the build should immediately fail with a fake failure,
  *      to test notifications; defaults to false
@@ -30,7 +31,15 @@ def call(Map config = [:]) {
       testBuildFailureNotificationsIfConfigured(config)
 
       stage('Install') {
-        sh "npm install"
+        switch(config.packageManager) {
+          case 'yarn':
+            // Use of npx here will install yarn if not present
+            sh "npx yarn install"
+            break
+          case 'npm':
+          default:
+            sh "npm install"
+        }
       }
 
       confirmDeploymentIfNecessary(config)
