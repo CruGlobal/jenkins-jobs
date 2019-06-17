@@ -151,9 +151,12 @@
 
     builders:
       - shell: |
-          # if this is jenkins-lab.cru.org, and you want to test your jenkins-jobs changes,
-          # manually add `--extra-vars="jenkins_jobs_version=insert-your-jenkins-job-branch"` below.
-          # Note: when you execute this job, your manual change will be erased.
-          # You'll have to add it again for each time you execute this job.
+          extra_vars_option=""
+          if grep --quiet 'url=https://jenkins-lab.cru.org' /var/lib/jenkins/jenkins-jobs/jenkins_jobs.ini; then
+            echo "This appears to be jenkins-lab; running from jenkins-lab branch"
+            extra_vars_option='--extra-vars="jenkins_jobs_version=jenkins-lab"'
+          else
+            echo "This appears to be jenkins-prod; running from master branch"
+          fi
 
-          ansible-playbook aws_jenkins_add_jobs.yml --tags="jjb_add_jobs"
+          ansible-playbook aws_jenkins_add_jobs.yml --tags="jjb_add_jobs" $extra_vars_option
