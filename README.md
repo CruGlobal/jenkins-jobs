@@ -15,11 +15,10 @@ How to Add or Update a Job
   * pipeline-jobs.yml --> Multibranch pipeline jobs
 * Test your work
   * Push your feature branch to github
-  * Request Mike Albert to turn on Jenkins Lab, if jenkins-lab.cru.org gives you a 503.
-  * Manually tweak the "Execute Shell" step of create-jenkins-job's [config][1]
-    to use your feature branch.
-    (See the comment there for the syntax.)
-  * Run create-jenkins-job to make your job changes, and run your new or updated job.
+  * Request awsinfrastructure@cru.org to turn on Jenkins Lab, if jenkins-lab.cru.org gives you a 503.
+  * Check in on the [#jenkins-discussions slack channel][3], to coordinate using jenkins-lab
+  * Reset (`--hard`) the jenkins-lab branch to your branch, and force-push it to github (hence the coordination above).
+  * Run [create-jenkins-job][1] to make your job changes, and run your new or updated job.
   * Repeat until bugs are gone
 * Issue a pull request against master and request a code review from Mike Albert or Matt Drees
 * After approval has been given, merge to master and delete the feature branch
@@ -34,5 +33,6 @@ As such it follows the layout requirements:
  * classes (which can hold state or just encapsulate complexity) go in `src`
  * tests go in `test`
 
-[1]: https://jenkins-lab.cru.org/job/create-jenkins-jobs/configure
+[1]: https://jenkins-lab.cru.org/job/create-jenkins-jobs/
 [2]: https://jenkins-prod.cru.org/job/create-jenkins-jobs/
+[3]: https://cru-main.slack.com/messages/CG3S8668P
