@@ -379,6 +379,15 @@
     jobs:
       - 'openresty-template'
 
+- project:
+    name: aem_docker
+    description-intro: Builds, tests, & deploys the AEM apache dispatcher image.
+    email-recipients: luis.rodriguez@cru.org
+    deploy-staging-job: aem-dispatcher-deploy
+    deploy-production-job: aem-dispatcher-deploy
+    jobs:
+      - 'openresty-template'
+
 - job-group:
     name: 'php-template'
     jobs:
