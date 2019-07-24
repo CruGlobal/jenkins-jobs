@@ -59,6 +59,14 @@
     - 'pipeline-template':
         branches: master
 
+- project:
+    name: gma-service-api
+    description: |
+      Global Measurements Application user discovery service and api.
+    jobs:
+      - 'pipeline-template':
+          branches: master
+
 - job-template:
     id: pipeline-template
 
