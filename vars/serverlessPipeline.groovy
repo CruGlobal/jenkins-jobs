@@ -33,8 +33,7 @@ def call(Map config = [:]) {
       stage('Install') {
         switch(config.packageManager) {
           case 'yarn':
-            // Use of npx here will install yarn if not present
-            sh "npx yarn install"
+            sh "yarn install"
             break
           case 'npm':
           default:
