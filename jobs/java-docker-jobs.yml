@@ -13,6 +13,15 @@
       - '{name}'
 
 - project:
+    name: wsapi
+    description-intro: Builds, tests, & deploys the WSAPI docker image.
+    email-recipients: matt.drees@cru.org
+    base-image: jboss/wildfly:17.0.1.Final
+    jdk: JDK11
+    jobs:
+      - '{name}'
+
+- project:
     name: thekey
     description-intro: Builds, tests, & deploys theKey docker image.
     email-recipients: mike.albert@cru.org
