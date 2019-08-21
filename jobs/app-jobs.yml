@@ -381,6 +381,13 @@
     jobs:
       - 'openresty-template'
 
+- project:
+    name: wsapi
+    description-intro: Builds, tests, & deploys the WSAPI docker image.
+    email-recipients: matt.drees@cru.org, bill.randall@cru.org
+    jobs:
+      - 'generic-template'
+
 - job-group:
     name: 'php-template'
     jobs:
@@ -404,6 +411,12 @@
     jobs:
         - '{name}':
             build-script: react_deploy.sh
+
+- job-group:
+    name: 'generic-template'
+    jobs:
+        - '{name}':
+            build-script: generic_deploy.sh
 
 
 
