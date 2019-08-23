@@ -45,7 +45,7 @@
     description-intro: Builds, tests, & deploys the everystudent.com docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
-      - 'php-template'
+      - 'generic-template'
 
 - project:
     name: global-profile-api
@@ -66,14 +66,14 @@
     description-intro: Builds, tests, & deploys the global-profile-php docker image.
     email-recipients: brian.zoetewey@ccci.org
     jobs:
-      - 'php-template'
+      - 'generic-template'
 
 - project:
     name: wordpress
     description-intro: Builds, tests, & deploys the wordpress docker image.
     email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org, david.sudarma@cru.org, john.plastow@cru.org
     jobs:
-      - 'php-template'
+      - 'generic-template'
 
 - project:
     name: global_registry
@@ -86,7 +86,7 @@
     description-intro: Builds, tests, & deploys the gma-app-php docker image.
     email-recipients: brian.zoetewey@ccci.org
     jobs:
-      - 'php-template'
+      - 'generic-template'
 
 - project:
     name: mobile-content-api
@@ -148,14 +148,14 @@
     description-intro: Builds, tests, & deploys the mpd-dashboard-app docker image.
     email-recipients: brian.zoetewey@ccci.org
     jobs:
-      - 'php-template'
+      - 'generic-template'
 
 - project:
     name: crustore
     description-intro: Builds, tests, & deploys the crustore docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
-      - 'php-template'
+      - 'generic-template'
 
 - project:
     name: crustore2
@@ -163,7 +163,7 @@
     email-recipients: luis.rodriguez@cru.org, steve.blevins@cru.org
     deploy-production-job: crustore2-deploy
     jobs:
-      - 'php-template'
+      - 'generic-template'
 
 - project:
     name: mpd_tool
@@ -327,7 +327,7 @@
     description-intro: Builds, tests, & deploys the Model Contracts docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
-      - 'php-template'
+      - 'generic-template'
 
 - project:
     name: snowplow-collector
@@ -387,12 +387,6 @@
     email-recipients: matt.drees@cru.org, bill.randall@cru.org
     jobs:
       - 'generic-template'
-
-- job-group:
-    name: 'php-template'
-    jobs:
-        - '{name}':
-            build-script: php_deploy.sh
 
 - job-group:
     name: 'openresty-template'
