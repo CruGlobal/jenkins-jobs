@@ -388,6 +388,13 @@
     jobs:
       - 'generic-template'
 
+- project:
+    name: ccp
+    description-intro: Builds, tests, & deploys the CCP docker image.
+    email-recipients: matt.drees@cru.org, bill.randall@cru.org
+    jobs:
+      - 'generic-template'
+
 - job-group:
     name: 'openresty-template'
     jobs:
