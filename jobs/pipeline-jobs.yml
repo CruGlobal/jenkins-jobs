@@ -70,7 +70,7 @@
 - project:
     name: cru-udp-aa-sync
     description: |
-      CRU User Data Platform / Adobe Analytics placement sync (λ functions).
+      Cru User Data Platform / Adobe Analytics placement sync (λ functions).
     jobs:
       - 'pipeline-template':
           branches: master
