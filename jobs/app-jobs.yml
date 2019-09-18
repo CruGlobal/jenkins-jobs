@@ -124,13 +124,6 @@
       - 'rails-template'
 
 - project:
-    name: missionhub
-    description-intro: Builds, tests, & deploys the MissionHub docker image.
-    email-recipients: josh.starcher@cru.org
-    jobs:
-      - 'rails-template'
-
-- project:
     name: missionhub-api
     description-intro: Builds, tests, & deploys the MissionHub API docker image.
     jobs:
@@ -175,14 +168,13 @@
 - project:
     name: mpdx_api
     description-intro: Builds, tests, & deploys the MPDX API docker image.
-    email-recipients: josh.starcher@cru.org, dave.raffensperger@cru.org, spencer.oberstadt@cru.org, tataihono.nikora@cru.org
+    email-recipients: tataihono.nikora@cru.org
     jobs:
       - 'rails-template'
 
 - project:
     name: ministry_locator
     description-intro: Builds, tests, & deploys the ministry locator docker image.
-    email-recipients: josh.starcher@cru.org, spencer.oberstadt@cru.org
     jobs:
       - 'rails-template'
 
