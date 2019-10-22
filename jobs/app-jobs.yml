@@ -220,6 +220,13 @@
       - 'rails-template'
 
 - project:
+    name: siebel-tsys-proxy
+    description-intro: Builds & deploys the siebel/tsys workaround proxy.
+    email-recipients: josh.starcher@cru.org, matt.drees@cru.org
+    jobs:
+      - 'rails-template'
+
+- project:
     name: staff-conf-onsite
     description-intro: Builds, tests, & deploys the staff conference onsite docker image.
     email-recipients: josh.starcher@cru.org
