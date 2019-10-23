@@ -89,6 +89,13 @@
       - 'generic-template'
 
 - project:
+    name: email-notification
+    description-intro: Builds, tests, & deploys the email-notification docker image.
+    email-recipients: matt.drees@cru.org, bill.randall@cru.org
+    jobs:
+      - 'generic-template'
+
+- project:
     name: mobile-content-api
     description-intro: Builds, tests, & deploys the Mobile Content API docker image.
     email-recipients: daniel.goers@cru.org
