@@ -103,6 +103,13 @@
       - 'rails-template'
 
 - project:
+    name: identity-service
+    description-intro: Builds, tests, & deploys the identity-service docker image.
+    email-recipients: matt.drees@cru.org, bill.randall@cru.org
+    jobs:
+      - 'generic-template'
+
+- project:
     name: maintenance
     description-intro: Builds, tests, & deploys the maintenance management docker image.
     email-recipients: josh.starcher@cru.org
