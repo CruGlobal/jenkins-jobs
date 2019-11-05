@@ -69,6 +69,13 @@
       - 'generic-template'
 
 - project:
+    name: pshr-listener
+    description-intro: Builds, tests, & deploys the pshr-listener docker image.
+    email-recipients: matt.drees@cru.org
+    jobs:
+      - 'generic-template'
+
+- project:
     name: wordpress
     description-intro: Builds, tests, & deploys the wordpress docker image.
     email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org, david.sudarma@cru.org, john.plastow@cru.org
