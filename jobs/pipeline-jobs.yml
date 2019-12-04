@@ -26,7 +26,6 @@
     jobs:
       - 'pipeline-template':
 
-
 - project:
     name: scale-of-belief-import
     description: |
@@ -34,7 +33,6 @@
     jobs:
       - 'pipeline-template':
           branches: master
-
 
 - project:
     name: know-god-asset-import
@@ -82,6 +80,14 @@
     jobs:
       - 'pipeline-template':
           branches: staging master
+
+- project:
+    name: cru-ses-processor
+    description: |
+      Lambda that processes all SES messages (λ functions).
+    jobs:
+      - 'pipeline-template':
+          branches: master
 
 - job-template:
     id: pipeline-template
