@@ -89,6 +89,14 @@
       - 'pipeline-template':
           branches: master
 
+- project:
+    name: kirby
+    description: |
+      A Lambda tool for "sucking" db rows from one MPDX database to another
+    jobs:
+      - 'pipeline-template':
+          branches: master
+
 - job-template:
     id: pipeline-template
 
