@@ -25,6 +25,7 @@
       Scale-of-belief lambda (serverless) project.
     jobs:
       - 'pipeline-template':
+          branches: master
 
 - project:
     name: scale-of-belief-import
