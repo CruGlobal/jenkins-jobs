@@ -387,6 +387,13 @@
     jobs:
       - 'generic-template'
 
+- project:
+    name: atlantis
+    description-intro: Builds and deploys the Atlantis docker image.
+    email-recipients: luis.rodriguez@cru.org, brian.zoetewey@cru.org
+    jobs:
+      - 'generic-template'
+
 - job-group:
     name: 'openresty-template'
     jobs:
