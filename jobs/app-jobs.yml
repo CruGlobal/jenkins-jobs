@@ -395,9 +395,9 @@
       - 'generic-template'
 
 - project:
-    name: vault
-    description-intro: Builds and deploys the Vault docker image.
-    email-recipients: luis.rodriguez@cru.org, brian.zoetewey@cru.org
+    name: familylife-support-leads
+    description-intro: Builds and deploys the Familylife support-leads docker image.
+    email-recipients: dist-technologyappdevservices@familylife.com
     jobs:
       - 'generic-template'
 
