@@ -397,7 +397,7 @@
 - project:
     name: familylife-support-leads
     description-intro: Builds and deploys the Familylife support-leads docker image.
-    email-recipients: grant.fox@familylife.com
+    email-recipients: dist-technologyappdevservices@familylife.com
     jobs:
       - 'generic-template'
 
