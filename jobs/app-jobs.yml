@@ -27,20 +27,6 @@
       - 'rails-template'
 
 - project:
-    name: college-bound
-    description-intro: Builds and deploys the college-bound image.
-    email-recipients: spencer.oberstadt@cru.org
-    jobs:
-      - 'rails-template'
-
-- project:
-    name: cruprojects
-    description-intro: Builds, tests, & deploys the cruprojects.com docker image.
-    email-recipients: spencer.oberstadt@cru.org
-    jobs:
-      - 'rails-template'
-
-- project:
     name: everystudent-web
     description-intro: Builds, tests, & deploys the everystudent.com docker image.
     email-recipients: josh.starcher@cru.org
@@ -110,13 +96,6 @@
       - 'rails-template'
 
 - project:
-    name: ministry_view_api
-    description-intro: Builds, tests, & deploys the MinistryView API docker image.
-    email-recipients: brian.zoetewey@ccci.org
-    jobs:
-      - 'rails-template'
-
-- project:
     name: missionhub-api
     description-intro: Builds, tests, & deploys the MissionHub API docker image.
     jobs:
@@ -127,20 +106,6 @@
     description-intro: Builds, tests, & deploys the CampusCRM API docker image.
     jobs:
       - 'rails-template'
-
-- project:
-    name: mpd-dashboard-api
-    description-intro: Builds, tests, & deploys the mpd-dashboard-api docker image.
-    email-recipients: josh.starcher@cru.org, brian.zoetewey@ccci.org, adam.meyer@cru.org
-    jobs:
-      - 'rails-template'
-
-- project:
-    name: mpd-dashboard-app
-    description-intro: Builds, tests, & deploys the mpd-dashboard-app docker image.
-    email-recipients: brian.zoetewey@ccci.org
-    jobs:
-      - 'generic-template'
 
 - project:
     name: crustore
@@ -173,26 +138,6 @@
       - 'rails-template'
 
 - project:
-    name: ministry_locator
-    description-intro: Builds, tests, & deploys the ministry locator docker image.
-    jobs:
-      - 'rails-template'
-
-- project:
-    name: ministry_mapper
-    description-intro: Builds, tests, & deploys the ministry mapper docker image.
-    email-recipients: josh.starcher@cru.org
-    jobs:
-      - 'rails-template'
-
-- project:
-    name: oauth_server
-    description-intro: Builds, tests, & deploys the oauth_server docker image.
-    email-recipients: josh.starcher@cru.org
-    jobs:
-      - 'rails-template'
-
-- project:
     name: pr
     description-intro: Builds, tests, & deploys the Panorama docker image.
     email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
@@ -210,12 +155,6 @@
     name: rails-infrastructure-canary
     description-intro: Builds a simplistic rails app, which only serves to prove out the ci & deployment infrastructure.
     cluster: lab
-    jobs:
-      - 'rails-template'
-
-- project:
-    name: rideshare
-    description-intro: Builds, tests, & deploys the rideshare docker image.
     jobs:
       - 'rails-template'
 
@@ -270,13 +209,6 @@
 - project:
     name: watchthinkchat
     description-intro: Builds, tests, & deploys the WatchThinkChat docker image.
-    jobs:
-      - 'rails-template'
-
-- project:
-    name: escomm
-    description-intro: Builds, tests, & deploys the Personalized EveryStudent Series docker image
-    email-recipients: asaph.yuan@cru.org, david.raffensperger@cru.org
     jobs:
       - 'rails-template'
 
