@@ -408,6 +408,12 @@
     jobs:
       - 'generic-template'
 
+- project:
+    name: text-steps-widget
+    description-intro: Builds, tests, & deploys the TextSteps Widget docker image.
+    jobs:
+      - 'rails-template'
+
 - job-group:
     name: 'openresty-template'
     jobs:
