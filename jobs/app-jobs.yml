@@ -254,34 +254,6 @@
       - 'generic-template'
 
 - project:
-    name: snowplow-collector
-    description-intro: Builds, tests, & deploys the snowplow collector docker image.
-    email-recipients: josh.starcher@cru.org
-    jobs:
-      - 'openresty-template'
-
-- project:
-    name: snowplow-s3loader
-    description-intro: Builds, tests, & deploys the snowplow s3 Loader docker image.
-    email-recipients: josh.starcher@cru.org, luis.rodriguez@cru.org
-    jobs:
-      - 'openresty-template'
-
-- project:
-    name: snowplow-dataflow
-    description-intro: Builds, tests, & deploys the snowplow dataflow docker image.
-    email-recipients: josh.starcher@cru.org, luis.rodriguez@cru.org
-    jobs:
-      - 'openresty-template'
-
-- project:
-    name: snowplow-enrich
-    description-intro: Builds, tests, & deploys the snowplow enrich docker image.
-    email-recipients: josh.starcher@cru.org, luis.rodriguez@cru.org
-    jobs:
-      - 'openresty-template'
-
-- project:
     name: syslog-fluentd
     description-intro: Builds, tests, & deploys the syslog-fluentd docker image.
     email-recipients: josh.starcher@cru.org, bill.baker@cru.org
