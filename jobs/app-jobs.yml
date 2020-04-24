@@ -102,8 +102,8 @@
       - 'rails-template'
 
 - project:
-    name: campus-crm-api
-    description-intro: Builds, tests, & deploys the CampusCRM API docker image.
+    name: campus-contacts-api
+    description-intro: Builds, tests, & deploys the Campus Contacts API docker image.
     jobs:
       - 'rails-template'
 
