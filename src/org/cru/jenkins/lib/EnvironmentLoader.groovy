@@ -31,12 +31,13 @@ class EnvironmentLoader implements Serializable {
       checkoutIfNecessary(ecsConfigDir)
 
       steps.bash """\
-        source \${ECS_CONFIG}/bin/load_environment.sh;
-        load_environment;
-        ${script}
-        """.stripIndent()
-    }
+        # Source rbenv to setup ruby in the path
+        eval "\$(~/.rbenv/bin/rbenv init -)"
 
+        # Execute script in an assumed environment
+        \${ECS_CONFIG}/bin/jenkins-pipeline -v -e \${ENVIRONMENT} -n \${PROJECT_NAME} -- "${script}"
+      """.stripIndent()
+    }
   }
 
   private void checkoutIfNecessary(ecsConfigDir) {
