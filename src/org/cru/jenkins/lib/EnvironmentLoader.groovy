@@ -35,7 +35,7 @@ class EnvironmentLoader implements Serializable {
         eval "\$(~/.rbenv/bin/rbenv init -)"
 
         # Execute script in an assumed environment
-        \${ECS_CONFIG}/bin/jenkins-pipeline -v -e \${ENVIRONMENT} -n \${PROJECT_NAME} -- "${script}"
+        \${ECS_CONFIG}/bin/jenkins-pipeline --verbose --env \${ENVIRONMENT} --name \${PROJECT_NAME} -- "${script}"
       """.stripIndent()
     }
   }
