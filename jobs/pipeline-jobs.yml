@@ -98,6 +98,14 @@
       - 'pipeline-template':
           branches: master
 
+- project:
+    name: cloudsearch-s3-handler
+    description: |
+      Lambda function to read from an S3 bucket, format into indexes, and send to AWS CloudSearch (λ functions).
+    jobs:
+      - 'pipeline-template':
+          branches: staging master
+
 - job-template:
     id: pipeline-template
 
