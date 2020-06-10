@@ -106,6 +106,14 @@
       - 'pipeline-template':
           branches: staging master
 
+- project:
+    name: github-merge-bot
+    description: |
+      Bot for merging our PRs into staging
+    jobs:
+      - 'pipeline-template':
+          branches: master
+
 - job-template:
     id: pipeline-template
 
