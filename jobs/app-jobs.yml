@@ -108,13 +108,6 @@
       - 'rails-template'
 
 - project:
-    name: crustore
-    description-intro: Builds, tests, & deploys the crustore docker image.
-    email-recipients: josh.starcher@cru.org
-    jobs:
-      - 'generic-template'
-
-- project:
     name: crustore2
     description-intro: Builds, tests, & deploys the crustore magento 2.3 image.
     email-recipients: luis.rodriguez@cru.org, steve.blevins@cru.org
