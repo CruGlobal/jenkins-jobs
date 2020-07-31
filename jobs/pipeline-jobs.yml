@@ -122,6 +122,14 @@
       - 'pipeline-template':
           branches: staging master
 
+- project:
+    name: FamilyLife-CventValidationAPI
+    description: |
+      FamilyLife Cvent Validation API application (λ functions).
+    jobs:
+      - 'pipeline-template':
+          branches: staging master
+
 - job-template:
     id: pipeline-template
 
