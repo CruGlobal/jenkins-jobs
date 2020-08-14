@@ -22,28 +22,10 @@
       - '{name}'
 
 - project:
-    name: gaps
-    description-intro: Builds, tests, & deploys the GAPS docker image.
-    email-recipients: mike.albert@cru.org
-    base-image: jboss/wildfly:15.0.1.Final
-    jdk: JDK8
-    jobs:
-      - '{name}'
-
-- project:
     name: credential-services
     description-intro: Builds, tests, & deploys the Credential Services docker image.
     email-recipients: mike.albert@cru.org
     base-image: tomcat:8.5.27-jre8
-    jdk: JDK8
-    jobs:
-      - '{name}'
-
-- project:
-    name: identity-services
-    description-intro: Builds, tests, & deploys the Identity Services docker image.
-    email-recipients: mike.albert@cru.org
-    base-image: jboss/wildfly:15.0.1.Final
     jdk: JDK8
     jobs:
       - '{name}'

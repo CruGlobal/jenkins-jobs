@@ -44,13 +44,6 @@
         branches: master
 
 - project:
-    name: shoryuken-scheduled-jobs
-    description: |
-      Collection of Shoryuken cron jobs implemented as AWS Lambda definitions
-    jobs:
-      - 'pipeline-template':
-
-- project:
     name: cru-udp-pipeline
     description: |
       Cru User Data Platform pipeline (serverless) function.
