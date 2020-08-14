@@ -278,6 +278,13 @@
       - 'generic-template'
 
 - project:
+    name: ccp
+    description-intro: Builds, tests, & deploys the CCP docker image.
+    email-recipients: matt.drees@cru.org, bill.randall@cru.org
+    jobs:
+      - 'generic-template'
+
+- project:
     name: atlantis
     description-intro: Builds and deploys the Atlantis docker image.
     email-recipients: luis.rodriguez@cru.org, brian.zoetewey@cru.org
