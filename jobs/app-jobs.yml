@@ -206,24 +206,11 @@
       - 'rails-template'
 
 - project:
-    name: voke_admin
-    description-intro: Builds, tests, & deploys the Voke admin docker image.
-    jobs:
-      - 'react-template'
-
-- project:
     name: ararat
     description-intro: Builds, tests, & deploys the Ararat docker image.
     email-recipients: josh.starcher@cru.org, sheldon@ballistiq.com
     jobs:
       - 'rails-template'
-
-- project:
-    name: redirector
-    description-intro: Builds, tests, & deploys the redirector docker image.
-    email-recipients: josh.starcher@cru.org
-    jobs:
-      - 'openresty-template'
 
 - project:
     name: cruorg_proxy
