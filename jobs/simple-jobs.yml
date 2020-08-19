@@ -122,7 +122,6 @@
 
     builders:
       - shell: |
-          blackbox_postdeploy
           DEPLOY_ONLY=true ./bin/deploy.sh
 
     wrappers:
