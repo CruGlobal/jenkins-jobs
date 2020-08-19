@@ -1,7 +1,5 @@
 <pre>
   bash """\
-    source $ECS_CONFIG/bin/load_environment.sh;
-    load_environment;
     SLS_DEBUG=* npx serverless deploy --stage ${environment} --verbose;
     """.stripIndent()
 </pre>
