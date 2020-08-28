@@ -99,18 +99,6 @@
           name: ENVIRONMENT
           description: Which environment to deploy to. If not provided, it will be determined from the git branch name.
 
-      - string:
-          name: GIT_BRANCH
-          description: Which git branch is being deployed. This is currently only used to determine ENVIRONMENT
-
-      - string:
-          name: CLUSTER
-          description: Which ECS cluster the app should be deployed to. By default, the stage cluster is used for all non-production environments, and prod is used for all production environments.
-
-      - string:
-          name: IMAGE_NAME
-          description: 'OPTIONAL: Allows for overriding docker image name derived by default from PROJECT_NAME'
-
     node: linux
     scm:
       - git:
@@ -122,7 +110,7 @@
 
     builders:
       - shell: |
-          DEPLOY_ONLY=true ./bin/deploy.sh
+          ~/bin/deploy.sh
 
     wrappers:
       - build-name:
