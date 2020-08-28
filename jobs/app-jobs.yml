@@ -10,102 +10,95 @@
     description-intro: Builds, tests, & deploys the autonag docker image.
     email-recipients: spencer.oberstadt@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: campaign-forms
     description-intro: Builds, tests, & deploys the campaign-forms docker image.
     email-recipients: brian.zoetewey@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: cap
     description-intro: Builds, tests, & deploys the combined application (apply.cru.org) docker image.
     email-recipients: andrewroth@gmail.com
     jobs:
-      - 'rails-template'
-
-- project:
-    name: everystudent-web
-    description-intro: Builds, tests, & deploys the everystudent.com docker image.
-    email-recipients: josh.starcher@cru.org
-    jobs:
-      - 'generic-template'
+      - 'ecs-template'
 
 - project:
     name: global360
     description-intro: Builds, tests, & deploys the global360 docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: pshr-listener
     description-intro: Builds, tests, & deploys the pshr-listener docker image.
     email-recipients: matt.drees@cru.org
     jobs:
-      - 'generic-template'
+      - 'ecs-template'
 
 - project:
     name: wordpress
     description-intro: Builds, tests, & deploys the wordpress docker image.
     email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org, david.sudarma@cru.org, john.plastow@cru.org
     jobs:
-      - 'generic-template'
+      - 'ecs-template'
 
 - project:
     name: global_registry
     description-intro: Builds, tests, & deploys the Global Registry docker image.
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: gma-app-php
     description-intro: Builds, tests, & deploys the gma-app-php docker image.
     email-recipients: brian.zoetewey@ccci.org
     jobs:
-      - 'generic-template'
+      - 'ecs-template'
 
 - project:
     name: mobile-content-api
     description-intro: Builds, tests, & deploys the Mobile Content API docker image.
     email-recipients: daniel.goers@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: infobase
     description-intro: Builds, tests, & deploys the Infobase docker image.
     email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: maintenance
     description-intro: Builds, tests, & deploys the maintenance management docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: measurements-api
     description-intro: Builds, tests, & deploys the Measurements API docker image.
     email-recipients: brian.zoetewey@ccci.org, spencer.oberstadt@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: missionhub-api
     description-intro: Builds, tests, & deploys the MissionHub API docker image.
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: campus-contacts-api
     description-intro: Builds, tests, & deploys the Campus Contacts API docker image.
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: crustore2
@@ -114,131 +107,131 @@
     deploy-staging-job: crustore2-deploy
     deploy-production-job: crustore2-deploy
     jobs:
-      - 'generic-template'
+      - 'ecs-template'
 
 - project:
     name: mpd_tool
     description-intro: Builds, tests, & deploys the mpd tool docker image.
     email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: mpdx_api
     description-intro: Builds, tests, & deploys the MPDX API docker image.
     email-recipients: tataihono.nikora@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: pr
     description-intro: Builds, tests, & deploys the Panorama docker image.
     email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: rails-cas-auth-api
     description-intro: Builds, tests, & deploys the Rails CAS Authenticated API docker image.
     email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: rails-infrastructure-canary
     description-intro: Builds a simplistic rails app, which only serves to prove out the ci & deployment infrastructure.
     cluster: lab
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: staff-conf-onsite
     description-intro: Builds, tests, & deploys the staff conference onsite docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: staff-conf-onsite17
     description-intro: Builds, tests, & deploys the staff conference onsite docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: staffportal_api
     description-intro: Builds, tests, & deploys the Staff Portal docker image.
     email-recipients: tataihono.nikora@cru.org, kewei.jiang@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: summer_missions
     description-intro: Builds, tests, & deploys the Summer Missions docker image.
     email-recipients: josh.starcher@cru.org, justin.sabelko@cru.org, mark.knutsen@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: voke_api
     description-intro: Builds, tests, & deploys the Voke API docker image.
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: data_transfers
     description-intro: Builds, tests, & deploys the data_transfers docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: cortex_gateway
     description-intro: Builds, tests, & deploys the cortex_gateway docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: watchthinkchat
     description-intro: Builds, tests, & deploys the WatchThinkChat docker image.
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: ararat
     description-intro: Builds, tests, & deploys the Ararat docker image.
     email-recipients: josh.starcher@cru.org, sheldon@ballistiq.com
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - project:
     name: cruorg_proxy
     description-intro: Builds, tests, & deploys the cruorg_proxy docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
-      - 'openresty-template'
+      - 'ecs-template'
 
 - project:
     name: auto-ssl-redirector
     description-intro: Builds, tests, & deploys the auto-ssl-redirector docker image.
     email-recipients: brian.zoetewey@cru.org
     jobs:
-      - 'openresty-template'
+      - 'ecs-template'
 
 - project:
     name: model_contracts
     description-intro: Builds, tests, & deploys the Model Contracts docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
-      - 'generic-template'
+      - 'ecs-template'
 
 - project:
     name: wsapi
     description-intro: Builds, tests, & deploys the WSAPI docker image.
     email-recipients: matt.drees@cru.org, bill.randall@cru.org
     jobs:
-      - 'generic-template'
+      - 'ecs-template'
 
 - project:
     name: ssw
@@ -252,7 +245,7 @@
     description-intro: Builds, tests, & deploys the CCP docker image.
     email-recipients: matt.drees@cru.org, bill.randall@cru.org
     jobs:
-      - 'generic-template'
+      - 'ecs-template'
 
 - project:
     name: etimesheet
@@ -280,46 +273,26 @@
     description-intro: Builds and deploys the Atlantis docker image.
     email-recipients: luis.rodriguez@cru.org, brian.zoetewey@cru.org
     jobs:
-      - 'generic-template'
+      - 'ecs-template'
 
 - project:
     name: familylife-support-leads
     description-intro: Builds and deploys the Familylife support-leads docker image.
     email-recipients: dist-technologyappdevservices@familylife.com
     jobs:
-      - 'generic-template'
+      - 'ecs-template'
 
 - project:
     name: text-steps-widget
     description-intro: Builds, tests, & deploys the TextSteps Widget docker image.
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - job-group:
-    name: 'openresty-template'
+    name: 'ecs-template'
     jobs:
         - '{name}':
-            build-script: openresty_deploy.sh
-
-- job-group:
-    name: 'rails-template'
-    jobs:
-        - '{name}':
-            build-script: rails_deploy.sh
-
-- job-group:
-    name: 'react-template'
-    jobs:
-        - '{name}':
-            build-script: react_deploy.sh
-
-- job-group:
-    name: 'generic-template'
-    jobs:
-        - '{name}':
-            build-script: generic_deploy.sh
-
-
+            build-script: build.sh
 
 - job-template:
     name: '{name}'
@@ -373,7 +346,7 @@
       - github
 
     builders:
-      - shell: 'PROJECT_NAME=$JOB_NAME DEPLOY_ECS=false ~/bin/{build-script}'
+      - shell: 'PROJECT_NAME=$JOB_NAME ~/bin/{build-script}'
 
     publishers:
       - conditional-publisher:
@@ -386,10 +359,7 @@
                     predefined-parameters: |
                       IMAGE_TAG=staging-$BUILD_NUMBER
                       PROJECT_NAME=$JOB_NAME
-                      GIT_COMMIT=$GIT_COMMIT
-                      GIT_BRANCH=$GIT_BRANCH
                       ENVIRONMENT=staging
-                      CLUSTER={cluster}
                     condition: SUCCESS
           - condition-kind: and
             condition-operands:
@@ -412,10 +382,7 @@
                     predefined-parameters: |
                       IMAGE_TAG=production-$BUILD_NUMBER
                       PROJECT_NAME=$JOB_NAME
-                      GIT_COMMIT=$GIT_COMMIT
-                      GIT_BRANCH=$GIT_BRANCH
                       ENVIRONMENT=production
-                      CLUSTER={cluster}
                     condition: SUCCESS
           - condition-kind: and
             condition-operands:
@@ -447,4 +414,4 @@
       - build-name:
           name: '$GIT_BRANCH #$BUILD_NUMBER'
       - rbenv:
-          ruby-version: 2.3.8
+          ruby-version: 2.6.6
