@@ -241,6 +241,13 @@
       - 'generic-template'
 
 - project:
+    name: ssw
+    description-intro: Builds, tests, & deploys the SSW docker image.
+    email-recipients: matt.drees@cru.org, bill.randall@cru.org
+    jobs:
+      - 'generic-template'
+
+- project:
     name: ccp
     description-intro: Builds, tests, & deploys the CCP docker image.
     email-recipients: matt.drees@cru.org, bill.randall@cru.org
