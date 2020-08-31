@@ -262,6 +262,20 @@
       - 'generic-template'
 
 - project:
+    name: budget-tool
+    description-intro: Builds, tests, & deploys the Budget Tool docker image.
+    email-recipients: matt.drees@cru.org, bill.randall@cru.org
+    jobs:
+      - 'generic-template'
+
+- project:
+    name: email-notification
+    description-intro: Builds, tests, & deploys the Email Notifier docker image.
+    email-recipients: matt.drees@cru.org, bill.randall@cru.org
+    jobs:
+      - 'generic-template'
+
+- project:
     name: atlantis
     description-intro: Builds and deploys the Atlantis docker image.
     email-recipients: luis.rodriguez@cru.org, brian.zoetewey@cru.org
