@@ -234,8 +234,36 @@
       - 'ecs-template'
 
 - project:
+    name: ssw
+    description-intro: Builds, tests, & deploys the SSW docker image.
+    email-recipients: matt.drees@cru.org, bill.randall@cru.org
+    jobs:
+      - 'ecs-template'
+
+- project:
     name: ccp
     description-intro: Builds, tests, & deploys the CCP docker image.
+    email-recipients: matt.drees@cru.org, bill.randall@cru.org
+    jobs:
+      - 'ecs-template'
+
+- project:
+    name: etimesheet
+    description-intro: Builds, tests, & deploys the eTimesheet docker image.
+    email-recipients: matt.drees@cru.org, bill.randall@cru.org
+    jobs:
+      - 'ecs-template'
+
+- project:
+    name: budget-tool
+    description-intro: Builds, tests, & deploys the Budget Tool docker image.
+    email-recipients: matt.drees@cru.org, bill.randall@cru.org
+    jobs:
+      - 'ecs-template'
+
+- project:
+    name: email-notification
+    description-intro: Builds, tests, & deploys the Email Notifier docker image.
     email-recipients: matt.drees@cru.org, bill.randall@cru.org
     jobs:
       - 'ecs-template'
