@@ -123,6 +123,14 @@
       - 'pipeline-template':
           branches: staging master
 
+- project:
+    name: fl-subsplash-mobile
+    description: |
+      FamilyLife Subsplash Mobile application (λ functions).
+    jobs:
+      - 'pipeline-template':
+          branches: staging master
+
 - job-template:
     id: pipeline-template
 
