@@ -5,7 +5,7 @@
  */
 String call(Map config = [:]) {
   def branchName = env.BRANCH_NAME
-  if (branchName == 'master') {
+  if (branchName == 'master' || branchName == 'production' || branchName = 'main') {
     return 'production'
   } else if (branchName == 'staging') {
     return 'staging'
