@@ -105,7 +105,7 @@
       Bot for merging our PRs into staging
     jobs:
       - 'pipeline-template':
-          branches: master
+          branches: staging master
 
 - project:
     name: FamilyLife-CventAPI
