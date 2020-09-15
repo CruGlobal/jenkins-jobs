@@ -124,14 +124,6 @@
           branches: staging master
 
 - project:
-    name: fl-subsplash-mobile
-    description: |
-      FamilyLife Subsplash Mobile application (λ functions).
-    jobs:
-      - 'pipeline-template':
-          branches: staging master
-
-- project:
     name: okta-api-keypalive
     description: |
       Application to periodically hit Okta with API keys so they don't expire. (λ functions).
