@@ -104,8 +104,6 @@
     name: crustore2
     description-intro: Builds, tests, & deploys the crustore magento 2.3 image.
     email-recipients: luis.rodriguez@cru.org, steve.blevins@cru.org
-    deploy-staging-job: crustore2-deploy
-    deploy-production-job: crustore2-deploy
     jobs:
       - 'ecs-template'
 
