@@ -293,6 +293,13 @@
     jobs:
       - 'ecs-template'
 
+- project:
+    name: datadog-agent
+    description-intro: Builds, tests, & deploys the Datadog Agent docker image.
+    email-recipients: brian.zoetewey@cru.org, david.hollenberger@cru.org
+    jobs:
+      - 'ecs-template'
+
 - job-group:
     name: 'ecs-template'
     jobs:
