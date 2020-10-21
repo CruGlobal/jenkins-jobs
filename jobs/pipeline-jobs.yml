@@ -20,7 +20,7 @@
 
 
 - project:
-    name: scale-of-belief-lambda
+    name: scale-of-belief
     description: |
       Scale-of-belief lambda (serverless) project.
     jobs:
