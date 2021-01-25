@@ -124,6 +124,14 @@
           branches: staging master
 
 - project:
+    name: fl-cvent-regcodes
+    description: |
+      Moves group code and/or gift card data from Cvent's Contact custom fields. Updates the Gift Card (λ functions).
+    jobs:
+      - 'pipeline-template':
+          branches: staging master
+
+- project:
     name: fl-wtr-list
     description: |
       FamilyLife WTR List API application (λ functions).
