@@ -43,7 +43,7 @@
 - project:
     name: wordpress
     description-intro: Builds, tests, & deploys the wordpress docker image.
-    email-recipients: brian.zoetewey@ccci.org, josh.starcher@cru.org, david.sudarma@cru.org, john.plastow@cru.org
+    email-recipients: brian.zoetewey@cru.org, moe@loubani.com, john.plastow@cru.org
     jobs:
       - 'ecs-template'
 
@@ -63,7 +63,7 @@
 - project:
     name: mobile-content-api
     description-intro: Builds, tests, & deploys the Mobile Content API docker image.
-    email-recipients: daniel.goers@cru.org
+    email-recipients: daniel.frett@cru.org
     jobs:
       - 'ecs-template'
 
@@ -289,6 +289,13 @@
 - project:
     name: biscuit-trail
     description-intro: Builds, tests, & deploys the Biscuit Trail docker image.
+    email-recipients: brian.zoetewey@cru.org
+    jobs:
+      - 'ecs-template'
+
+- project:
+    name: redirector
+    description-intro: Builds, tests, & deploys the Redirector App docker image.
     email-recipients: brian.zoetewey@cru.org
     jobs:
       - 'ecs-template'
