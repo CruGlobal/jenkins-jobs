@@ -304,7 +304,7 @@
     name: okta-profile-editor
     description-intro: Builds, tests, & deploys the Okta Profile Editor docker image.
     jobs:
-      - 'rails-template'
+      - 'ecs-template'
 
 - job-group:
     name: 'ecs-template'
