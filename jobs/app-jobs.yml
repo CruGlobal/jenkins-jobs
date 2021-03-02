@@ -299,6 +299,12 @@
     email-recipients: brian.zoetewey@cru.org
     jobs:
       - 'ecs-template'
+      
+- project:
+    name: okta-profile-editor
+    description-intro: Builds, tests, & deploys the Okta Profile Editor docker image.
+    jobs:
+      - 'rails-template'
 
 - job-group:
     name: 'ecs-template'
