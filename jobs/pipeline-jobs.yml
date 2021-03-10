@@ -147,6 +147,14 @@
       - 'pipeline-template':
           branches: staging production
 
+- project:
+    name: content-based-filtering
+    description: |
+       Content Base Filtering, cru.org recommendartions (λ functions).
+    jobs:
+      - 'pipeline-template':
+          branches: staging main
+
 - job-template:
     id: pipeline-template
 
