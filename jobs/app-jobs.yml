@@ -317,13 +317,13 @@
     description: |
       {description-intro}
 
-      Builds on the 'staging' branch automatically trigger a deployment
+      Builds of 'staging' (staging branch) automatically trigger a deployment
       of that image to the staging environment.
 
-      From 7am to 1pm on weekdays, builds on the 'master' branch automatically trigger a
+      From 7am to 1pm on weekdays, builds of 'production' (master, main, production branch) automatically trigger a
       deployment of that image to the production environment.
 
-      Only the master and staging branches are automatically built.
+      Only the production and staging are automatically built.
       Other branches may be manually built via `Build with Parameters`.
 
       Historic builds can be manually deployed to either staging or production,
@@ -334,12 +334,12 @@
           name: BRANCH_SPECIFIER
           description: |
             If specified, jenkins will use this git branch to build.
-            If not, jenkins will pick a branch (between 'master' and 'staging')
+            If not, jenkins will pick a branch (between 'master', 'main', 'production' and 'staging')
             that seems most likely to be the one you want built.
             This is usually either the branch that has commits in it that jenkins hasn't 'seen' yet,
             or, if there are none of those, the most recently-built branch.
           type: PT_BRANCH
-          defaultValue: :origin/(master|staging)
+          defaultValue: :origin/(master|main|production|staging)
 
     properties:
       - github:
@@ -381,10 +381,10 @@
                     condition: SUCCESS
           - condition-kind: and
             condition-operands:
-              - &is-master
-                condition-kind: strings-match
-                condition-string1: "$GIT_BRANCH"
-                condition-string2: "origin/master"
+              - &is-production
+                condition-kind: regexp
+                condition-searchtext: "$GIT_BRANCH"
+                condition-expression: "origin/(master|main|production)"
               - &is-weekday
                 condition-kind: day-of-week
                 day-selector: weekday
@@ -404,7 +404,7 @@
                     condition: SUCCESS
           - condition-kind: and
             condition-operands:
-              - <<: *is-master
+              - <<: *is-production
               - condition-kind: not
                 condition-operand:
                   condition-kind: and
