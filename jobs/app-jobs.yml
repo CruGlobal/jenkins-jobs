@@ -382,9 +382,9 @@
           - condition-kind: and
             condition-operands:
               - &is-production
-                condition-kind: regex-match
-                condition-string1: "$GIT_BRANCH"
-                condition-string2: "origin/(master|main|production)"
+                condition-kind: regexp
+                condition-searchtext: "$GIT_BRANCH"
+                condition-expression: "origin/(master|main|production)"
               - &is-weekday
                 condition-kind: day-of-week
                 day-selector: weekday
