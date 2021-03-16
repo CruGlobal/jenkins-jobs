@@ -306,6 +306,12 @@
     jobs:
       - 'ecs-template'
 
+- project:
+    name: jenkins-testing
+    description-intro: Jon used for testing jenkins builds/deployments.
+    jobs:
+      - 'ecs-template'
+
 - job-group:
     name: 'ecs-template'
     jobs:
