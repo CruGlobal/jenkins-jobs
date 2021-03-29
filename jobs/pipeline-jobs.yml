@@ -89,7 +89,7 @@
       A Lambda tool for "sucking" db rows from one MPDX database to another
     jobs:
       - 'pipeline-template':
-          branches: master
+          branches: staging master
 
 - project:
     name: cloudsearch-s3-handler
