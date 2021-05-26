@@ -132,6 +132,14 @@
           branches: staging master
 
 - project:
+    name: fl-cvent-surveys
+    description: |
+      FamilyLife Cent Surveys application (λ functions).
+    jobs:
+      - 'pipeline-template':
+          branches: staging master
+
+- project:
     name: fl-wtr-list
     description: |
       FamilyLife WTR List API application (λ functions).
