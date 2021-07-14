@@ -163,6 +163,15 @@
       - 'pipeline-template':
           branches: staging main
 
+- project:
+    name: fl-internship-beach
+    description: |
+      FamilyLife Internship Distance API (λ functions)
+      FamilyLife Internship Routine Location Updater (scheduled task)
+    jobs:
+      - 'pipeline-template':
+          branches: staging master
+
 - job-template:
     id: pipeline-template
 
