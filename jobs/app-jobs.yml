@@ -54,13 +54,6 @@
       - 'ecs-template'
 
 - project:
-    name: gma-app-php
-    description-intro: Builds, tests, & deploys the gma-app-php docker image.
-    email-recipients: brian.zoetewey@ccci.org
-    jobs:
-      - 'ecs-template'
-
-- project:
     name: mobile-content-api
     description-intro: Builds, tests, & deploys the Mobile Content API docker image.
     email-recipients: daniel.frett@cru.org
