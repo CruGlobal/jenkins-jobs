@@ -299,6 +299,13 @@
     jobs:
       - 'ecs-template'
 
+- project:
+    name: confluence-docker
+    description-intro: Builds, tests, & deploys the Confluence docker image.
+    email-recipients: justin.sabelko@cru.org
+    jobs:
+      - 'ecs-template'
+
 - job-group:
     name: 'ecs-template'
     jobs:
