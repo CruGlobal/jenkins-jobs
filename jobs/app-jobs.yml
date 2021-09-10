@@ -298,6 +298,12 @@
     description-intro: Builds, tests, & deploys the Okta Profile Editor docker image.
     jobs:
       - 'ecs-template'
+      
+ - project:
+    name: bill-bucks-generator
+    description-intro: Builds, tests, & deploys the Bill Buck Generator docker image.
+    jobs:
+      - 'ecs-template'
 
 - project:
     name: confluence-docker
