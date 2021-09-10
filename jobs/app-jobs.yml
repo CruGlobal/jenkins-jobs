@@ -299,7 +299,7 @@
     jobs:
       - 'ecs-template'
       
- - project:
+- project:
     name: bill-bucks-generator
     description-intro: Builds, tests, & deploys the Bill Buck Generator docker image.
     jobs:
