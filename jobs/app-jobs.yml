@@ -312,6 +312,13 @@
     jobs:
       - 'ecs-template'
 
+- project:
+    name: siebel-tsys-proxy
+    description-intro: Builds, tests, & deploys the Siebel Tsys Proxy docker image.
+    email-recipients: justin.sabelko@cru.org
+    jobs:
+      - 'ecs-template'
+
 - job-group:
     name: 'ecs-template'
     jobs:
