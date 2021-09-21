@@ -319,6 +319,13 @@
     jobs:
       - 'ecs-template'
 
+- project:
+    name: identity-services
+    description-intro: Builds, tests, & deploys the Identity Services docker image.
+    email-recipients: lee.braddock@cru.org
+    jobs:
+      - 'ecs-template'
+
 - job-group:
     name: 'ecs-template'
     jobs:
