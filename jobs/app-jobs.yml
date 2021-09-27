@@ -319,6 +319,13 @@
     jobs:
       - 'ecs-template'
 
+- project:
+    name: ert-api
+    description-intro: Builds & deploys the ERT API docker image.
+    email-recipients: mike.albert@cru.org, lee.braddock@cru.org
+    jobs:
+      - 'ecs-template'
+
 - job-group:
     name: 'ecs-template'
     jobs:
