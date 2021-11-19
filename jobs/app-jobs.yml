@@ -340,6 +340,13 @@
     jobs:
       - 'ecs-template'
 
+- project:
+    name: jira-docker
+    description-intro: Builds, tests, & deploys the Jira docker image.
+    email-recipients: justin.sabelko@cru.org
+    jobs:
+      - 'ecs-template'
+
 - job-group:
     name: 'ecs-template'
     jobs:
