@@ -143,7 +143,7 @@
       - 'ecs-template'
 
 - project:
-    name: staff-conf-onsite17
+    name: staff-conf-onsite19
     description-intro: Builds, tests, & deploys the staff conference onsite docker image.
     email-recipients: josh.starcher@cru.org
     jobs:
